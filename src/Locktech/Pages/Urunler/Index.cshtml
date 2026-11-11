@@ -1,0 +1,22 @@
+@page
+@{
+    ViewData["Title"] = "Ürünler — Akıllı Kilit ve Video Telematik | Locktech";
+    ViewData["Description"] = "Locktech ürünleri: HB-A1SP güneş enerjili kilit, HB-A1M patlamaya dayanıklı kilit, HB-A1Ms ikincil kilit ve HB-VT08 video telematik sistemi.";
+}
+
+<div class="phead"><div class="wrap">
+    <nav class="crumb" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><span>/</span><b>Ürünler</b></nav>
+    <h1>Ürünler</h1>
+    <p>Ana kilit, ikincil kilit ve araç içi video telematik. Her ürünün teknik özelliklerini inceleyin, föyünü PDF olarak indirin.</p>
+</div></div>
+
+<section class="products"><div class="wrap">
+    <div class="pgrid">
+        @foreach (var urun in UrunKatalogu.Tumu)
+        {
+            <partial name="_UrunKarti" model="urun" />
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

@@ -1,5 +1,9 @@
 @inject Locktech.Ayarlar.AyarDeposu AyarDeposu
-@{ var ayarlar = AyarDeposu.Al(); }
+@{
+    var ayarlar = AyarDeposu.Al();
+    var yol = Context.Request.Path.Value ?? "/";
+    var urunlerde = yol.StartsWith("/urunler", StringComparison.OrdinalIgnoreCase);
+}
 <!doctype html>
 <html lang="tr">
 <head>
@@ -31,6 +35,8 @@
     <symbol id="safe" viewBox="0 0 24 24"><rect x="3.500" y="3.500" width="17" height="16" rx="2"/><circle cx="12" cy="11.500" r="3.500"/><path d="M12 8v1.500M12 13.500V15M7 19.500V21M17 19.500V21"/></symbol>
     <symbol id="customs" viewBox="0 0 24 24"><path d="M12 3 4 7v5l8 4 8-4V7l-8-4zM4 12v5l8 4 8-4v-5M12 11v10"/></symbol>
     <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="download" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><path d="m5 12.500 4.500 4.500L19 7.500"/></symbol>
     <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.500"/><path d="M12 7.500V12l3 2"/></symbol>
   </defs>
 </svg>
@@ -44,14 +50,14 @@
 </div></div>
 
 <header class="nav"><div class="wrap">
-  <a class="logo" href="#">
+  <a class="logo" href="/">
     <span class="mark"></span>
     <span><b>LOCK<i>TECH</i></b><small>AKILLI KİLİT SİSTEMLERİ</small></span>
   </a>
   <nav class="menu">
-    <a class="on" href="#">Ana Sayfa</a><a href="#urunler">Ürünler</a><a href="#cozumler">Çözümler</a><a href="#">Hakkımızda</a><a href="#teklif">İletişim</a>
+    <a class="@(yol == "/" ? "on" : null)" href="/">Ana Sayfa</a><a class="@(urunlerde ? "on" : null)" href="/urunler">Ürünler</a><a href="/#cozumler">Çözümler</a><a href="#">Hakkımızda</a><a href="/#teklif">İletişim</a>
   </nav>
-  <a class="btn btn-primary" href="#teklif">Teklif İste</a>
+  <a class="btn btn-primary" href="/#teklif">Teklif İste</a>
 </div></header>
 
 <main>
@@ -61,11 +67,11 @@
 <footer><div class="wrap">
   <div class="cols">
     <div>
-      <a class="logo" href="#"><span class="mark"></span><span><b>LOCK<i>TECH</i></b><small>AKILLI KİLİT SİSTEMLERİ</small></span></a>
+      <a class="logo" href="/"><span class="mark"></span><span><b>LOCK<i>TECH</i></b><small>AKILLI KİLİT SİSTEMLERİ</small></span></a>
       <p style="margin-top:16px;max-width:34ch">Lojistik ve taşımacılık için akıllı kilit ve araç telematiği çözümleri.</p>
     </div>
-    <div><h4>Ürünler</h4><ul><li><a href="#">HB-A1SP</a></li><li><a href="#">HB-A1M</a></li><li><a href="#">HB-A1Ms</a></li><li><a href="#">HB-VT08</a></li></ul></div>
-    <div><h4>Kurumsal</h4><ul><li><a href="#">Çözümler</a></li><li><a href="#">Hakkımızda</a></li><li><a href="#">İletişim</a></li><li><a href="#">English</a></li></ul></div>
+    <div><h4>Ürünler</h4><ul>@foreach (var urun in UrunKatalogu.Tumu) { <li><a href="@urun.Adres">@urun.Model</a></li> }</ul></div>
+    <div><h4>Kurumsal</h4><ul><li><a href="/#cozumler">Çözümler</a></li><li><a href="#">Hakkımızda</a></li><li><a href="/#teklif">İletişim</a></li><li><a href="#">English</a></li></ul></div>
     <div><h4>İletişim</h4><ul><li>İvedik OSB 1362 Cadde No:34<br>Yenimahalle / ANKARA</li><li>+90 542 432 10 10</li><li>info@locktech.com.tr</li></ul></div>
   </div>
   <div class="copy"><span>© @DateTime.Now.Year Locktech. Tüm hakları saklıdır.</span><span>KVKK Aydınlatma Metni · Çerez Politikası</span></div>

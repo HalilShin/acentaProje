@@ -1,0 +1,12 @@
+@{ var urunKodu = ViewData["UrunKodu"] as string; }
+
+<div class="band"><div class="wrap">
+    <div>
+        <h2>Filonuza uygun çözümü <em>birlikte</em> belirleyelim</h2>
+        <p>Araç sayınızı ve kullanım alanınızı yazın; size uygun ürün ve fiyat teklifiyle dönelim.</p>
+    </div>
+    <div class="cta">
+        <a class="btn btn-primary" href="@(urunKodu is null ? "/#teklif" : $"/?urun={urunKodu}#teklif")">Teklif İste <svg class="i"><use href="#arrow"/></svg></a>
+        <a class="btn btn-ghost" href="tel:+905424321010"><svg class="i"><use href="#phone"/></svg>+90 542 432 10 10</a>
+    </div>
+</div></div>
