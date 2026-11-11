@@ -2,11 +2,19 @@
 
 <div class="band"><div class="wrap">
     <div>
-        <h2>Filonuza uygun çözümü <em>birlikte</em> belirleyelim</h2>
-        <p>Araç sayınızı ve kullanım alanınızı yazın; size uygun ürün ve fiyat teklifiyle dönelim.</p>
+        @if (En)
+        {
+            <h2>Let's find the right solution for your fleet <em>together</em></h2>
+            <p>Tell us how many vehicles you have and what you carry; we will come back with the right product and a quote.</p>
+        }
+        else
+        {
+            <h2>Filonuza uygun çözümü <em>birlikte</em> belirleyelim</h2>
+            <p>Araç sayınızı ve kullanım alanınızı yazın; size uygun ürün ve fiyat teklifiyle dönelim.</p>
+        }
     </div>
     <div class="cta">
-        <a class="btn btn-primary" href="@(urunKodu is null ? "/#teklif" : $"/?urun={urunKodu}#teklif")">Teklif İste <svg class="i"><use href="#arrow"/></svg></a>
-        <a class="btn btn-ghost" href="tel:+905424321010"><svg class="i"><use href="#phone"/></svg>+90 542 432 10 10</a>
+        <a class="btn btn-primary" href="@Yollar.Teklif(urunKodu)">@S("Teklif İste", "Get a Quote") <svg class="i"><use href="#arrow"/></svg></a>
+        <a class="btn btn-ghost" href="@Site.TelefonBaglantisi"><svg class="i"><use href="#phone"/></svg>@Site.Telefon</a>
     </div>
 </div></div>

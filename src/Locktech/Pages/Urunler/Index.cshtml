@@ -1,13 +1,18 @@
 @page
 @{
-    ViewData["Title"] = "Ürünler — Akıllı Kilit ve Video Telematik | Locktech";
-    ViewData["Description"] = "Locktech ürünleri: HB-A1SP güneş enerjili kilit, HB-A1M patlamaya dayanıklı kilit, HB-A1Ms ikincil kilit ve HB-VT08 video telematik sistemi.";
+    ViewData["Title"] = S("Ürünler — Akıllı Kilit ve Video Telematik | Locktech", "Products — Smart Locks and Video Telematics | Locktech");
+    ViewData["Description"] = S(
+        "Locktech ürünleri: HB-A1SP güneş enerjili kilit, HB-A1M patlamaya dayanıklı kilit, HB-A1Ms ikincil kilit ve HB-VT08 video telematik sistemi.",
+        "Locktech products: HB-A1SP solar-powered lock, HB-A1M explosion-proof lock, HB-A1Ms secondary lock and HB-VT08 video telematics system.");
+    ViewData["Bolum"] = "urunler";
+    ViewData["Tr"] = "/urunler";
+    ViewData["En"] = "/en/products";
 }
 
 <div class="phead"><div class="wrap">
-    <nav class="crumb" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><span>/</span><b>Ürünler</b></nav>
-    <h1>Ürünler</h1>
-    <p>Ana kilit, ikincil kilit ve araç içi video telematik. Her ürünün teknik özelliklerini inceleyin, föyünü PDF olarak indirin.</p>
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><b>@S("Ürünler", "Products")</b></nav>
+    <h1>@S("Ürünler", "Products")</h1>
+    <p>@S("Ana kilit, ikincil kilit ve araç içi video telematik. Her ürünün teknik özelliklerini inceleyin, PDF olarak indirin.", "A main lock, a secondary lock and in-vehicle video telematics. Browse each product's specifications and download them as a PDF.")</p>
 </div></div>
 
 <section class="products"><div class="wrap">

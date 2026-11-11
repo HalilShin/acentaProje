@@ -1,0 +1,29 @@
+@page
+@model IletisimModel
+@{
+    ViewData["Title"] = S("İletişim ve Teklif İste | Locktech", "Contact and Quote Request | Locktech");
+    ViewData["Description"] = S(
+        "Locktech ile iletişime geçin: İvedik OSB 1362 Cadde No:34, Yenimahalle / Ankara. Telefon +90 542 432 10 10. Akıllı kilit ve video telematik için teklif isteyin.",
+        "Contact Locktech: İvedik OSB 1362 Cadde No:34, Yenimahalle / Ankara, Türkiye. Phone +90 542 432 10 10. Request a quote for smart locks and video telematics.");
+    ViewData["Bolum"] = "iletisim";
+    ViewData["Tr"] = "/iletisim";
+    ViewData["En"] = "/en/contact";
+    var harita = "https://www.google.com/maps/search/?api=1&query=" + Uri.EscapeDataString("İvedik OSB 1362 Cadde No:34 Yenimahalle Ankara");
+}
+
+<div class="phead"><div class="wrap">
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><b>@S("İletişim", "Contact")</b></nav>
+    <h1>@S("İletişim", "Contact")</h1>
+    <p>@S("Sorularınız ve teklif talepleriniz için bize yazın ya da arayın.", "Write or call us with your questions and quote requests.")</p>
+</div></div>
+
+<section class="ckartlar"><div class="wrap">
+    <a class="ckart" href="@Site.TelefonBaglantisi"><svg class="i"><use href="#phone"/></svg><small>@S("Telefon", "Phone") · Serkan Gündoğdu</small><b>@Site.Telefon</b></a>
+    <a class="ckart" href="mailto:@Site.Eposta"><svg class="i"><use href="#mail"/></svg><small>@S("E-posta", "E-mail")</small><b>@Site.Eposta</b></a>
+    <a class="ckart" href="@harita" target="_blank" rel="noopener"><svg class="i"><use href="#pin"/></svg><small>@S("Adres · Haritada aç", "Address · Open in maps")</small><b>@Site.AcikAdres</b></a>
+</div></section>
+
+<section class="quote" id="teklif"><div class="wrap">
+    <partial name="_TeklifBilgisi" />
+    <partial name="_TeklifFormu" model="Model" />
+</div></section>

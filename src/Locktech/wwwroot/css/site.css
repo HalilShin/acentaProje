@@ -26,7 +26,7 @@ svg.i{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stro
 .topbar{background:var(--navy-950);color:#a9b8d8;font-size:13px}
 .topbar .wrap{display:flex;justify-content:space-between;align-items:center;height:38px;gap:16px}
 .topbar .contact{display:flex;gap:22px}
-.topbar .contact span{display:flex;align-items:center;gap:7px}
+.topbar .contact a{display:flex;align-items:center;gap:7px}
 .topbar svg.i{width:15px;height:15px;color:var(--orange)}
 .lang{display:flex;gap:4px;font-weight:600}
 .lang a{padding:2px 8px;border-radius:5px}
@@ -159,7 +159,7 @@ footer a:hover{color:var(--orange)}
 footer .copy{border-top:1px solid rgba(255,255,255,.08);margin-top:40px;padding-top:20px;display:flex;justify-content:space-between;font-size:13px;gap:16px;flex-wrap:wrap}
 
 @media (max-width:980px){
-  nav.menu,.topbar .contact span:nth-child(2){display:none}
+  nav.menu,.topbar .contact a:nth-child(2){display:none}
   .hero .wrap,.quote .wrap,.trust .box{grid-template-columns:1fr}
   .hero .wrap{padding-top:56px}
   .stage{width:min(82%,380px)}
@@ -274,3 +274,95 @@ label.bal{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
   100%{box-shadow:0 0 0 10px rgba(46,226,122,0)}
 }
 @media (prefers-reduced-motion:reduce){.float .roll,.float .dot{animation:none}}
+
+/* Üst menü: sağ grup ve mobil menü */
+.topbar .contact a:hover{color:#fff}
+.nav-end{display:flex;align-items:center;gap:12px}
+#menu-ac{display:none}
+.burger{display:none;place-items:center;width:44px;height:44px;border-radius:10px;border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer}
+@media (max-width:980px){
+  .burger{display:grid}
+  nav.menu{position:absolute;left:0;right:0;top:72px;flex-direction:column;gap:0;background:var(--navy-900);border-bottom:1px solid rgba(255,255,255,.12);padding:4px 24px 14px;box-shadow:0 24px 40px -20px rgba(0,0,0,.8)}
+  nav.menu a{padding:14px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+  nav.menu a.on{border-color:rgba(255,255,255,.08);color:var(--orange)}
+  #menu-ac:checked ~ nav.menu{display:flex}
+}
+@media (max-width:560px){
+  .logo .mark{width:38px;height:38px}
+  .logo b{font-size:20px}
+  .logo small{font-size:8px;letter-spacing:.18em}
+  .nav-end{gap:8px}
+  .burger{width:40px;height:40px}
+}
+.clist a:hover,.note a:hover{color:var(--orange)}
+.note a{text-decoration:underline}
+
+/* Çözümler */
+.slist{display:grid;gap:16px}
+.srow{display:grid;grid-template-columns:auto 1fr auto;gap:24px;align-items:center;border:1px solid var(--line);border-radius:var(--r);padding:26px 28px;background:#fff;transition:.18s}
+.srow:hover{border-color:var(--blue);box-shadow:0 20px 40px -26px rgba(31,123,255,.7)}
+.srow .ic,.phead .ic{width:56px;height:56px;border-radius:14px;background:linear-gradient(135deg,var(--navy-700),var(--blue));color:#fff;display:grid;place-items:center}
+.srow .ic svg.i{width:26px;height:26px}
+.srow h2{font-size:22px;font-weight:700;margin-bottom:4px}
+.srow p{color:var(--muted)}
+.srow .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.srow .tags span{font-family:var(--head);font-style:italic;font-weight:700;font-size:12.5px;padding:3px 10px;border-radius:6px;background:var(--paper);border:1px solid var(--line);color:var(--navy-700)}
+.srow .go{display:flex;align-items:center;gap:8px;font-weight:600;color:var(--blue);white-space:nowrap}
+.phead .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.phead.cozum h1{font-size:clamp(30px,4vw,48px);max-width:22ch}
+.phead .baslik{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.phead .ic{width:48px;height:48px;border-radius:12px}
+.phead.hata{padding:96px 0 110px}
+.phead.hata .eyebrow{font-size:20px}
+.phead.hata h1{margin-top:10px}
+.cbody .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+.cbody h2{font-weight:700;font-size:clamp(24px,2.8vw,32px);margin:10px 0 22px}
+.sorun{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:30px}
+.sorun ul{list-style:none;padding:0;display:grid;gap:16px;color:#33415f}
+.sorun li{display:flex;gap:12px;align-items:flex-start}
+.sorun svg.i{color:var(--orange);margin-top:1px}
+.fayda{display:grid;grid-template-columns:1fr 1fr;gap:26px 28px}
+.fayda>div{display:flex;gap:12px;align-items:flex-start}
+.fayda svg.i{color:var(--blue);stroke-width:2.4;margin-top:2px}
+.fayda h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.fayda p{font-size:14.5px;color:var(--muted)}
+.sgrid.four{grid-template-columns:repeat(4,1fr)}
+
+/* Hakkımızda */
+.about .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:start}
+.about h2{font-weight:700;font-size:clamp(26px,3vw,36px);margin:10px 0 20px}
+.about .metin p{color:#33415f;font-size:17px;margin-bottom:16px}
+.about .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+.degerler{display:grid;gap:14px}
+.degerler>div{display:flex;gap:16px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--r);padding:20px 22px;background:var(--paper)}
+.degerler svg.i{color:var(--blue);width:26px;height:26px;margin-top:2px}
+.degerler h3{font-size:17px;font-weight:700;margin-bottom:4px}
+.degerler p{font-size:14.5px;color:var(--muted)}
+
+/* İletişim */
+.ckartlar{padding:56px 0}
+.ckartlar .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.ckart{display:grid;gap:6px;border:1px solid var(--line);border-radius:var(--r);padding:24px;background:#fff;transition:.18s}
+.ckart:hover{border-color:var(--blue);box-shadow:0 20px 40px -26px rgba(31,123,255,.7)}
+.ckart svg.i{color:var(--orange);width:28px;height:28px;margin-bottom:8px}
+.ckart small{color:var(--muted);font-size:13px}
+.ckart b{font-size:17px;line-height:1.35}
+
+/* Düz yazı sayfaları (KVKK, çerez) */
+.yazi{max-width:780px}
+.yazi h2{font-size:21px;font-weight:700;margin:32px 0 10px}
+.yazi p,.yazi li{color:#33415f;font-size:16.5px}
+.yazi ul{padding-left:20px;display:grid;gap:10px}
+footer .copy a:hover{color:var(--orange)}
+
+@media (max-width:980px){
+  .cbody .wrap,.about .wrap{grid-template-columns:1fr}
+  .sgrid.four{grid-template-columns:repeat(2,1fr)}
+  .ckartlar .wrap{grid-template-columns:1fr}
+  .srow{grid-template-columns:auto 1fr}
+  .srow .go{grid-column:2}
+}
+@media (max-width:560px){
+  .fayda,.sgrid.four{grid-template-columns:1fr}
+  .srow{padding:20px}
+}

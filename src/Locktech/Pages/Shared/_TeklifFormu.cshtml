@@ -1,0 +1,30 @@
+@model Locktech.Teklif.TeklifSayfasi
+
+<form method="post" action="@(Context.Request.Path)#teklif" asp-antiforgery="true">
+    <h3>@S("Teklif formu", "Quote request")</h3>
+    @if (Model.Gonderildi)
+    {
+        <p class="form-msg ok">@S("Talebiniz bize ulaştı. En kısa sürede size dönüş yapacağız.", "We have received your request and will get back to you shortly.")</p>
+    }
+    @if (Model.Hata is not null)
+    {
+        <p class="form-msg err">@Model.Hata</p>
+    }
+    <label>@S("Ad Soyad", "Full name")<input asp-for="Form.AdSoyad" maxlength="100" placeholder="@S("Adınız", "Your name")" autocomplete="name"><span asp-validation-for="Form.AdSoyad"></span></label>
+    <label>@S("Firma", "Company")<input asp-for="Form.Firma" maxlength="150" placeholder="@S("Firma adı", "Company name")" autocomplete="organization"></label>
+    <label>@S("Telefon", "Phone")<input asp-for="Form.Telefon" type="tel" maxlength="30" placeholder="@S("05xx xxx xx xx", "+90 5xx xxx xx xx")" autocomplete="tel"><span asp-validation-for="Form.Telefon"></span></label>
+    <label>@S("E-posta", "E-mail")<input asp-for="Form.Eposta" type="email" maxlength="150" placeholder="@S("ornek@firma.com", "name@company.com")" autocomplete="email"><span asp-validation-for="Form.Eposta"></span></label>
+    <label class="full">@S("İlgilendiğiniz ürün", "Product you are interested in")
+        <select asp-for="Form.Urun">
+            <option>@S("Emin değilim, öneri istiyorum", "Not sure, please advise")</option>
+            @foreach (var urun in UrunKatalogu.Tumu)
+            {
+                <option>@urun.FormSecenegi</option>
+            }
+        </select>
+    </label>
+    <label class="full">@S("Mesajınız", "Your message")<textarea asp-for="Form.Mesaj" rows="3" maxlength="2000" placeholder="@S("Araç / konteyner sayısı, kullanım alanı…", "Number of vehicles / containers, what you carry…")"></textarea></label>
+    <label class="bal" aria-hidden="true">Web siteniz<input asp-for="Form.WebSitesi" tabindex="-1" autocomplete="off"></label>
+    <button class="btn btn-primary" type="submit">@S("Teklif İste", "Request a Quote")</button>
+    <p class="note">@S("Bilgileriniz yalnızca teklif hazırlamak için kullanılır.", "Your details are used only to prepare your quote.") <a href="@Yollar.Kvkk">@S("KVKK Aydınlatma Metni", "Privacy Notice")</a></p>
+</form>

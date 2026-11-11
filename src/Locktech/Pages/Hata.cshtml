@@ -1,0 +1,19 @@
+@page "/hata/{kod:int?}"
+@{
+    var kod = RouteData.Values["kod"]?.ToString();
+    var bulunamadi = kod == "404";
+    ViewData["Title"] = bulunamadi ? S("Sayfa bulunamadı | Locktech", "Page not found | Locktech") : S("Bir sorun oluştu | Locktech", "Something went wrong | Locktech");
+}
+
+<div class="phead hata"><div class="wrap">
+    <span class="eyebrow">@(kod ?? "500")</span>
+    <h1>@(bulunamadi ? S("Aradığınız sayfa bulunamadı", "We could not find that page") : S("Bir sorun oluştu", "Something went wrong"))</h1>
+    <p>@(bulunamadi
+        ? S("Adres değişmiş ya da yanlış yazılmış olabilir.", "The address may have changed or been mistyped.")
+        : S("Lütfen biraz sonra yeniden deneyin. Sorun sürerse bize ulaşın.", "Please try again in a moment. If the problem continues, get in touch with us."))</p>
+    <div class="cta">
+        <a class="btn btn-primary" href="@Yollar.Ana">@S("Ana sayfaya dön", "Back to home")</a>
+        <a class="btn btn-ghost" href="@Yollar.Urunler">@S("Ürünler", "Products")</a>
+        <a class="btn btn-ghost" href="@Yollar.Iletisim">@S("İletişim", "Contact")</a>
+    </div>
+</div></div>

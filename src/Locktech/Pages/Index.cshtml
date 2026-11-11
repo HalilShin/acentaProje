@@ -1,61 +1,79 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Locktech — Akıllı Kilit Sistemleri | GPS Takipli Elektronik Kilit";
-    ViewData["Description"] = "Konteyner, tanker ve kamyon kasaları için 4G, GNSS, Bluetooth ve RFID destekli akıllı elektronik kilitler ve video telematik. Locktech, Ankara.";
+    ViewData["Title"] = S("Locktech — Akıllı Kilit Sistemleri | GPS Takipli Elektronik Kilit", "Locktech — Smart Lock Systems | GPS-Tracked Electronic Locks");
+    ViewData["Description"] = S(
+        "Konteyner, tanker ve kamyon kasaları için 4G, GNSS, Bluetooth ve RFID destekli akıllı elektronik kilitler ve video telematik. Locktech, Ankara.",
+        "Smart electronic locks with 4G, GNSS, Bluetooth and RFID, plus video telematics, for containers, tankers and truck bodies. Locktech, Ankara, Türkiye.");
+    ViewData["Bolum"] = "ana";
+    ViewData["Tr"] = "/";
+    ViewData["En"] = "/en";
 }
 
 <div class="hero"><div class="wrap">
   <div>
     <span class="eyebrow">4G · GNSS · Bluetooth · RFID</span>
-    <h1>Akıllı Güvenlik,<br>Lojistikte <em>Yeni Standart</em></h1>
-    <p class="lead">Konteyner, tanker ve kamyon kasalarınızı nerede olursa olsun izleyin. Locktech elektronik kilitleri konumu anlık bildirir, yalnızca yetkili kişiye açılır ve her açma-kapama işlemini kayıt altına alır.</p>
+    @if (En)
+    {
+        <h1>Smart Security,<br>the <em>New Standard</em> in Logistics</h1>
+        <p class="lead">Keep track of your containers, tankers and truck bodies wherever they are. Locktech electronic locks report their location in real time, open only for authorised people and alert you the moment someone tampers with them.</p>
+    }
+    else
+    {
+        <h1>Akıllı Güvenlik,<br>Lojistikte <em>Yeni Standart</em></h1>
+        <p class="lead">Konteyner, tanker ve kamyon kasalarınızı nerede olursa olsun izleyin. Locktech elektronik kilitleri konumu anlık bildirir, yalnızca yetkili kişiye açılır ve müdahale edildiği anda size haber verir.</p>
+    }
     <div class="cta">
-      <a class="btn btn-primary" href="#teklif">Teklif İste <svg class="i"><use href="#arrow"/></svg></a>
-      <a class="btn btn-ghost" href="/urunler">Ürünleri İncele</a>
+      <a class="btn btn-primary" href="@Yollar.Teklif()">@S("Teklif İste", "Get a Quote") <svg class="i"><use href="#arrow"/></svg></a>
+      <a class="btn btn-ghost" href="@Yollar.Urunler">@S("Ürünleri İncele", "View Products")</a>
     </div>
-    <div class="chips"><span>IP67 su geçirmez</span><span>ATEX · Ex-proof gövde</span><span>CE</span><span>1.000 kg kilit mili dayanımı</span></div>
+    <div class="chips">
+      <span>@S("IP67 su geçirmez", "IP67 waterproof")</span>
+      <span>@S("ATEX · Ex-proof gövde", "ATEX · Ex-proof housing")</span>
+      <span>CE</span>
+      <span>@S("1.000 kg kilit mili dayanımı", "1,000 kg shackle strength")</span>
+    </div>
   </div>
   <div class="stage">
     <div class="ring"></div>
-    <div class="card"><img src="~/img/hb-a1sp.jpg" alt="HB-A1SP güneş enerjili elektronik kilit"></div>
+    <div class="card"><img src="~/img/hb-a1sp.jpg" alt="@S("HB-A1SP güneş enerjili elektronik kilit", "HB-A1SP solar-powered electronic lock")"></div>
     <div class="float f1"><span class="dot"></span><div class="feed"><div class="roll">
-      <span class="row"><small>Kilit durumu</small><b>Kilitli</b></span>
-      <span class="row"><small>Kilit açıldı</small><b>RFID kart · Depo girişi</b></span>
-      <span class="row"><small>Batarya</small><b>%92 · Güneş şarjı</b></span>
-      <span class="row"><small>Halat</small><b>Sağlam · Müdahale yok</b></span>
-      <span class="row"><small>Kilit durumu</small><b>Kilitli</b></span>
+      <span class="row"><small>@S("Kilit durumu", "Lock status")</small><b>@S("Kilitli", "Locked")</b></span>
+      <span class="row"><small>@S("Kilit açıldı", "Unlocked")</small><b>@S("RFID kart · Depo girişi", "RFID card · Warehouse gate")</b></span>
+      <span class="row"><small>@S("Batarya", "Battery")</small><b>@S("%92 · Güneş şarjı", "92% · Solar charging")</b></span>
+      <span class="row"><small>@S("Halat", "Cable")</small><b>@S("Sağlam · Müdahale yok", "Intact · No tampering")</b></span>
+      <span class="row"><small>@S("Kilit durumu", "Lock status")</small><b>@S("Kilitli", "Locked")</b></span>
     </div></div></div>
     <div class="float f2"><svg class="i"><use href="#pin"/></svg><div class="feed"><div class="roll">
-      <span class="row"><small>Canlı konum</small><b>Ankara → Mersin</b></span>
-      <span class="row"><small>Şu an</small><b>Aksaray · 82 km/s</b></span>
-      <span class="row"><small>Varışa kalan</small><b>214 km · 2 sa 40 dk</b></span>
-      <span class="row"><small>Son veri</small><b>12 saniye önce</b></span>
-      <span class="row"><small>Canlı konum</small><b>Ankara → Mersin</b></span>
+      <span class="row"><small>@S("Canlı konum", "Live location")</small><b>Ankara → Mersin</b></span>
+      <span class="row"><small>@S("Şu an", "Right now")</small><b>@S("Aksaray · 82 km/s", "Aksaray · 82 km/h")</b></span>
+      <span class="row"><small>@S("Varışa kalan", "To destination")</small><b>@S("214 km · 2 sa 40 dk", "214 km · 2 h 40 min")</b></span>
+      <span class="row"><small>@S("Son veri", "Last update")</small><b>@S("12 saniye önce", "12 seconds ago")</b></span>
+      <span class="row"><small>@S("Canlı konum", "Live location")</small><b>Ankara → Mersin</b></span>
     </div></div></div>
     <div class="float f3"><svg class="i"><use href="#bell"/></svg><div class="feed"><div class="roll">
-      <span class="row"><small>Bildirim</small><b>Yetkisiz açma denemesi</b></span>
-      <span class="row"><small>Bildirim</small><b>Güzergâh dışına çıkıldı</b></span>
-      <span class="row"><small>Bildirim</small><b>Kilit uzaktan açıldı</b></span>
-      <span class="row"><small>Bildirim</small><b>Teslimat noktasına varıldı</b></span>
-      <span class="row"><small>Bildirim</small><b>Yetkisiz açma denemesi</b></span>
+      <span class="row"><small>@S("Bildirim", "Alert")</small><b>@S("Yetkisiz açma denemesi", "Unauthorised opening attempt")</b></span>
+      <span class="row"><small>@S("Bildirim", "Alert")</small><b>@S("Güzergâh dışına çıkıldı", "Vehicle left the route")</b></span>
+      <span class="row"><small>@S("Bildirim", "Alert")</small><b>@S("Kilit uzaktan açıldı", "Lock opened remotely")</b></span>
+      <span class="row"><small>@S("Bildirim", "Alert")</small><b>@S("Teslimat noktasına varıldı", "Arrived at delivery point")</b></span>
+      <span class="row"><small>@S("Bildirim", "Alert")</small><b>@S("Yetkisiz açma denemesi", "Unauthorised opening attempt")</b></span>
     </div></div></div>
   </div>
 </div></div>
 
 <div class="strip"><div class="wrap"><div class="grid">
-  <div class="cell"><svg class="i"><use href="#pin"/></svg>GPS Takip</div>
-  <div class="cell"><svg class="i"><use href="#mobile"/></svg>Mobil Kontrol</div>
-  <div class="cell"><svg class="i"><use href="#card"/></svg>Kartlı Erişim</div>
-  <div class="cell"><svg class="i"><use href="#monitor"/></svg>Merkezi Yönetim</div>
-  <div class="cell"><svg class="i"><use href="#bell"/></svg>Anlık Bildirim</div>
-  <div class="cell"><svg class="i"><use href="#link"/></svg>Çoklu Kilit Zincirleme</div>
+  <div class="cell"><svg class="i"><use href="#pin"/></svg>@S("GPS Takip", "GPS Tracking")</div>
+  <div class="cell"><svg class="i"><use href="#mobile"/></svg>@S("Mobil Kontrol", "Mobile Control")</div>
+  <div class="cell"><svg class="i"><use href="#card"/></svg>@S("Kartlı Erişim", "Card Access")</div>
+  <div class="cell"><svg class="i"><use href="#monitor"/></svg>@S("Merkezi Yönetim", "Central Management")</div>
+  <div class="cell"><svg class="i"><use href="#bell"/></svg>@S("Anlık Bildirim", "Instant Alerts")</div>
+  <div class="cell"><svg class="i"><use href="#link"/></svg>@S("Çoklu Kilit Zincirleme", "Multi-Lock Cascading")</div>
 </div></div></div>
 
 <section class="products" id="urunler"><div class="wrap">
   <div class="sec-head">
-    <div><span class="eyebrow">Ürünler</span><h2>Dört ürün, uçtan uca yük güvenliği</h2></div>
-    <p>Ana kilit, ikincil kilit ve araç içi video telematik. Her ürünün teknik föyü kendi sayfasından PDF olarak indirilebilir.</p>
+    <div><span class="eyebrow">@S("Ürünler", "Products")</span><h2>@S("Dört ürün, uçtan uca yük güvenliği", "Four products, end-to-end cargo security")</h2></div>
+    <p>@S("Ana kilit, ikincil kilit ve araç içi video telematik. Her ürünün teknik özelliklerini kendi sayfasından PDF olarak indirebilirsiniz.", "A main lock, a secondary lock and in-vehicle video telematics. Download each product's specifications as a PDF from its own page.")</p>
   </div>
   <div class="pgrid">
     @foreach (var urun in UrunKatalogu.Tumu)
@@ -67,74 +85,44 @@
 
 <section class="how"><div class="wrap">
   <div class="sec-head">
-    <div><span class="eyebrow">Nasıl çalışır</span><h2>Kilitle, izle, yetkiyle aç</h2></div>
-    <p>Kurulum için araçta kablolama gerekmez; kilit mıknatısla yapışır ve kendi bataryasıyla çalışır.</p>
+    <div><span class="eyebrow">@S("Nasıl çalışır", "How it works")</span><h2>@S("Kilitle, izle, yetkiyle aç", "Lock, track, open with authorisation")</h2></div>
+    <p>@S("Kurulum için araçta kablolama gerekmez; kilit mıknatısla yapışır ve kendi bataryasıyla çalışır.", "No wiring is needed in the vehicle: the lock attaches magnetically and runs on its own battery.")</p>
   </div>
   <div class="steps">
-    <div class="step"><h3>Kilitle</h3><p>Çelik halatı kapı koluna geçirip kilidi kapatın. Kilit o andan itibaren konumunu ve durumunu merkeze bildirmeye başlar.</p></div>
-    <div class="step"><h3>İzle</h3><p>Yük yoldayken konumu ve kilit durumunu panelden ya da mobil uygulamadan takip edin. Yetkisiz müdahalede akıllı alarm anında haber verir.</p></div>
-    <div class="step"><h3>Yetkiyle aç</h3><p>Kilit yalnızca tanımlı kart, telefon ya da merkezden verilen komutla açılır. Kimin, nerede, ne zaman açtığı kayıtlıdır.</p>
-      <div class="modes"><span>RFID kart</span><span>Bluetooth mobil</span><span>4G uzaktan</span></div></div>
+    <div class="step"><h3>@S("Kilitle", "Lock")</h3><p>@S("Çelik halatı kapı koluna geçirip kilidi kapatın. Kilit o andan itibaren konumunu ve durumunu merkeze bildirmeye başlar.", "Pass the steel cable through the door handle and close the lock. From that moment it reports its location and status to the control centre.")</p></div>
+    <div class="step"><h3>@S("İzle", "Track")</h3><p>@S("Yük yoldayken konumu ve kilit durumunu panelden ya da mobil uygulamadan takip edin. Yetkisiz müdahalede akıllı alarm anında haber verir.", "While the load is on the road, follow its location and lock status from the dashboard or the mobile app. The smart alarm notifies you immediately of any tampering.")</p></div>
+    <div class="step"><h3>@S("Yetkiyle aç", "Open with authorisation")</h3><p>@S("Kilit yalnızca tanımlı kart, telefon ya da merkezden verilen komutla açılır.", "The lock opens only with a registered card, a phone, or a command from the control centre.")</p>
+      <div class="modes"><span>@S("RFID kart", "RFID card")</span><span>@S("Bluetooth mobil", "Bluetooth mobile")</span><span>@S("4G uzaktan", "4G remote")</span></div></div>
   </div>
 </div></section>
 
 <section id="cozumler"><div class="wrap">
   <div class="sec-head">
-    <div><span class="eyebrow">Çözümler</span><h2>Yükünüz neyse, kilidi ona göre</h2></div>
-    <p>Aynı altyapı farklı taşıma türlerine uyarlanır. Kullanım alanınızı seçin, uygun ürünü birlikte belirleyelim.</p>
+    <div><span class="eyebrow">@S("Çözümler", "Solutions")</span><h2>@S("Yükünüz neyse, kilidi ona göre", "The right lock for whatever you carry")</h2></div>
+    <p>@S("Aynı altyapı farklı taşıma türlerine uyarlanır. Kullanım alanınızı seçin, uygun ürünü birlikte belirleyelim.", "The same platform adapts to different kinds of transport. Pick your use case and we will find the right product together.")</p>
   </div>
   <div class="sgrid">
-    <a class="scard" href="#"><div class="ic"><svg class="i"><use href="#box"/></svg></div><h3>Konteyner</h3><p>Limandan depoya kadar kapı mührü ve konum takibi tek cihazda.</p></a>
-    <a class="scard" href="#"><div class="ic"><svg class="i"><use href="#tanker"/></svg></div><h3>Tanker</h3><p>Dolum ve boşaltma kapaklarında ATEX uyumlu, zincirleme kilitleme.</p></a>
-    <a class="scard" href="#"><div class="ic"><svg class="i"><use href="#truck"/></svg></div><h3>Lojistik Aracı</h3><p>Kasa kapısı kilidi ve araç içi video telematik ile sürüş güvenliği.</p></a>
-    <a class="scard" href="#"><div class="ic"><svg class="i"><use href="#safe"/></svg></div><h3>Kasa</h3><p>Çelik kasalarda yetkili kişi dışında açılmayan, kayıt tutan kilit.</p></a>
-    <a class="scard" href="#"><div class="ic"><svg class="i"><use href="#customs"/></svg></div><h3>Gümrük Kargo Takibi</h3><p>Transit yüklerde güzergâh boyunca kesintisiz izleme ve açma kaydı.</p></a>
+    @foreach (var cozum in CozumKatalogu.Tumu)
+    {
+        <partial name="_CozumKarti" model="cozum" />
+    }
   </div>
 </div></section>
 
 <div class="trust"><div class="wrap"><div class="box">
   <div>
-    <span class="eyebrow">Sertifikalar</span>
-    <h2>Zorlu sahalar için tasarlandı</h2>
-    <p>Kilitlerimiz −30 °C ile +70 °C arasında sorunsuz çalışır, toza ve suya karşı korumalıdır ve patlayıcı ortamlarda kullanım için sertifikalıdır.</p>
+    <span class="eyebrow">@S("Sertifikalar", "Certifications")</span>
+    <h2>@S("Zorlu sahalar için tasarlandı", "Designed for demanding sites")</h2>
+    <p>@S("Kilitlerimiz −30 °C ile +70 °C arasında sorunsuz çalışır, toza ve suya karşı korumalıdır ve patlayıcı ortamlarda kullanım için sertifikalıdır.", "Our locks operate reliably from −30 °C to +70 °C, are protected against dust and water, and are certified for use in explosive atmospheres.")</p>
   </div>
   <div class="certs">
-    <div class="cert"><b>CE</b><span>Güvenlik ve çevre standartları</span></div>
-    <div class="cert"><b>ATEX</b><span>Patlayıcı ortamlara uygun</span></div>
-    <div class="cert"><b>IP67</b><span>Toz ve su geçirmez</span></div>
+    <div class="cert"><b>CE</b><span>@S("Güvenlik ve çevre standartları", "Safety and environmental standards")</span></div>
+    <div class="cert"><b>ATEX</b><span>@S("Patlayıcı ortamlara uygun", "Suitable for explosive atmospheres")</span></div>
+    <div class="cert"><b>IP67</b><span>@S("Toz ve su geçirmez", "Dust-tight and waterproof")</span></div>
   </div>
 </div></div></div>
 
 <section class="quote" id="teklif"><div class="wrap">
-  <div>
-    <span class="eyebrow">Teklif İste</span>
-    <h2>Filonuza uygun çözümü <em>birlikte</em> belirleyelim</h2>
-    <p>Araç sayınızı ve kullanım alanınızı yazın; satış ekibimiz size uygun ürün ve fiyat teklifiyle dönsün.</p>
-    <ul class="clist">
-      <li><svg class="i"><use href="#phone"/></svg><span><small>Satış · Serkan Gündoğdu</small>+90 542 432 10 10</span></li>
-      <li><svg class="i"><use href="#mail"/></svg><span><small>E-posta</small>info@locktech.com.tr</span></li>
-      <li><svg class="i"><use href="#pin"/></svg><span><small>Adres</small>İvedik OSB 1362 Cadde No:34, Yenimahalle / ANKARA</span></li>
-    </ul>
-  </div>
-  <form method="post" asp-fragment="teklif">
-    <h3>Teklif formu</h3>
-    @if (Model.Gonderildi)
-    {
-        <p class="form-msg ok">Talebiniz bize ulaştı. En kısa sürede size dönüş yapacağız.</p>
-    }
-    @if (Model.Hata is not null)
-    {
-        <p class="form-msg err">@Model.Hata</p>
-    }
-    <label>Ad Soyad<input asp-for="Form.AdSoyad" placeholder="Adınız" autocomplete="name"><span asp-validation-for="Form.AdSoyad"></span></label>
-    <label>Firma<input asp-for="Form.Firma" placeholder="Firma adı" autocomplete="organization"></label>
-    <label>Telefon<input asp-for="Form.Telefon" type="tel" placeholder="05xx xxx xx xx" autocomplete="tel"><span asp-validation-for="Form.Telefon"></span></label>
-    <label>E-posta<input asp-for="Form.Eposta" type="email" placeholder="ornek@firma.com" autocomplete="email"><span asp-validation-for="Form.Eposta"></span></label>
-    <label class="full">İlgilendiğiniz ürün
-      <select asp-for="Form.Urun"><option>Emin değilim, öneri istiyorum</option>@foreach (var urun in UrunKatalogu.Tumu) { <option>@urun.FormSecenegi</option> }</select></label>
-    <label class="full">Mesajınız<textarea asp-for="Form.Mesaj" rows="3" placeholder="Araç / konteyner sayısı, kullanım alanı…"></textarea></label>
-    <label class="bal" aria-hidden="true">Web siteniz<input asp-for="Form.WebSitesi" tabindex="-1" autocomplete="off"></label>
-    <button class="btn btn-primary" type="submit">Teklif İste</button>
-    <p class="note">Bilgileriniz yalnızca teklif hazırlamak için kullanılır.</p>
-  </form>
+  <partial name="_TeklifBilgisi" />
+  <partial name="_TeklifFormu" model="Model" />
 </div></section>

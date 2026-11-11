@@ -3,20 +3,23 @@
 @{
     var u = Model.Urun;
     ViewData["Title"] = $"{u.Model} — {u.Ad} | Locktech";
-    ViewData["Description"] = u.Ozet;
+    ViewData["Description"] = u.Ozet.ToString();
     ViewData["UrunKodu"] = u.Kod;
+    ViewData["Bolum"] = "urunler";
+    ViewData["Tr"] = $"/urunler/{u.Kod}";
+    ViewData["En"] = $"/en/products/{u.Kod}";
 }
 
 <div class="phero"><div class="wrap">
     <div>
-        <nav class="crumb" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><span>/</span><a href="/urunler">Ürünler</a><span>/</span><b>@u.Model</b></nav>
+        <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><a href="@Yollar.Urunler">@S("Ürünler", "Products")</a><span>/</span><b>@u.Model</b></nav>
         <span class="eyebrow">@string.Join(" · ", u.Baglanti)</span>
         <h1>@u.Model</h1>
         <p class="name">@u.Ad</p>
         <p class="lead">@u.Slogan</p>
         <div class="cta">
-            <a class="btn btn-primary" href="/?urun=@u.Kod#teklif">Teklif İste <svg class="i"><use href="#arrow"/></svg></a>
-            <a class="btn btn-ghost" href="@u.Foy" download><svg class="i"><use href="#download"/></svg>PDF föy indir</a>
+            <a class="btn btn-primary" href="@Yollar.Teklif(u.Kod)">@S("Teklif İste", "Get a Quote") <svg class="i"><use href="#arrow"/></svg></a>
+            <a class="btn btn-ghost" href="@u.Pdf" download><svg class="i"><use href="#download"/></svg>@S("PDF indir", "Download PDF")</a>
         </div>
         <div class="chips">
             @foreach (var s in u.Sertifikalar)
@@ -30,10 +33,10 @@
 
 <section class="pabout"><div class="wrap">
     <div>
-        <span class="eyebrow">@u.Model hakkında</span>
+        <span class="eyebrow">@S($"{u.Model} hakkında", $"About the {u.Model}")</span>
         <h2>@u.Slogan</h2>
         <p>@u.Hakkinda</p>
-        <h3>Kullanım alanları</h3>
+        <h3>@S("Kullanım alanları", "Where it is used")</h3>
         <div class="uses">
             @foreach (var alan in u.KullanimAlanlari)
             {
@@ -42,7 +45,7 @@
         </div>
     </div>
     <div class="feat">
-        <h3>Öne çıkan özellikler</h3>
+        <h3>@S("Öne çıkan özellikler", "Key features")</h3>
         <ul>
             @foreach (var ozellik in u.OneCikanlar)
             {
@@ -54,8 +57,8 @@
 
 <section class="pspec"><div class="wrap">
     <div class="sec-head">
-        <div><span class="eyebrow">Teknik özellikler</span><h2>@u.Model teknik verileri</h2></div>
-        <a class="btn btn-line" href="@u.Foy" download><svg class="i"><use href="#download"/></svg>PDF föy indir</a>
+        <div><span class="eyebrow">@S("Teknik özellikler", "Specifications")</span><h2>@S($"{u.Model} teknik verileri", $"{u.Model} technical data")</h2></div>
+        <a class="btn btn-line" href="@u.Pdf" download><svg class="i"><use href="#download"/></svg>@S("PDF indir", "Download PDF")</a>
     </div>
     <div class="specgrid">
         @foreach (var grup in u.Teknik)
@@ -81,8 +84,8 @@
 
 <section class="products"><div class="wrap">
     <div class="sec-head">
-        <div><span class="eyebrow">Diğer ürünler</span><h2>Birlikte çalışan çözümler</h2></div>
-        <a class="btn btn-line" href="/urunler">Tüm ürünler</a>
+        <div><span class="eyebrow">@S("Diğer ürünler", "Other products")</span><h2>@S("Birlikte çalışan çözümler", "Products that work together")</h2></div>
+        <a class="btn btn-line" href="@Yollar.Urunler">@S("Tüm ürünler", "All products")</a>
     </div>
     <div class="pgrid three">
         @foreach (var diger in Model.Digerleri)
