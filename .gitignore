@@ -6,3 +6,4 @@ obj/
 publish/
 appsettings.*.local.json
 .env
+App_Data/
