@@ -1,0 +1,57 @@
+@model string
+@* Araç çizimleri: yandan görünüm, marka renkleriyle. Tür: otobus, midibus, minibus, vip *@
+@switch (Model)
+{
+    case "otobus":
+        <svg class="arac" viewBox="0 0 340 130" role="img" aria-label="Otobüs">
+            <ellipse cx="170" cy="118" rx="150" ry="6" fill="#000" opacity=".12"/>
+            <path d="M12 96V34c0-10 8-18 18-18h268c16 0 30 12 32 28l4 34v18z" fill="var(--ana)"/>
+            <path d="M22 28h238v30H22z" fill="#dff1f8"/>
+            <path d="M68 28v30M114 28v30M160 28v30M206 28v30" stroke="var(--ana)" stroke-width="4"/>
+            <path d="M270 28h30c8 0 14 6 15 14l2 16h-47z" fill="#dff1f8"/>
+            <rect x="12" y="68" width="322" height="8" fill="var(--vurgu)"/>
+            <rect x="238" y="62" width="22" height="34" rx="2" fill="#fff" opacity=".25"/>
+            <circle cx="76" cy="98" r="19" fill="#1b1f27"/><circle cx="76" cy="98" r="8" fill="#cfd6e0"/>
+            <circle cx="264" cy="98" r="19" fill="#1b1f27"/><circle cx="264" cy="98" r="8" fill="#cfd6e0"/>
+            <rect x="322" y="80" width="12" height="7" rx="2" fill="#ffe9a6"/>
+        </svg>
+        break;
+    case "midibus":
+        <svg class="arac" viewBox="0 0 340 130" role="img" aria-label="Midibüs">
+            <ellipse cx="170" cy="118" rx="125" ry="6" fill="#000" opacity=".12"/>
+            <path d="M40 96V38c0-10 8-18 18-18h200c16 0 30 11 33 26l5 32v18z" fill="var(--ana)"/>
+            <path d="M50 32h176v28H50z" fill="#dff1f8"/>
+            <path d="M94 32v28M138 32v28M182 32v28" stroke="var(--ana)" stroke-width="4"/>
+            <path d="M236 32h26c8 0 14 5 16 13l3 15h-45z" fill="#dff1f8"/>
+            <rect x="40" y="70" width="256" height="8" fill="var(--vurgu)"/>
+            <circle cx="96" cy="98" r="18" fill="#1b1f27"/><circle cx="96" cy="98" r="7.5" fill="#cfd6e0"/>
+            <circle cx="242" cy="98" r="18" fill="#1b1f27"/><circle cx="242" cy="98" r="7.5" fill="#cfd6e0"/>
+            <rect x="284" y="82" width="12" height="7" rx="2" fill="#ffe9a6"/>
+        </svg>
+        break;
+    case "minibus":
+        <svg class="arac" viewBox="0 0 340 130" role="img" aria-label="Minibüs">
+            <ellipse cx="170" cy="118" rx="108" ry="6" fill="#000" opacity=".12"/>
+            <path d="M62 96V42c0-10 8-18 18-18h138c14 0 26 6 34 18l18 26c5 3 8 9 8 15v13z" fill="var(--ana)"/>
+            <path d="M74 36h114v28H74z" fill="#dff1f8"/>
+            <path d="M112 36v28M150 36v28" stroke="var(--ana)" stroke-width="4"/>
+            <path d="M198 36h20c8 0 15 4 20 11l12 17h-52z" fill="#dff1f8"/>
+            <rect x="62" y="72" width="216" height="7" fill="var(--vurgu)"/>
+            <circle cx="112" cy="98" r="17" fill="#1b1f27"/><circle cx="112" cy="98" r="7" fill="#cfd6e0"/>
+            <circle cx="232" cy="98" r="17" fill="#1b1f27"/><circle cx="232" cy="98" r="7" fill="#cfd6e0"/>
+            <rect x="266" y="82" width="12" height="7" rx="2" fill="#ffe9a6"/>
+        </svg>
+        break;
+    default:
+        <svg class="arac" viewBox="0 0 340 130" role="img" aria-label="VIP araç">
+            <ellipse cx="170" cy="118" rx="112" ry="6" fill="#000" opacity=".12"/>
+            <path d="M58 98V58c0-12 8-22 20-24l92-6c24 0 44 8 60 26l22 14c16 3 28 12 28 24v6z" fill="var(--koyu)"/>
+            <path d="M84 44l82-5c18 0 34 6 46 18l8 9H78V50c0-3 2-6 6-6z" fill="#dff1f8"/>
+            <path d="M126 41v25M176 39v27" stroke="var(--koyu)" stroke-width="4"/>
+            <rect x="58" y="76" width="222" height="5" fill="var(--vurgu)"/>
+            <circle cx="108" cy="99" r="17" fill="#1b1f27"/><circle cx="108" cy="99" r="7" fill="#cfd6e0"/>
+            <circle cx="236" cy="99" r="17" fill="#1b1f27"/><circle cx="236" cy="99" r="7" fill="#cfd6e0"/>
+            <rect x="268" y="84" width="12" height="6" rx="2" fill="#ffe9a6"/>
+        </svg>
+        break;
+}

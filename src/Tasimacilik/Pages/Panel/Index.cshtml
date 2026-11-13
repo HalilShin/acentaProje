@@ -1,0 +1,97 @@
+@page
+@model Tasimacilik.Pages.Panel.IndexModel
+@{
+    ViewData["Title"] = "Ayarlar";
+}
+
+<h1>Site ayarları</h1>
+<p class="aciklama">Bu ayarlar üç markada da ortaktır: Selçuklu Turizm, Ankara Otobüs Kirala ve Ankara Turizm Transfer.</p>
+
+@if (Model.Basari is not null)
+{
+    <p class="uyari tamam">@Model.Basari</p>
+}
+@if (Model.Hata is not null)
+{
+    <p class="uyari hata">@Model.Hata</p>
+}
+@if (Model.IletisimEksik)
+{
+    <p class="uyari hata">Telefon ya da adres hâlâ örnek değerde. Siteyi yayına almadan önce gerçek bilgileri girin.</p>
+}
+<div asp-validation-summary="All" class="uyari hata"></div>
+
+<form method="post">
+    <section class="kart">
+        <h2>İletişim bilgileri</h2>
+        <p class="aciklama">Üç sitenin üst barında, alt bilgisinde ve iletişim sayfasında görünür.</p>
+        <div class="izgara">
+            <label>Telefon
+                <input asp-for="Girdi.Telefon" type="tel" placeholder="0 (312) 000 00 00">
+            </label>
+            <label>E-posta (sitede görünen)
+                <input asp-for="Girdi.Eposta" type="email" placeholder="Boş bırakılırsa gösterilmez">
+            </label>
+            <label class="genis">Adres
+                <input asp-for="Girdi.Adres">
+            </label>
+        </div>
+    </section>
+
+    <section class="kart">
+        <h2>WhatsApp</h2>
+        <p class="aciklama">Sitelerin sağ alt köşesindeki WhatsApp butonu bu numaraya yazar. Hazır mesaj her markada farklıdır.</p>
+        <div class="izgara">
+            <label class="onay genis">
+                <input asp-for="Girdi.WhatsAppGoster" type="checkbox"> WhatsApp butonunu sitelerde göster
+            </label>
+            <label>Numara
+                <input asp-for="Girdi.WhatsAppNumara" type="tel" placeholder="05xx xxx xx xx">
+                <small>Başında 0 ya da +90 ile yazabilirsiniz. Boşsa buton görünmez.</small>
+            </label>
+        </div>
+    </section>
+
+    <section class="kart">
+        <h2>E-posta gönderimi (SMTP)</h2>
+        <p class="aciklama">Teklif formları bu hesap üzerinden gönderilir. Konu satırında formun hangi markadan geldiği yazar.</p>
+        <div class="izgara">
+            <label class="genis">SMTP sunucusu
+                <input asp-for="Girdi.SmtpSunucu" placeholder="mail.alanadiniz.com">
+            </label>
+            <label>Port
+                <input asp-for="Girdi.SmtpPort" type="number" min="1" max="65535">
+            </label>
+            <label>Bağlantı güvenliği
+                <select asp-for="Girdi.SmtpGuvenlik">
+                    <option value="Auto">Otomatik</option>
+                    <option value="StartTls">STARTTLS (genelde 587)</option>
+                    <option value="SslOnConnect">SSL/TLS (genelde 465)</option>
+                    <option value="None">Şifresiz (önerilmez)</option>
+                </select>
+            </label>
+            <label>Kullanıcı adı
+                <input asp-for="Girdi.SmtpKullanici" autocomplete="off">
+            </label>
+            <label>Şifre
+                <input asp-for="Girdi.SmtpSifre" type="password" autocomplete="new-password"
+                       placeholder="@(Model.SifreKayitli ? "Kayıtlı — değiştirmek için yazın" : "Henüz girilmedi")">
+            </label>
+            <label>Gönderen adres
+                <input asp-for="Girdi.GonderenAdres" type="email">
+            </label>
+            <label>Gönderen adı
+                <input asp-for="Girdi.GonderenAd">
+            </label>
+            <label class="genis">Formların gideceği adres
+                <input asp-for="Girdi.AliciAdres">
+                <small>Birden fazla adres için virgülle ayırın.</small>
+            </label>
+        </div>
+    </section>
+
+    <div class="dugmeler">
+        <button class="btn" type="submit" asp-page-handler="Kaydet">Kaydet</button>
+        <button class="btn ikincil" type="submit" asp-page-handler="Test">Kaydet ve test e-postası gönder</button>
+    </div>
+</form>

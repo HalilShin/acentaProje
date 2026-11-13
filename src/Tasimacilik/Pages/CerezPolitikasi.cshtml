@@ -1,0 +1,29 @@
+@page "/cerez-politikasi"
+@{
+    var m = Baglam.Marka;
+    ViewData["Title"] = $"Çerez Politikası | {m.Ad}";
+    ViewData["Description"] = $"{m.Ad} web sitesinde kullanılan çerezler.";
+    ViewData["Yol"] = "/cerez-politikasi";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("Çerez Politikası", null, ("Çerez Politikası", null))' />
+
+<section><div class="sarma yazi">
+    <p>Bu web sitesi yalnızca çalışması için zorunlu olan çerezleri kullanır. Analitik, reklam ya da izleme çerezi kullanmıyoruz.</p>
+
+    <h2>Kullandığımız çerezler</h2>
+    <ul>
+        <li><b>Form güvenlik çerezi:</b> teklif formunu sahte gönderimlere karşı korur. Tarayıcınızı kapattığınızda silinir.</li>
+        <li><b>Form sonuç çerezi:</b> formu gönderdikten sonra onay mesajını göstermek için kullanılan kısa ömürlü çerezdir.</li>
+    </ul>
+
+    <h2>Üçüncü taraf hizmetler</h2>
+    <ul>
+        <li><b>Yazı tipleri:</b> sitedeki yazı tipleri Google Fonts üzerinden yüklenir; bu sırada tarayıcınız Google sunucularına bağlanır ve IP adresiniz bu sunuculara iletilir.</li>
+        <li><b>WhatsApp:</b> WhatsApp butonu yalnızca tıkladığınızda sizi WhatsApp'a yönlendirir; öncesinde herhangi bir veri gönderilmez.</li>
+        <li><b>Harita:</b> iletişim sayfasındaki harita bağlantısı, tıkladığınızda Google Haritalar'ı yeni sekmede açar.</li>
+    </ul>
+
+    <h2>Çerezleri yönetme</h2>
+    <p>Çerezleri tarayıcınızın ayarlarından silebilir ya da engelleyebilirsiniz. Zorunlu çerezleri engellerseniz teklif formu çalışmayabilir.</p>
+</div></section>

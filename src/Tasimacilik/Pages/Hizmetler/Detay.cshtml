@@ -1,0 +1,48 @@
+@page "/hizmetler/{kod}"
+@model Tasimacilik.Pages.Hizmetler.DetayModel
+@{
+    var m = Baglam.Marka;
+    var h = Model.Hizmet;
+    ViewData["Title"] = $"{h.Ad} | {m.Ad}";
+    ViewData["Description"] = h.Ozet;
+    ViewData["Bolum"] = "hizmetler";
+    ViewData["Yol"] = h.Adres;
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi(h.Ad, h.Ozet, ("Hizmetler", "/hizmetler"), (h.Ad, null))' />
+
+<section><div class="sarma ikili">
+    <div class="metin">
+        @foreach (var p in h.Paragraflar)
+        {
+            <p>@p</p>
+        }
+        <div class="eylem">
+            <a class="dugme" href="/iletisim?hizmet=@h.Kod#teklif">Bu hizmet için teklif al <svg class="i"><use href="#i-ok"/></svg></a>
+        </div>
+    </div>
+    <div class="kutu">
+        <h2>Bu hizmette</h2>
+        <ul class="onaylar">
+            @foreach (var madde in h.Maddeler)
+            {
+                <li><svg class="i"><use href="#i-onay"/></svg>@madde</li>
+            }
+        </ul>
+    </div>
+</div></section>
+
+<section class="acik"><div class="sarma">
+    <div class="bolum-bas">
+        <div><span class="etiket">Diğer hizmetler</span><h2>Başka bir ihtiyacınız mı var?</h2></div>
+        <a class="dugme cizgi koyu" href="/hizmetler">Tüm hizmetler</a>
+    </div>
+    <div class="kartlar">
+        @foreach (var diger in m.Hizmetler.Where(x => x != h).Take(3))
+        {
+            <partial name="_HizmetKarti" model="diger" />
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

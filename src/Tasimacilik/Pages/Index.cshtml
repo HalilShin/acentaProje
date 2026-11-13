@@ -1,0 +1,104 @@
+﻿@page
+@{
+    var m = Baglam.Marka;
+    var a = AyarDeposu.Al();
+    var wa = a.WhatsAppGoster ? a.WhatsAppBaglantisi(m.WhatsAppMesaj) : null;
+    ViewData["Title"] = m.Baslik;
+    ViewData["Description"] = m.Aciklama;
+    ViewData["Bolum"] = "ana";
+    ViewData["Yol"] = "/";
+}
+
+<div class="vitrin"><div class="sarma">
+    <div>
+        <span class="etiket">@m.Etiket</span>
+        <h1>@m.HeroBaslik <em>@m.HeroVurgu</em></h1>
+        <p class="giris">@m.HeroMetin</p>
+        <div class="eylem">
+            <a class="dugme" href="/iletisim#teklif">Teklif Al <svg class="i"><use href="#i-ok"/></svg></a>
+            <a class="dugme cizgi" href="@a.TelefonBaglantisi"><svg class="i"><use href="#i-telefon"/></svg>@a.Telefon</a>
+            @if (wa is not null)
+            {
+                <a class="dugme cizgi" href="@wa" target="_blank" rel="noopener">WhatsApp'tan yazın</a>
+            }
+        </div>
+        <div class="rozetler">
+            @foreach (var r in m.Rozetler)
+            {
+                <span><svg class="i"><use href="#i-onay"/></svg>@r</span>
+            }
+        </div>
+    </div>
+    <div class="sahne">
+        <div class="yol"></div>
+        <partial name="_AracCizimi" model="m.VitrinAraci" />
+    </div>
+</div></div>
+
+<section><div class="sarma">
+    <div class="bolum-bas">
+        <div><span class="etiket">Hizmetler</span><h2>@m.HizmetlerBaslik</h2></div>
+        <p>@m.HizmetlerMetin</p>
+    </div>
+    <div class="kartlar">
+        @foreach (var h in m.Hizmetler)
+        {
+            <partial name="_HizmetKarti" model="h" />
+        }
+    </div>
+</div></section>
+
+<section class="acik"><div class="sarma">
+    <div class="bolum-bas">
+        <div><span class="etiket">Neden biz</span><h2>@m.NedenBaslik</h2></div>
+    </div>
+    <div class="nedenler">
+        @foreach (var n in m.Nedenler)
+        {
+            <div><svg class="i"><use href="#i-onay"/></svg><h3>@n.Baslik</h3><p>@n.Metin</p></div>
+        }
+    </div>
+</div></section>
+
+<section><div class="sarma">
+    <div class="bolum-bas">
+        <div><span class="etiket">Araçlar</span><h2>@m.AraclarBaslik</h2></div>
+        <a class="dugme cizgi koyu" href="/arac-filosu">Tüm araçlar</a>
+    </div>
+    <div class="araclar">
+        @foreach (var arac in m.Araclar)
+        {
+            <a class="arac-kart" href="/arac-filosu">
+                <partial name="_AracCizimi" model="arac.Tur" />
+                <h3>@arac.Ad</h3>
+                <span>@arac.Kapasite</span>
+            </a>
+        }
+    </div>
+</div></section>
+
+<section class="koyu"><div class="sarma">
+    <div class="bolum-bas">
+        <div><span class="etiket">Nasıl çalışır</span><h2>@m.AdimlarBaslik</h2></div>
+    </div>
+    <div class="adimlar">
+        @foreach (var adim in m.Adimlar)
+        {
+            <div><h3>@adim.Baslik</h3><p>@adim.Metin</p></div>
+        }
+    </div>
+</div></section>
+
+<section><div class="sarma dar">
+    <div class="bolum-bas">
+        <div><span class="etiket">Sık sorulanlar</span><h2>Merak edilenler</h2></div>
+    </div>
+    <div class="sss">
+        @foreach (var s in m.Sss)
+        {
+            <details><summary>@s.Soru</summary><p>@s.Cevap</p></details>
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />
