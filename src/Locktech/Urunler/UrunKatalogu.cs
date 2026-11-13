@@ -208,7 +208,7 @@ public static class UrunKatalogu
                     (AnaBatarya, ("2.950 mAh Li-ion · 3,7 V · 10,9 Wh", "2,950 mAh Li-ion · 3.7 V · 10.9 Wh")),
                     (UsbSarj, "5 V DC 2 A"),
                     (SarjSuresi, ("6 saat", "6 hours")),
-                    (BeklemeSuresi, ("22 gün (10 dakikada bir veri ile)", "22 days (reporting every 10 minutes)")),
+                    (BeklemeSuresi, ("20 gün (10 dakikada bir veri ile)", "20 days (reporting every 10 minutes)")),
                 ]),
                 new(Ortam,
                 [

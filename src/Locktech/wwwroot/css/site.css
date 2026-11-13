@@ -366,3 +366,32 @@ footer .copy a:hover{color:var(--orange)}
   .fayda,.sgrid.four{grid-template-columns:1fr}
   .srow{padding:20px}
 }
+/* Banner: hareketli takip sahnesi */
+.scene{position:absolute;left:-24%;top:-12%;width:148%;height:124%;pointer-events:none;overflow:visible}
+.scene .y1{transform-origin:300px 270px;animation:don 60s linear infinite}
+.scene .y2{transform-origin:300px 270px;animation:don 38s linear infinite reverse}
+.scene .ag circle{animation:kirp 4s ease-in-out infinite}
+.scene .ag circle:nth-child(odd){animation-delay:-2s}
+.scene .rota-iz{stroke-dasharray:22 100;animation:rota 9s cubic-bezier(.45,0,.55,1) infinite;filter:drop-shadow(0 0 6px rgba(39,211,245,.8))}
+.scene .durak circle{fill:#27d3f5}
+.scene .durak.son circle{fill:#ff8a00}
+.scene .durak .halka{fill:none;stroke:currentColor;stroke-width:2;color:#27d3f5;transform-box:fill-box;transform-origin:center;animation:halka 2.4s ease-out infinite}
+.scene .durak.son .halka{color:#ff8a00;animation-delay:-1.2s}
+.scene text{font:600 13px var(--body);fill:#cfdaf0;letter-spacing:.04em}
+.sweep{position:absolute;inset:6% 0 0;border-radius:50%;background:conic-gradient(from 0deg,rgba(39,211,245,.5),rgba(39,211,245,0) 28%);-webkit-mask:radial-gradient(circle,transparent 0 46%,#000 47% 70%,transparent 71%);mask:radial-gradient(circle,transparent 0 46%,#000 47% 70%,transparent 71%);animation:don 7s linear infinite}
+.stage .ring::before{animation:don 50s linear infinite}
+.stage .card{animation:suzul 7s ease-in-out infinite alternate}
+.stage .card::after{content:"";position:absolute;left:0;right:0;top:-30%;height:30%;background:linear-gradient(180deg,rgba(39,211,245,0),rgba(39,211,245,.28) 80%,rgba(39,211,245,.7));mix-blend-mode:multiply;animation:tara 5s ease-in-out infinite}
+.float{animation:suzul 6s ease-in-out infinite alternate}
+.f2{animation-delay:-2s}
+.f3{animation-delay:-4s}
+@keyframes don{to{transform:rotate(360deg)}}
+@keyframes kirp{50%{opacity:.25}}
+@keyframes rota{0%{stroke-dashoffset:22}100%{stroke-dashoffset:-100}}
+@keyframes halka{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.4);opacity:0}}
+@keyframes suzul{from{transform:translateY(5px)}to{transform:translateY(-7px)}}
+@keyframes tara{0%,15%{top:-30%}70%,100%{top:110%}}
+@media (prefers-reduced-motion:reduce){
+  .scene *,.sweep,.stage .ring::before,.stage .card,.stage .card::after,.float{animation:none}
+  .scene .arac,.stage .card::after{display:none}
+}
