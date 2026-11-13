@@ -1,0 +1,55 @@
+@page "/cerez-politikasi"
+@{
+    ViewData["Title"] = S("Çerez Politikası | Locktech", "Cookie Policy | Locktech");
+    ViewData["Description"] = S("Locktech web sitesinde kullanılan çerezler.", "Cookies used on the Locktech website.");
+    ViewData["Tr"] = "/cerez-politikasi";
+    ViewData["En"] = "/en/cookies";
+}
+
+<div class="phead"><div class="wrap">
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><b>@S("Çerez Politikası", "Cookie Policy")</b></nav>
+    <h1>@S("Çerez Politikası", "Cookie Policy")</h1>
+</div></div>
+
+<section><div class="wrap yazi">
+@if (En)
+{
+    <p>This website uses only the cookies that are strictly necessary for it to work. We do not use analytics, advertising or tracking cookies.</p>
+
+    <h2>Cookies we use</h2>
+    <ul>
+        <li><b>Form security cookie:</b> protects the quote request form against forged submissions. It is deleted when you close your browser.</li>
+        <li><b>Form result cookie:</b> a short-lived cookie that shows the confirmation message after you submit the form.</li>
+    </ul>
+
+    <h2>Third-party services</h2>
+    <ul>
+        <li><b>Fonts:</b> the typefaces on this site are loaded from Google Fonts, which means your browser connects to Google's servers and your IP address is transmitted to them.</li>
+        <li><b>WhatsApp:</b> the WhatsApp button only takes you to WhatsApp when you click it; nothing is sent beforehand.</li>
+        <li><b>Maps:</b> the map link on the contact page opens Google Maps in a new tab when you click it.</li>
+    </ul>
+
+    <h2>Managing cookies</h2>
+    <p>You can delete or block cookies in your browser settings. If you block the necessary cookies, the quote request form may not work.</p>
+}
+else
+{
+    <p>Bu web sitesi yalnızca çalışması için zorunlu olan çerezleri kullanır. Analitik, reklam ya da izleme çerezi kullanmıyoruz.</p>
+
+    <h2>Kullandığımız çerezler</h2>
+    <ul>
+        <li><b>Form güvenlik çerezi:</b> teklif formunu sahte gönderimlere karşı korur. Tarayıcınızı kapattığınızda silinir.</li>
+        <li><b>Form sonuç çerezi:</b> formu gönderdikten sonra onay mesajını göstermek için kullanılan kısa ömürlü çerezdir.</li>
+    </ul>
+
+    <h2>Üçüncü taraf hizmetler</h2>
+    <ul>
+        <li><b>Yazı tipleri:</b> sitedeki yazı tipleri Google Fonts üzerinden yüklenir; bu sırada tarayıcınız Google sunucularına bağlanır ve IP adresiniz bu sunuculara iletilir.</li>
+        <li><b>WhatsApp:</b> WhatsApp butonu yalnızca tıkladığınızda sizi WhatsApp'a yönlendirir; öncesinde herhangi bir veri gönderilmez.</li>
+        <li><b>Harita:</b> iletişim sayfasındaki harita bağlantısı, tıkladığınızda Google Haritalar'ı yeni sekmede açar.</li>
+    </ul>
+
+    <h2>Çerezleri yönetme</h2>
+    <p>Çerezleri tarayıcınızın ayarlarından silebilir ya da engelleyebilirsiniz. Zorunlu çerezleri engellerseniz teklif formu çalışmayabilir.</p>
+}
+</div></section>

@@ -1,0 +1,111 @@
+@page "/urunler/{kod}/pdf"
+@model Locktech.Pages.Urunler.DetayModel
+@{
+    // Ürün PDF'inin kaynağı: bu sayfa A4 olarak yazdırılır (bkz. araclar/pdf-uret.ps1).
+    Layout = null;
+    var u = Model.Urun;
+    var yari = (u.Teknik.Length + 1) / 2;
+}
+<!doctype html>
+<html lang="@(En ? "en" : "tr")">
+<head>
+    <meta charset="utf-8">
+    <meta name="robots" content="noindex">
+    <title>Locktech @u.Model — @u.Ad</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,600;0,700;1,700;1,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/pdf.css" asp-append-version="true">
+</head>
+<body>
+
+<section class="sayfa">
+    <header class="ust">
+        <div class="logo"><span class="mark"></span><span><b>LOCK<i>TECH</i></b><small>@S("AKILLI KİLİT SİSTEMLERİ", "SMART LOCK SYSTEMS")</small></span></div>
+        <div class="tur">@S("Ürün Broşürü", "Product Datasheet")</div>
+    </header>
+
+    <div class="kapak">
+        <div class="yazi">
+            <span class="baglanti">@string.Join(" · ", u.Baglanti)</span>
+            <h1>@u.Model</h1>
+            <p class="ad">@u.Ad</p>
+            <p class="slogan">@u.Slogan</p>
+            <div class="rozetler">
+                @foreach (var s in u.Sertifikalar)
+                {
+                    <span>@s.Ad</span>
+                }
+            </div>
+        </div>
+        <div class="gorsel"><img src="@u.Gorsel" alt=""></div>
+    </div>
+
+    <div class="govde">
+        <div>
+            <h2>@S($"{u.Model} hakkında", $"About the {u.Model}")</h2>
+            <p>@u.Hakkinda</p>
+            <h2>@S("Kullanım alanları", "Where it is used")</h2>
+            <div class="alanlar">
+                @foreach (var alan in u.KullanimAlanlari)
+                {
+                    <span>@alan</span>
+                }
+            </div>
+        </div>
+        <div class="one">
+            <h2>@S("Öne çıkan özellikler", "Key features")</h2>
+            <ul>
+                @foreach (var ozellik in u.OneCikanlar)
+                {
+                    <li>@ozellik</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    <partial name="_PdfAltBilgi" model="1" />
+</section>
+
+<section class="sayfa">
+    <header class="ust">
+        <div class="logo"><span class="mark"></span><span><b>LOCK<i>TECH</i></b><small>@S("AKILLI KİLİT SİSTEMLERİ", "SMART LOCK SYSTEMS")</small></span></div>
+        <div class="tur">@u.Model · @u.Ad</div>
+    </header>
+
+    <div class="teknik">
+        <h2 class="buyuk">@S("Teknik özellikler", "Specifications")</h2>
+        <div class="sutunlar">
+            @foreach (var sutun in new[] { u.Teknik.Take(yari), u.Teknik.Skip(yari) })
+            {
+                <div>
+                    @foreach (var grup in sutun)
+                    {
+                        <div class="grup">
+                            <h3>@grup.Baslik</h3>
+                            <table>
+                                @foreach (var satir in grup.Satirlar)
+                                {
+                                    <tr><th>@satir.Ad</th><td>@satir.Deger</td></tr>
+                                }
+                            </table>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+
+        <h2 class="buyuk">@S("Sertifikalar ve standartlar", "Certifications and standards")</h2>
+        <div class="sertifikalar">
+            @foreach (var s in u.Sertifikalar)
+            {
+                <div><b>@s.Ad</b><span>@s.Aciklama</span></div>
+            }
+        </div>
+    </div>
+
+    <partial name="_PdfAltBilgi" model="2" />
+</section>
+
+</body>
+</html>

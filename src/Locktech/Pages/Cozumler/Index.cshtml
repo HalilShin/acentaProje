@@ -1,0 +1,40 @@
+@page
+@{
+    ViewData["Title"] = S("Çözümler — Konteyner, Tanker, Lojistik Aracı, Kasa | Locktech", "Solutions — Container, Tanker, Logistics Vehicle, Safe | Locktech");
+    ViewData["Description"] = S(
+        "Locktech çözümleri: konteyner, tanker, lojistik aracı, kasa ve gümrük kargo takibi için akıllı kilit ve video telematik.",
+        "Locktech solutions: smart locks and video telematics for containers, tankers, logistics vehicles, safes and customs cargo tracking.");
+    ViewData["Bolum"] = "cozumler";
+    ViewData["Tr"] = "/cozumler";
+    ViewData["En"] = "/en/solutions";
+}
+
+<div class="phead"><div class="wrap">
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><b>@S("Çözümler", "Solutions")</b></nav>
+    <h1>@S("Çözümler", "Solutions")</h1>
+    <p>@S("Aynı altyapı farklı taşıma türlerine uyarlanır. Kullanım alanınızı seçin; hangi sorunu nasıl çözdüğümüzü ve hangi ürünü önerdiğimizi görün.", "The same platform adapts to different kinds of transport. Pick your use case to see which problems we solve and which products we recommend.")</p>
+</div></div>
+
+<section><div class="wrap">
+    <div class="slist">
+        @foreach (var cozum in CozumKatalogu.Tumu)
+        {
+            <a class="srow" href="@cozum.Adres">
+                <div class="ic"><svg class="i"><use href="#@cozum.Ikon"/></svg></div>
+                <div>
+                    <h2>@cozum.Ad</h2>
+                    <p>@cozum.Baslik</p>
+                    <div class="tags">
+                        @foreach (var urun in cozum.OnerilenUrunler)
+                        {
+                            <span>@urun.Model</span>
+                        }
+                    </div>
+                </div>
+                <span class="go">@S("İncele", "View") <svg class="i"><use href="#arrow"/></svg></span>
+            </a>
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

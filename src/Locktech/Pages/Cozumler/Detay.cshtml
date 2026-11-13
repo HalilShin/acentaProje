@@ -1,0 +1,74 @@
+@page "/cozumler/{kod}"
+@model Locktech.Pages.Cozumler.DetayModel
+@{
+    var c = Model.Cozum;
+    ViewData["Title"] = S($"{c.Ad} Çözümü — {c.Baslik} | Locktech", $"{c.Ad} Solution — {c.Baslik} | Locktech");
+    ViewData["Description"] = c.Ozet.ToString();
+    ViewData["Bolum"] = "cozumler";
+    ViewData["Tr"] = $"/cozumler/{c.KodTr}";
+    ViewData["En"] = $"/en/solutions/{c.KodEn}";
+}
+
+<div class="phead cozum"><div class="wrap">
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><a href="@Yollar.Cozumler">@S("Çözümler", "Solutions")</a><span>/</span><b>@c.Ad</b></nav>
+    <div class="baslik">
+        <div class="ic"><svg class="i"><use href="#@c.Ikon"/></svg></div>
+        <span class="eyebrow">@c.Ad</span>
+    </div>
+    <h1>@c.Baslik</h1>
+    <p>@c.Giris</p>
+    <div class="cta">
+        <a class="btn btn-primary" href="@Yollar.Teklif()">@S("Teklif İste", "Get a Quote") <svg class="i"><use href="#arrow"/></svg></a>
+        <a class="btn btn-ghost" href="#urunler">@S("Önerilen ürünler", "Recommended products")</a>
+    </div>
+</div></div>
+
+<section class="cbody"><div class="wrap">
+    <div class="sorun">
+        <span class="eyebrow">@S("Sorun", "The problem")</span>
+        <h2>@S("Sahada karşılaşılanlar", "What happens in the field")</h2>
+        <ul>
+            @foreach (var sorun in c.Sorunlar)
+            {
+                <li><svg class="i"><use href="#alert"/></svg>@sorun</li>
+            }
+        </ul>
+    </div>
+    <div>
+        <span class="eyebrow">@S("Çözüm", "The solution")</span>
+        <h2>@S("Locktech ile", "With Locktech")</h2>
+        <div class="fayda">
+            @foreach (var f in c.Faydalar)
+            {
+                <div><svg class="i"><use href="#check"/></svg><div><h3>@f.Baslik</h3><p>@f.Aciklama</p></div></div>
+            }
+        </div>
+    </div>
+</div></section>
+
+<section class="products" id="urunler"><div class="wrap">
+    <div class="sec-head">
+        <div><span class="eyebrow">@S("Önerilen ürünler", "Recommended products")</span><h2>@S($"{c.Ad} için kullandıklarımız", $"What we use for: {c.Ad}")</h2></div>
+        <a class="btn btn-line" href="@Yollar.Urunler">@S("Tüm ürünler", "All products")</a>
+    </div>
+    <div class="pgrid three">
+        @foreach (var urun in c.OnerilenUrunler)
+        {
+            <partial name="_UrunKarti" model="urun" />
+        }
+    </div>
+</div></section>
+
+<section><div class="wrap">
+    <div class="sec-head">
+        <div><span class="eyebrow">@S("Diğer çözümler", "Other solutions")</span><h2>@S("Başka bir kullanım alanı mı arıyorsunuz?", "Looking for a different use case?")</h2></div>
+    </div>
+    <div class="sgrid four">
+        @foreach (var diger in Model.Digerleri)
+        {
+            <partial name="_CozumKarti" model="diger" />
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

@@ -1,0 +1,61 @@
+@page
+@{
+    ViewData["Title"] = S("Hakkımızda — Locktech Akıllı Kilit Sistemleri", "About — Locktech Smart Lock Systems");
+    ViewData["Description"] = S(
+        "Locktech, lojistik ve taşımacılık sektörüne akıllı kilit ve araç telematiği çözümleri sunar. Ankara, İvedik OSB.",
+        "Locktech provides smart lock and vehicle telematics solutions for the logistics and transport sector. Based in Ankara, Türkiye.");
+    ViewData["Bolum"] = "hakkimizda";
+    ViewData["Tr"] = "/hakkimizda";
+    ViewData["En"] = "/en/about";
+}
+
+<div class="phead"><div class="wrap">
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><b>@S("Hakkımızda", "About")</b></nav>
+    <h1>@S("Hakkımızda", "About us")</h1>
+    <p>@S("Lojistikte güvenliği ve kontrolü bir araya getiren akıllı kilit sistemleri.", "Smart lock systems that bring security and control together in logistics.")</p>
+</div></div>
+
+<section class="about"><div class="wrap">
+    <div class="metin">
+        <span class="eyebrow">Locktech</span>
+        @if (En)
+        {
+            <h2>We make sure you always know where your cargo is and who opened it</h2>
+            <p>Locktech takes vehicle and cargo security to the next level with smart lock systems developed specifically for the logistics and transport sector. We bring GPS tracking, mobile control, card access and central management together in a single system.</p>
+            <p>From our base in the İvedik Organised Industrial Zone in Ankara, we work to keep containers, tankers, truck bodies and steel safes secure and traceable along the whole route.</p>
+            <p>Our range is deliberately small: a solar-powered main lock, a compact main lock, a secondary lock that works with them, and a video telematics system for the vehicle itself. Each one answers a specific need, and they work together.</p>
+        }
+        else
+        {
+            <h2>Yükünüzün nerede olduğunu ve kimin açtığını her an bilmenizi sağlıyoruz</h2>
+            <p>Locktech, lojistik ve taşımacılık sektörüne özel geliştirdiği akıllı kilit sistemleriyle araç ve yük güvenliğini dijital teknolojilerle bir üst seviyeye taşır. GPS takibi, mobil kontrol, kartlı erişim ve merkezi yönetimi tek bir sistemde bir araya getiriyoruz.</p>
+            <p>Ankara İvedik Organize Sanayi Bölgesi'ndeki merkezimizden; konteynerlerin, tankerlerin, kamyon kasalarının ve çelik kasaların yol boyunca güvende ve izlenebilir kalması için çalışıyoruz.</p>
+            <p>Ürün yelpazemizi bilerek dar tutuyoruz: güneş enerjili bir ana kilit, kompakt bir ana kilit, bunlarla birlikte çalışan bir ikincil kilit ve aracın kendisi için bir video telematik sistemi. Her biri belirli bir ihtiyaca karşılık gelir ve birlikte çalışır.</p>
+        }
+        <div class="cta">
+            <a class="btn btn-primary" href="@Yollar.Urunler">@S("Ürünleri İncele", "View Products")</a>
+            <a class="btn btn-line" href="@Yollar.Iletisim">@S("Bize Ulaşın", "Contact Us")</a>
+        </div>
+    </div>
+    <div class="degerler">
+        <div><svg class="i"><use href="#shield"/></svg><div><h3>@S("Yük güvenliğine odaklıyız", "Focused on cargo security")</h3><p>@S("Yalnızca akıllı kilit ve araç telematiği üzerine çalışıyoruz.", "We work only on smart locks and vehicle telematics.")</p></div></div>
+        <div><svg class="i"><use href="#truck"/></svg><div><h3>@S("Sahaya uygun donanım", "Hardware built for the field")</h3><p>@S("IP67 su geçirmez, ATEX sertifikalı gövdeler ve geniş çalışma sıcaklığı aralığı.", "IP67 waterproof, ATEX-certified housings and a wide operating temperature range.")</p></div></div>
+        <div><svg class="i"><use href="#monitor"/></svg><div><h3>@S("Tek sistemde kontrol", "Control in one system")</h3><p>@S("Konum, kilit durumu ve bildirimler panelde ve mobil uygulamada bir arada.", "Location, lock status and alerts together in the dashboard and the mobile app.")</p></div></div>
+        <div><svg class="i"><use href="#phone"/></svg><div><h3>@S("İhtiyaca göre teklif", "Quotes that fit your needs")</h3><p>@S("Araç sayınıza ve taşıdığınız yüke göre uygun ürünü birlikte belirliyoruz.", "We choose the right product together, based on your fleet size and what you carry.")</p></div></div>
+    </div>
+</div></section>
+
+<section class="products"><div class="wrap">
+    <div class="sec-head">
+        <div><span class="eyebrow">@S("Çözümler", "Solutions")</span><h2>@S("Nerede kullanılıyor?", "Where is it used?")</h2></div>
+        <a class="btn btn-line" href="@Yollar.Cozumler">@S("Tüm çözümler", "All solutions")</a>
+    </div>
+    <div class="sgrid">
+        @foreach (var cozum in CozumKatalogu.Tumu)
+        {
+            <partial name="_CozumKarti" model="cozum" />
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

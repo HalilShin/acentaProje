@@ -1,0 +1,58 @@
+/* Ürün PDF'i: A4 dikey, iki sayfa. Tarayıcıda da kâğıt gibi önizlenir. */
+@page{size:A4;margin:0}
+:root{--navy-950:#030d24;--navy-900:#061738;--navy-800:#0a2456;--navy-700:#103478;--blue:#1f7bff;--cyan:#27d3f5;--orange:#ff8a00;--ink:#0b1b3a;--muted:#56658a;--line:#dde5f3;--paper:#f3f6fc;--head:"Exo 2","Segoe UI",sans-serif;--body:"Inter","Segoe UI",sans-serif}
+*{box-sizing:border-box;margin:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+html{background:#8a94a8}
+body{font-family:var(--body);color:var(--ink);font-size:10pt;line-height:1.5}
+.sayfa{position:relative;width:210mm;height:297mm;margin:0 auto;background:#fff;overflow:hidden;page-break-after:always;break-after:page;display:flex;flex-direction:column}
+.sayfa:last-child{page-break-after:auto;break-after:auto}
+@media screen{.sayfa{margin:8mm auto;box-shadow:0 6px 30px rgba(0,0,0,.35)}}
+
+.ust{display:flex;justify-content:space-between;align-items:center;background:var(--navy-900);color:#fff;padding:7mm 14mm;border-bottom:1.2mm solid var(--orange)}
+.logo{display:flex;align-items:center;gap:3mm}
+.logo .mark{width:11mm;height:11mm;border-radius:2.5mm;background:#fff url(../img/logo-ikon.jpg) center/118% no-repeat}
+.logo b{font-family:var(--head);font-style:italic;font-weight:800;font-size:17pt;line-height:1;display:block}
+.logo b i{color:var(--orange);font-style:inherit}
+.logo small{display:block;font-family:var(--head);font-style:italic;font-weight:600;font-size:6pt;letter-spacing:.24em;color:#b8c7e6;margin-top:1mm}
+.tur{font-family:var(--head);font-weight:700;font-size:9pt;letter-spacing:.12em;text-transform:uppercase;color:#cfdaf0}
+
+.kapak{display:grid;grid-template-columns:1.05fr .95fr;gap:8mm;align-items:center;padding:12mm 14mm;color:#fff;background:radial-gradient(120mm 70mm at 78% 50%,rgba(31,123,255,.5),transparent 65%),linear-gradient(180deg,var(--navy-900),var(--navy-800))}
+.baglanti{font-family:var(--head);font-weight:700;font-size:8.5pt;letter-spacing:.16em;text-transform:uppercase;color:var(--orange)}
+.kapak h1{font-family:var(--head);font-style:italic;font-weight:800;font-size:44pt;line-height:1;margin:3mm 0 2mm}
+.kapak .ad{font-family:var(--head);font-weight:700;font-size:15pt;line-height:1.2;color:var(--orange)}
+.kapak .slogan{color:#c6d3ee;font-size:11pt;margin-top:3mm}
+.rozetler{display:flex;gap:2mm;margin-top:6mm}
+.rozetler span{font-size:8.5pt;font-weight:700;padding:1.2mm 3.5mm;border-radius:99px;border:.3mm solid rgba(120,170,255,.5);background:rgba(10,36,86,.6)}
+.gorsel{justify-self:center;width:72mm;height:72mm;border-radius:7mm;background:linear-gradient(180deg,#fff,#e9effa);display:grid;place-items:center;padding:6mm;overflow:hidden}
+.gorsel img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+
+.govde{flex:1;display:grid;grid-template-columns:1.1fr .9fr;gap:10mm;padding:11mm 14mm;align-content:start}
+h2{font-family:var(--head);font-weight:700;font-size:12.5pt;color:var(--navy-700);margin:0 0 2.5mm}
+.govde h2:not(:first-child){margin-top:7mm}
+.govde p{color:#33415f;font-size:10.5pt}
+.alanlar{display:flex;flex-wrap:wrap;gap:2mm}
+.alanlar span{font-size:9pt;font-weight:600;padding:1.5mm 3.5mm;border-radius:2mm;background:var(--paper);border:.3mm solid var(--line);color:var(--navy-700)}
+.one{background:var(--paper);border:.3mm solid var(--line);border-radius:4mm;padding:6mm}
+.one ul{list-style:none;padding:0;display:grid;gap:2.6mm;font-size:10pt;font-weight:500}
+.one li{position:relative;padding-left:6mm}
+.one li::before{content:"";position:absolute;left:0;top:1.3mm;width:3mm;height:1.5mm;border-left:.6mm solid var(--orange);border-bottom:.6mm solid var(--orange);transform:rotate(-45deg)}
+
+.teknik{flex:1;padding:8mm 14mm}
+h2.buyuk{font-size:16pt;margin-bottom:5mm;padding-bottom:2mm;border-bottom:.5mm solid var(--orange);display:inline-block}
+.sutunlar{display:grid;grid-template-columns:1fr 1fr;gap:6mm;align-items:start;margin-bottom:6mm}
+.grup{border:.3mm solid var(--line);border-radius:3mm;overflow:hidden;margin-bottom:4mm;break-inside:avoid}
+.grup h3{font-family:var(--head);font-weight:700;font-size:10.5pt;color:#fff;background:var(--navy-700);padding:1.8mm 4mm}
+table{width:100%;border-collapse:collapse;font-size:9pt}
+th,td{text-align:left;vertical-align:top;padding:1.4mm 4mm;border-top:.25mm solid var(--line)}
+tr:first-child th,tr:first-child td{border-top:0}
+th{width:42%;font-weight:500;color:var(--muted)}
+td{font-weight:600}
+tr:nth-child(even){background:var(--paper)}
+.sertifikalar{display:grid;grid-template-columns:repeat(3,1fr);gap:4mm}
+.sertifikalar div{border:.3mm solid var(--line);border-radius:3mm;padding:4mm;text-align:center;background:var(--paper)}
+.sertifikalar b{display:block;font-family:var(--head);font-size:17pt;font-weight:700;color:var(--navy-700)}
+.sertifikalar span{font-size:8.5pt;color:var(--muted)}
+
+.alt{display:flex;align-items:center;gap:5mm;background:var(--navy-950);color:#cfdaf0;font-size:8pt;padding:4.5mm 14mm;border-top:1.2mm solid var(--orange)}
+.alt span:first-child{flex:1}
+.alt .no{color:#8fa2c9}

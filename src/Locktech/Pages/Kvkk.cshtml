@@ -1,0 +1,65 @@
+@page
+@{
+    ViewData["Title"] = S("KVKK Aydınlatma Metni | Locktech", "Privacy Notice | Locktech");
+    ViewData["Description"] = S("Locktech web sitesi üzerinden paylaştığınız kişisel verilerin işlenmesine ilişkin aydınlatma metni.", "How Locktech processes the personal data you share through this website.");
+    ViewData["Tr"] = "/kvkk";
+    ViewData["En"] = "/en/privacy";
+}
+
+<div class="phead"><div class="wrap">
+    <nav class="crumb" aria-label="@S("Sayfa yolu", "Breadcrumb")"><a href="@Yollar.Ana">@S("Ana Sayfa", "Home")</a><span>/</span><b>@S("KVKK Aydınlatma Metni", "Privacy Notice")</b></nav>
+    <h1>@S("KVKK Aydınlatma Metni", "Privacy Notice")</h1>
+</div></div>
+
+<section><div class="wrap yazi">
+@if (En)
+{
+    <p>This notice explains how Locktech processes the personal data you share through this website, in line with Turkish Personal Data Protection Law No. 6698 (KVKK).</p>
+
+    <h2>Data controller</h2>
+    <p>Locktech — @Site.AcikAdres · @Site.Eposta · @Site.Telefon</p>
+
+    <h2>What data we process</h2>
+    <p>When you send the quote request form: your full name, company, phone number, e-mail address, the product you are interested in and the content of your message, together with the time of submission and your IP address.</p>
+
+    <h2>Why we process it</h2>
+    <p>To evaluate your quote request, prepare an offer and contact you about it. We do not use this data for marketing messages and we do not sell it.</p>
+
+    <h2>Legal basis</h2>
+    <p>Article 5/2-c of the KVKK (processing necessary for establishing a contract) and Article 5/2-f (legitimate interest of the data controller).</p>
+
+    <h2>Who receives it</h2>
+    <p>Form submissions are delivered to our sales team by e-mail. For this purpose the data is processed by our hosting and e-mail service providers. It is not shared with other third parties, except where required by law.</p>
+
+    <h2>How long we keep it</h2>
+    <p>For as long as needed to conclude your request, and afterwards for the retention periods required by applicable law.</p>
+
+    <h2>Your rights</h2>
+    <p>Under Article 11 of the KVKK you may ask whether your data is processed, request information, correction or deletion, and object to the processing. Send your request to @Site.Eposta or to our postal address above.</p>
+}
+else
+{
+    <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, bu web sitesi üzerinden paylaştığınız kişisel verilerin Locktech tarafından nasıl işlendiğini açıklar.</p>
+
+    <h2>Veri sorumlusu</h2>
+    <p>Locktech — @Site.AcikAdres · @Site.Eposta · @Site.Telefon</p>
+
+    <h2>İşlenen veriler</h2>
+    <p>Teklif formunu gönderdiğinizde: adınız soyadınız, firmanız, telefon numaranız, e-posta adresiniz, ilgilendiğiniz ürün ve mesajınızın içeriği ile gönderim zamanı ve IP adresiniz.</p>
+
+    <h2>İşleme amacı</h2>
+    <p>Teklif talebinizi değerlendirmek, teklif hazırlamak ve bu konuda sizinle iletişime geçmek. Bu veriler pazarlama iletisi göndermek için kullanılmaz ve satılmaz.</p>
+
+    <h2>Hukuki sebep</h2>
+    <p>KVKK'nın 5/2-c maddesi (bir sözleşmenin kurulmasıyla doğrudan ilgili olması) ve 5/2-f maddesi (veri sorumlusunun meşru menfaati).</p>
+
+    <h2>Verilerin aktarımı</h2>
+    <p>Form gönderimleri satış ekibimize e-posta ile iletilir. Bu amaçla veriler, barındırma ve e-posta hizmeti aldığımız sağlayıcılar tarafından işlenir. Yasal zorunluluklar dışında başka üçüncü kişilerle paylaşılmaz.</p>
+
+    <h2>Saklama süresi</h2>
+    <p>Talebinizin sonuçlandırılması için gereken süre boyunca ve sonrasında ilgili mevzuatın öngördüğü saklama süreleri kadar.</p>
+
+    <h2>Haklarınız</h2>
+    <p>KVKK'nın 11. maddesi uyarınca verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini ya da silinmesini isteme ve işlenmesine itiraz etme haklarına sahipsiniz. Taleplerinizi @Site.Eposta adresine ya da yukarıdaki posta adresimize iletebilirsiniz.</p>
+}
+</div></section>
