@@ -1,0 +1,16 @@
+@model Urun
+
+<a class="pcard" href="@Model.Adres">
+    <div class="pic"><span class="tag @(Model.EtiketVurgulu ? "o" : "")">@Model.Etiket</span><img src="@Model.Gorsel" alt="@Model.Model @Model.Ad" loading="lazy"></div>
+    <div class="body">
+        <div class="model">@Model.Model</div>
+        <h3>@Model.Ad</h3>
+        <ul>
+            @foreach (var madde in Model.KartMaddeleri)
+            {
+                <li>@madde</li>
+            }
+        </ul>
+        <div class="more"><span>İncele →</span><span>PDF föy</span></div>
+    </div>
+</a>

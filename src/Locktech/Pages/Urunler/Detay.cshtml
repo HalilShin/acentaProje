@@ -1,0 +1,95 @@
+@page "/urunler/{kod}"
+@model Locktech.Pages.Urunler.DetayModel
+@{
+    var u = Model.Urun;
+    ViewData["Title"] = $"{u.Model} — {u.Ad} | Locktech";
+    ViewData["Description"] = u.Ozet;
+    ViewData["UrunKodu"] = u.Kod;
+}
+
+<div class="phero"><div class="wrap">
+    <div>
+        <nav class="crumb" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><span>/</span><a href="/urunler">Ürünler</a><span>/</span><b>@u.Model</b></nav>
+        <span class="eyebrow">@string.Join(" · ", u.Baglanti)</span>
+        <h1>@u.Model</h1>
+        <p class="name">@u.Ad</p>
+        <p class="lead">@u.Slogan</p>
+        <div class="cta">
+            <a class="btn btn-primary" href="/?urun=@u.Kod#teklif">Teklif İste <svg class="i"><use href="#arrow"/></svg></a>
+            <a class="btn btn-ghost" href="@u.Foy" download><svg class="i"><use href="#download"/></svg>PDF föy indir</a>
+        </div>
+        <div class="chips">
+            @foreach (var s in u.Sertifikalar)
+            {
+                <span>@s.Ad</span>
+            }
+        </div>
+    </div>
+    <div class="pstage"><img src="@u.Gorsel" alt="@u.Model @u.Ad"></div>
+</div></div>
+
+<section class="pabout"><div class="wrap">
+    <div>
+        <span class="eyebrow">@u.Model hakkında</span>
+        <h2>@u.Slogan</h2>
+        <p>@u.Hakkinda</p>
+        <h3>Kullanım alanları</h3>
+        <div class="uses">
+            @foreach (var alan in u.KullanimAlanlari)
+            {
+                <span>@alan</span>
+            }
+        </div>
+    </div>
+    <div class="feat">
+        <h3>Öne çıkan özellikler</h3>
+        <ul>
+            @foreach (var ozellik in u.OneCikanlar)
+            {
+                <li><svg class="i"><use href="#check"/></svg>@ozellik</li>
+            }
+        </ul>
+    </div>
+</div></section>
+
+<section class="pspec"><div class="wrap">
+    <div class="sec-head">
+        <div><span class="eyebrow">Teknik özellikler</span><h2>@u.Model teknik verileri</h2></div>
+        <a class="btn btn-line" href="@u.Foy" download><svg class="i"><use href="#download"/></svg>PDF föy indir</a>
+    </div>
+    <div class="specgrid">
+        @foreach (var grup in u.Teknik)
+        {
+            <div class="spec">
+                <h3>@grup.Baslik</h3>
+                <dl>
+                    @foreach (var satir in grup.Satirlar)
+                    {
+                        <div><dt>@satir.Ad</dt><dd>@satir.Deger</dd></div>
+                    }
+                </dl>
+            </div>
+        }
+    </div>
+    <div class="pcerts">
+        @foreach (var s in u.Sertifikalar)
+        {
+            <div class="cert"><b>@s.Ad</b><span>@s.Aciklama</span></div>
+        }
+    </div>
+</div></section>
+
+<section class="products"><div class="wrap">
+    <div class="sec-head">
+        <div><span class="eyebrow">Diğer ürünler</span><h2>Birlikte çalışan çözümler</h2></div>
+        <a class="btn btn-line" href="/urunler">Tüm ürünler</a>
+    </div>
+    <div class="pgrid three">
+        @foreach (var diger in Model.Digerleri)
+        {
+            <partial name="_UrunKarti" model="diger" />
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using Locktech.Ayarlar;
+using Locktech.Urunler;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -11,7 +12,11 @@ public class IndexModel(PostaServisi posta, ILogger<IndexModel> log) : PageModel
     [TempData] public bool Gonderildi { get; set; }
     public string? Hata { get; private set; }
 
-    public void OnGet() { }
+    /// <summary>Ürün sayfasından gelindiyse (/?urun=hb-a1sp) formda o ürün seçili gelir.</summary>
+    public void OnGet(string? urun)
+    {
+        if (UrunKatalogu.Bul(urun) is { } secilen) Form.Urun = secilen.FormSecenegi;
+    }
 
     public async Task<IActionResult> OnPostAsync(CancellationToken iptal)
     {
