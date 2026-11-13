@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <title>@ViewData["Title"] — Locktech Panel</title>
+    <link rel="stylesheet" href="~/css/panel.css" asp-append-version="true">
+</head>
+<body>
+<header class="ust">
+    <a class="marka" href="/panel">LOCK<i>TECH</i> <span>Yönetim Paneli</span></a>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <nav>
+            <a href="/" target="_blank" rel="noopener">Siteyi aç ↗</a>
+            <form method="post" action="/panel?handler=Cikis">
+                @Html.AntiForgeryToken()
+                <button class="bag" type="submit">Çıkış</button>
+            </form>
+        </nav>
+    }
+</header>
+<main>
+@RenderBody()
+</main>
+</body>
+</html>

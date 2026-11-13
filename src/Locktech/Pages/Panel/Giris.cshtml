@@ -1,0 +1,21 @@
+@page
+@model Locktech.Pages.Panel.GirisModel
+@{
+    ViewData["Title"] = "Giriş";
+}
+
+<form method="post" class="kart dar">
+    <h1>Panel girişi</h1>
+    @if (!Model.SifreTanimli)
+    {
+        <p class="uyari hata">Panel şifresi tanımlı değil. Sunucuda <code>Panel:Sifre</code> ayarı girilmeden panel açılmaz.</p>
+    }
+    @if (Model.Hata is not null)
+    {
+        <p class="uyari hata">@Model.Hata</p>
+    }
+    <label>Şifre
+        <input type="password" asp-for="Sifre" autocomplete="current-password" autofocus required>
+    </label>
+    <button class="btn" type="submit">Giriş yap</button>
+</form>

@@ -1,0 +1,80 @@
+@page
+@model Locktech.Pages.Panel.IndexModel
+@{
+    ViewData["Title"] = "Ayarlar";
+}
+
+<h1>Site ayarları</h1>
+
+@if (Model.Basari is not null)
+{
+    <p class="uyari tamam">@Model.Basari</p>
+}
+@if (Model.Hata is not null)
+{
+    <p class="uyari hata">@Model.Hata</p>
+}
+<div asp-validation-summary="All" class="uyari hata"></div>
+
+<form method="post">
+    <section class="kart">
+        <h2>E-posta (SMTP)</h2>
+        <p class="aciklama">Sitedeki teklif formu bu hesap üzerinden gönderilir. Bilgileri e-posta sağlayıcınızın (hosting / kurumsal posta) panelinden alabilirsiniz.</p>
+        <div class="izgara">
+            <label class="genis">SMTP sunucusu
+                <input asp-for="Girdi.SmtpSunucu" placeholder="mail.locktech.com.tr">
+            </label>
+            <label>Port
+                <input asp-for="Girdi.SmtpPort" type="number" min="1" max="65535">
+            </label>
+            <label>Bağlantı güvenliği
+                <select asp-for="Girdi.SmtpGuvenlik">
+                    <option value="Auto">Otomatik</option>
+                    <option value="StartTls">STARTTLS (genelde 587)</option>
+                    <option value="SslOnConnect">SSL/TLS (genelde 465)</option>
+                    <option value="None">Şifresiz (önerilmez)</option>
+                </select>
+            </label>
+            <label>Kullanıcı adı
+                <input asp-for="Girdi.SmtpKullanici" placeholder="info@locktech.com.tr" autocomplete="off">
+            </label>
+            <label>Şifre
+                <input asp-for="Girdi.SmtpSifre" type="password" autocomplete="new-password"
+                       placeholder="@(Model.SifreKayitli ? "Kayıtlı — değiştirmek için yazın" : "Henüz girilmedi")">
+            </label>
+            <label>Gönderen adres
+                <input asp-for="Girdi.GonderenAdres" type="email" placeholder="info@locktech.com.tr">
+            </label>
+            <label>Gönderen adı
+                <input asp-for="Girdi.GonderenAd">
+            </label>
+            <label class="genis">Formların gideceği adres
+                <input asp-for="Girdi.AliciAdres" placeholder="info@locktech.com.tr">
+                <small>Birden fazla adres için virgülle ayırın.</small>
+            </label>
+        </div>
+    </section>
+
+    <section class="kart">
+        <h2>WhatsApp</h2>
+        <p class="aciklama">Sitenin sağ alt köşesindeki WhatsApp butonu bu numaraya yazar.</p>
+        <div class="izgara">
+            <label class="onay genis">
+                <input asp-for="Girdi.WhatsAppGoster" type="checkbox"> WhatsApp butonunu sitede göster
+            </label>
+            <label>Numara
+                <input asp-for="Girdi.WhatsAppNumara" type="tel" placeholder="0542 432 10 10">
+                <small>Başında 0 ya da +90 ile yazabilirsiniz.</small>
+            </label>
+            <label class="genis">Hazır mesaj
+                <input asp-for="Girdi.WhatsAppMesaj">
+                <small>Ziyaretçi butona bastığında WhatsApp'ta yazılı gelir.</small>
+            </label>
+        </div>
+    </section>
+
+    <div class="dugmeler">
+        <button class="btn" type="submit" asp-page-handler="Kaydet">Kaydet</button>
+        <button class="btn ikincil" type="submit" asp-page-handler="Test">Kaydet ve test e-postası gönder</button>
+    </div>
+</form>
