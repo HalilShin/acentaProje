@@ -34,8 +34,8 @@ public static class CozumKatalogu
             Ad = ("Konteyner", "Container"),
             Ozet = ("Limandan depoya kadar kapı mührü ve konum takibi tek cihazda.", "Door seal and location tracking in one device, from port to warehouse."),
             Baslik = ("Konteyneriniz limandan depoya kadar gözünüzün önünde", "Keep your container in sight from port to warehouse"),
-            Giris = ("Locktech elektronik kilitleri konteyner kapısını mühürler, yol boyunca konumunu bildirir ve yalnızca yetkili kişiye açılır. Klasik mührün yapamadığını yapar: kapının ne zaman, nerede ve kim tarafından açıldığını gösterir.",
-                     "Locktech electronic locks seal the container door, report its location along the route and open only for authorised people. They do what a conventional seal cannot: show when, where and by whom the door was opened."),
+            Giris = ("Locktech elektronik kilitleri konteyner kapısını mühürler, yol boyunca konumunu bildirir ve yalnızca yetkili kişiye açılır. Klasik mührün yapamadığını yapar: kilit durumunu ve konumu yol boyunca bildirir, müdahale edildiğinde alarm verir.",
+                     "Locktech electronic locks seal the container door, report its location along the route and open only for authorised people. They do what a conventional seal cannot: report lock status and location along the way and raise an alarm on tampering."),
             Sorunlar =
             [
                 ("Klasik mühür yalnızca koparıldığını gösterir; ne zaman ve nerede açıldığını söylemez.", "A conventional seal only shows that it was broken, not when or where."),

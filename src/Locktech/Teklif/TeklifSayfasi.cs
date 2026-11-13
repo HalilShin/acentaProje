@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Net.Mail;
+using System.Threading.RateLimiting;
 using Locktech.Ayarlar;
 using Locktech.Urunler;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,10 @@ namespace Locktech.Teklif;
 /// <summary>Teklif formu bulunan sayfaların (ana sayfa, iletişim) ortak modeli.</summary>
 public abstract class TeklifSayfasi(PostaServisi posta, ILogger log) : PageModel
 {
+    /// <summary>Aynı IP'den 10 dakikada en çok 5 teklif gönderimi.</summary>
+    private static readonly PartitionedRateLimiter<string> GonderimSiniri = PartitionedRateLimiter.Create<string, string>(
+        ip => RateLimitPartition.GetFixedWindowLimiter(ip, _ => new FixedWindowRateLimiterOptions { PermitLimit = 5, Window = TimeSpan.FromMinutes(10) }));
+
     [BindProperty] public TeklifFormu Form { get; set; } = new();
     [TempData] public bool Gonderildi { get; set; }
     public string? Hata { get; private set; }
@@ -39,6 +44,15 @@ public abstract class TeklifSayfasi(PostaServisi posta, ILogger log) : PageModel
         if (!string.IsNullOrWhiteSpace(Form.Eposta) && !MailAddress.TryCreate(Form.Eposta, out _))
             ModelState.AddModelError("Form.Eposta", S("E-posta adresi geçerli değil.", "The e-mail address is not valid."));
         if (!ModelState.IsValid) return Page();
+
+        using var izin = GonderimSiniri.AttemptAcquire(HttpContext.Connection.RemoteIpAddress?.ToString() ?? "bilinmiyor");
+        if (!izin.IsAcquired)
+        {
+            Hata = S(
+                $"Kısa sürede çok fazla talep gönderildi. Lütfen biraz sonra yeniden deneyin ya da {Site.Telefon} numarasını arayın.",
+                $"Too many requests were sent in a short time. Please try again later or call {Site.Telefon}.");
+            return Page();
+        }
 
         var govde = $"""
             Web sitesinden yeni teklif talebi

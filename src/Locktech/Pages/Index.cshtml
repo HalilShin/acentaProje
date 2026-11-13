@@ -35,6 +35,37 @@
     </div>
   </div>
   <div class="stage">
+    <svg class="scene" viewBox="0 0 600 520" aria-hidden="true">
+      <defs>
+        <radialGradient id="sahne-isik" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#1f7bff" stop-opacity=".55"/><stop offset="1" stop-color="#1f7bff" stop-opacity="0"/></radialGradient>
+        <linearGradient id="rota-renk" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="#27d3f5"/><stop offset="1" stop-color="#ff8a00"/></linearGradient>
+        <pattern id="nokta" width="18" height="18" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.3" fill="#7fb2ff"/></pattern>
+        <radialGradient id="nokta-maske-renk" cx="50%" cy="50%" r="50%"><stop offset=".25" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+        <mask id="nokta-maske"><rect width="600" height="520" fill="url(#nokta-maske-renk)"/></mask>
+      </defs>
+      <circle cx="300" cy="270" r="250" fill="url(#sahne-isik)"/>
+      <rect width="600" height="520" fill="url(#nokta)" mask="url(#nokta-maske)" opacity=".5"/>
+      <g class="yorunge" fill="none" stroke="#27d3f5">
+        <circle class="y1" cx="300" cy="270" r="205" stroke-opacity=".35" stroke-dasharray="3 12" stroke-width="2"/>
+        <circle class="y2" cx="300" cy="270" r="238" stroke-opacity=".22" stroke-dasharray="60 26" stroke-width="5"/>
+        <circle cx="300" cy="270" r="172" stroke-opacity=".3"/>
+      </g>
+      <g class="ag" stroke="#7fb2ff" stroke-opacity=".28" fill="#7fb2ff">
+        <path d="M70 120 150 70 250 96M470 440 540 380 560 300M60 330 110 400" fill="none"/>
+        <circle cx="70" cy="120" r="3"/><circle cx="150" cy="70" r="3"/><circle cx="250" cy="96" r="3"/>
+        <circle cx="470" cy="440" r="3"/><circle cx="540" cy="380" r="3"/><circle cx="560" cy="300" r="3"/>
+        <circle cx="60" cy="330" r="3"/><circle cx="110" cy="400" r="3"/>
+      </g>
+      <path id="rota" d="M40 455C150 420 170 300 290 300S470 190 565 75" fill="none" stroke="#7fb2ff" stroke-opacity=".35" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/>
+      <path class="rota-iz" d="M40 455C150 420 170 300 290 300S470 190 565 75" fill="none" stroke="url(#rota-renk)" stroke-width="3.5" stroke-linecap="round" pathLength="100"/>
+      <g class="durak"><circle class="halka" cx="40" cy="455" r="7"/><circle cx="40" cy="455" r="5"/><text x="54" y="475">Ankara</text></g>
+      <g class="durak son"><circle class="halka" cx="565" cy="75" r="7"/><circle cx="565" cy="75" r="5"/><text x="512" y="58">Mersin</text></g>
+      <g class="arac">
+        <circle r="16" fill="#ff8a00" opacity=".22"/><circle r="6.5" fill="#ff8a00" stroke="#fff" stroke-width="2"/>
+        <animateMotion dur="9s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines=".45 0 .55 1"><mpath href="#rota"/></animateMotion>
+      </g>
+    </svg>
+    <div class="sweep"></div>
     <div class="ring"></div>
     <div class="card"><img src="~/img/hb-a1sp.jpg" alt="@S("HB-A1SP güneş enerjili elektronik kilit", "HB-A1SP solar-powered electronic lock")"></div>
     <div class="float f1"><span class="dot"></span><div class="feed"><div class="roll">
