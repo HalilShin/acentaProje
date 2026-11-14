@@ -16,6 +16,9 @@ public record SiteAyarlari
     /// <summary>Teklif formlarının gideceği adres.</summary>
     public string AliciAdres { get; set; } = "info@locktech.com.tr";
 
+    /// <summary>Sitede ve PDF'lerde görünen iletişim e-postası.</summary>
+    public string Eposta { get; set; } = "info@locktech.com.tr";
+
     // WhatsApp
     public bool WhatsAppGoster { get; set; } = true;
     public string WhatsAppNumara { get; set; } = "905424321010";
