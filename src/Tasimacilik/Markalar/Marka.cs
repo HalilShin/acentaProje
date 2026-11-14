@@ -30,7 +30,6 @@ public record Marka
     public required string RenkVurgu { get; init; }
     public required string RenkAcik { get; init; }
     public required string FontBaslik { get; init; }
-    public required string FontAdresi { get; init; }
     /// <summary>Ana sayfa görselindeki araç türü.</summary>
     public required string VitrinAraci { get; init; }
 

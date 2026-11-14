@@ -213,7 +213,8 @@ label.bal{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .phero .lead{color:#c6d3ee;font-size:18px;margin-top:12px;max-width:48ch}
 .phero .cta{display:flex;flex-wrap:wrap;gap:14px;margin:28px 0 24px}
 .pstage{justify-self:center;width:min(100%,420px);aspect-ratio:1/1;border-radius:28px;background:linear-gradient(180deg,#fff,#e9effa);box-shadow:0 30px 70px -20px rgba(0,0,0,.7),0 0 80px rgba(31,123,255,.45);display:grid;place-items:center;padding:28px;overflow:hidden}
-.pstage img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.pstage{position:relative}
+.pstage img{position:absolute;inset:28px;width:calc(100% - 56px);height:calc(100% - 56px);object-fit:contain;mix-blend-mode:multiply}
 .pabout .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:start}
 .pabout h2{font-weight:700;font-size:clamp(26px,3vw,36px);margin:10px 0 16px}
 .pabout p{color:var(--muted);font-size:17px}
@@ -395,3 +396,7 @@ footer .copy a:hover{color:var(--orange)}
   .scene *,.sweep,.stage .ring::before,.stage .card,.stage .card::after,.float{animation:none}
   .scene .arac,.stage .card::after{display:none}
 }
+
+.yazi ol{padding-left:22px;display:grid;gap:8px}
+.yazi ul.duz{list-style:none;padding:0;gap:6px}
+.yazi p+p,.yazi ol+p,.yazi ul+p{margin-top:12px}

@@ -14,52 +14,110 @@
 <section><div class="wrap yazi">
 @if (En)
 {
-    <p>This notice explains how Locktech processes the personal data you share through this website, in line with Turkish Personal Data Protection Law No. 6698 (KVKK).</p>
+    <p>This notice has been prepared by @Site.Unvan, as data controller, under Article 10 of Turkish Personal Data Protection Law No. 6698 ("KVKK"). Locktech is a brand of this company.</p>
 
-    <h2>Data controller</h2>
-    <p>Locktech — @Site.AcikAdres · @Site.Eposta · @Site.Telefon</p>
+    <h2>1. Data controller</h2>
+    <ul class="duz">
+        <li><b>Company name:</b> @Site.Unvan</li>
+        <li><b>Address:</b> @Site.AcikAdres</li>
+        <li><b>E-mail:</b> @Site.Eposta</li>
+        <li><b>Phone:</b> @Site.Telefon</li>
+        <li><b>Tax office / no.:</b> @Site.VergiDairesi / @Site.VergiNo · <b>MERSİS:</b> @Site.Mersis</li>
+    </ul>
 
-    <h2>What data we process</h2>
-    <p>When you send the quote request form: your full name, company, phone number, e-mail address, the product you are interested in and the content of your message, together with the time of submission and your IP address.</p>
+    <h2>2. Personal data we process</h2>
+    <ol>
+        <li><b>Identity:</b> first name, surname</li>
+        <li><b>Contact:</b> phone number, e-mail address, company name</li>
+        <li><b>Request details:</b> the product you are interested in and the content of your message</li>
+        <li><b>Transaction security:</b> IP address, time of submission, session and cookie records</li>
+    </ol>
+    <p>This website does not sell products online and does not collect payment or card details.</p>
 
-    <h2>Why we process it</h2>
-    <p>To evaluate your quote request, prepare an offer and contact you about it. We do not use this data for marketing messages and we do not sell it.</p>
+    <h2>3. Purposes of processing</h2>
+    <ol>
+        <li>Evaluating your quote request and preparing an offer</li>
+        <li>Contacting you about your request</li>
+        <li>Answering questions, requests and complaints, and providing after-sales support</li>
+        <li>Ensuring information security and exercising the right of defence in legal disputes</li>
+    </ol>
 
-    <h2>Legal basis</h2>
-    <p>Article 5/2-c of the KVKK (processing necessary for establishing a contract) and Article 5/2-f (legitimate interest of the data controller).</p>
+    <h2>4. Legal grounds</h2>
+    <p>Your personal data is processed under Article 5/2 of the KVKK on the following grounds:</p>
+    <ol>
+        <li>(c) Processing is directly related to the establishment or performance of a contract</li>
+        <li>(e) Processing is necessary for the establishment, exercise or protection of a right</li>
+        <li>(f) Legitimate interests of the data controller, provided that your fundamental rights and freedoms are not harmed</li>
+    </ol>
+    <p>Commercial electronic messages (campaign announcements) are sent only with your explicit consent.</p>
 
-    <h2>Who receives it</h2>
-    <p>Form submissions are delivered to our sales team by e-mail. For this purpose the data is processed by our hosting and e-mail service providers. It is not shared with other third parties, except where required by law.</p>
+    <h2>5. Transfers</h2>
+    <p>Your personal data may be transferred, limited to the purpose, to:</p>
+    <ol>
+        <li>Hosting and e-mail service providers: for the delivery of form submissions</li>
+        <li>Authorised public bodies: where required by law</li>
+    </ol>
+    <p>Your data is not sold or handed over to third parties for marketing purposes.</p>
 
-    <h2>How long we keep it</h2>
-    <p>For as long as needed to conclude your request, and afterwards for the retention periods required by applicable law.</p>
+    <h2>6. Retention period</h2>
+    <p>Quote and contact form messages are kept for a maximum of 2 years. If your request turns into a sale, the related commercial records are kept for 10 years as required by tax legislation.</p>
 
-    <h2>Your rights</h2>
-    <p>Under Article 11 of the KVKK you may ask whether your data is processed, request information, correction or deletion, and object to the processing. Send your request to @Site.Eposta or to our postal address above.</p>
+    <h2>7. Your rights</h2>
+    <p>Under Article 11 of the KVKK you have the right to learn whether your personal data is processed, to request information, to learn the purpose of processing, to know the third parties to whom it is transferred in Türkiye or abroad, to request correction if it is incomplete or inaccurate, to request deletion or destruction where the conditions are met, to object to a result against you arising from analysis by automated systems, and to claim compensation if you suffer damage.</p>
+    <p>You can send your requests to @Site.Eposta or to the postal address above. Applications are concluded within 30 days at the latest.</p>
 }
 else
 {
-    <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, bu web sitesi üzerinden paylaştığınız kişisel verilerin Locktech tarafından nasıl işlendiğini açıklar.</p>
+    <p>Bu aydınlatma metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu ("KVKK") 10. maddesi uyarınca, veri sorumlusu sıfatıyla @Site.Unvan tarafından hazırlanmıştır. Locktech, bu şirketin markasıdır.</p>
 
-    <h2>Veri sorumlusu</h2>
-    <p>Locktech — @Site.AcikAdres · @Site.Eposta · @Site.Telefon</p>
+    <h2>1. Veri Sorumlusu</h2>
+    <ul class="duz">
+        <li><b>Unvan:</b> @Site.Unvan</li>
+        <li><b>Adres:</b> @Site.AcikAdres</li>
+        <li><b>E-posta:</b> @Site.Eposta</li>
+        <li><b>Telefon:</b> @Site.Telefon</li>
+        <li><b>Vergi Dairesi / No:</b> @Site.VergiDairesi / @Site.VergiNo · <b>MERSİS:</b> @Site.Mersis</li>
+    </ul>
 
-    <h2>İşlenen veriler</h2>
-    <p>Teklif formunu gönderdiğinizde: adınız soyadınız, firmanız, telefon numaranız, e-posta adresiniz, ilgilendiğiniz ürün ve mesajınızın içeriği ile gönderim zamanı ve IP adresiniz.</p>
+    <h2>2. İşlenen Kişisel Veriler</h2>
+    <ol>
+        <li><b>Kimlik:</b> ad, soyad</li>
+        <li><b>İletişim:</b> telefon numarası, e-posta adresi, firma adı</li>
+        <li><b>Talep bilgisi:</b> ilgilendiğiniz ürün ve mesajınızın içeriği</li>
+        <li><b>İşlem güvenliği:</b> IP adresi, gönderim zamanı, oturum ve çerez kayıtları</li>
+    </ol>
+    <p>Bu web sitesinde çevrimiçi satış yapılmaz; ödeme ya da kart bilgisi alınmaz.</p>
 
-    <h2>İşleme amacı</h2>
-    <p>Teklif talebinizi değerlendirmek, teklif hazırlamak ve bu konuda sizinle iletişime geçmek. Bu veriler pazarlama iletisi göndermek için kullanılmaz ve satılmaz.</p>
+    <h2>3. İşleme Amaçları</h2>
+    <ol>
+        <li>Teklif talebinizin değerlendirilmesi ve teklif hazırlanması</li>
+        <li>Talebinizle ilgili olarak sizinle iletişime geçilmesi</li>
+        <li>Talep, soru ve şikâyetlerin karşılanması, satış sonrası destek verilmesi</li>
+        <li>Bilgi güvenliğinin sağlanması ve hukuki uyuşmazlıklarda savunma hakkının kullanılması</li>
+    </ol>
 
-    <h2>Hukuki sebep</h2>
-    <p>KVKK'nın 5/2-c maddesi (bir sözleşmenin kurulmasıyla doğrudan ilgili olması) ve 5/2-f maddesi (veri sorumlusunun meşru menfaati).</p>
+    <h2>4. Hukuki Sebepler</h2>
+    <p>Kişisel verileriniz KVKK m.5/2 kapsamında şu hukuki sebeplerle işlenir:</p>
+    <ol>
+        <li>(c) Sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması</li>
+        <li>(e) Bir hakkın tesisi, kullanılması veya korunması</li>
+        <li>(f) İlgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla meşru menfaat</li>
+    </ol>
+    <p>Ticari elektronik ileti (kampanya duyurusu) gönderimi yalnızca açık rızanız ile yapılır.</p>
 
-    <h2>Verilerin aktarımı</h2>
-    <p>Form gönderimleri satış ekibimize e-posta ile iletilir. Bu amaçla veriler, barındırma ve e-posta hizmeti aldığımız sağlayıcılar tarafından işlenir. Yasal zorunluluklar dışında başka üçüncü kişilerle paylaşılmaz.</p>
+    <h2>5. Aktarım</h2>
+    <p>Kişisel verileriniz, amaçla sınırlı olarak şu taraflara aktarılabilir:</p>
+    <ol>
+        <li>Barındırma ve e-posta hizmeti sağlayıcıları: form gönderimlerinin iletilmesi için</li>
+        <li>Yetkili kamu kurumları: mevzuattan doğan talep hâlinde</li>
+    </ol>
+    <p>Verileriniz pazarlama amacıyla üçüncü kişilere satılmaz veya devredilmez.</p>
 
-    <h2>Saklama süresi</h2>
-    <p>Talebinizin sonuçlandırılması için gereken süre boyunca ve sonrasında ilgili mevzuatın öngördüğü saklama süreleri kadar.</p>
+    <h2>6. Saklama Süresi</h2>
+    <p>Teklif ve iletişim formu mesajları en fazla 2 yıl saklanır. Talebiniz satışa dönüşürse ilgili ticari kayıtlar vergi mevzuatı gereği 10 yıl saklanır.</p>
 
-    <h2>Haklarınız</h2>
-    <p>KVKK'nın 11. maddesi uyarınca verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini ya da silinmesini isteme ve işlenmesine itiraz etme haklarına sahipsiniz. Taleplerinizi @Site.Eposta adresine ya da yukarıdaki posta adresimize iletebilirsiniz.</p>
+    <h2>7. Haklarınız</h2>
+    <p>KVKK m.11 uyarınca; kişisel verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, işlenme amacını öğrenme, yurt içinde/yurt dışında aktarıldığı üçüncü kişileri bilme, eksik veya yanlış işlenmişse düzeltilmesini, şartları oluşmuşsa silinmesini veya yok edilmesini isteme, otomatik sistemlerle analiz sonucu aleyhinize bir sonuç doğmasına itiraz etme ve zarara uğramanız hâlinde giderilmesini talep etme haklarına sahipsiniz.</p>
+    <p>Taleplerinizi @Site.Eposta adresine veya yukarıdaki posta adresine iletebilirsiniz. Başvurularınız en geç 30 gün içinde sonuçlandırılır.</p>
 }
 </div></section>
