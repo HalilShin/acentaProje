@@ -47,4 +47,10 @@ public static class Site
     public const string TelefonBaglantisi = "tel:+905424321010";
     public const string Eposta = "info@locktech.com.tr";
     public const string AcikAdres = "İvedik OSB 1362 Cadde No:34, Yenimahalle / ANKARA";
+
+    // Locktech markasının sahibi olan şirket (KVKK metninde veri sorumlusu)
+    public const string Unvan = "SELÇUKLU İMALAT PAZARLAMA MOBİLYA İNŞAAT İTHALAT İHRACAT SAN";
+    public const string VergiDairesi = "İvedik";
+    public const string VergiNo = "7601097707";
+    public const string Mersis = "0760109770700001";
 }

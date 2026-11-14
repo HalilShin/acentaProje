@@ -40,6 +40,7 @@ El yazısı domain listesi: `docs/notlar/domain-listesi-el-yazisi.jpg`
 - Teknik veriler: `docs/locktech/HBOIOT-katalog.pdf`. Türkçe föyler: `docs/locktech/foyler/`. Görseller, logo içeren banner'lar ve kartvizitler: `docs/locktech/gorseller/`.
 - Sitede yalnızca Locktech markası kullanılır; üretici HBOIOT'un adı ve iletişim bilgisi sitede yer almaz.
 - Marka: koyu lacivert/elektrik mavisi zemin, turuncu vurgu (kartvizit ve banner'larla uyumlu). Logo mevcut (banner/kartvizitte); temiz vektör logo yoksa Halil'den istenir.
+- Marka sahibi şirket (KVKK'da veri sorumlusu): SELÇUKLU İMALAT PAZARLAMA MOBİLYA İNŞAAT İTHALAT İHRACAT SAN · İvedik VD 7601097707 · MERSİS 0760109770700001. KVKK metninin biçimi için örnek: selcuklusoba.com/kvkk.
 - İletişim (kartvizitten): İvedik OSB 1362 Cadde No:34, Yenimahalle / ANKARA · +90 542 432 10 10 · info@locktech.com.tr · Satış: Serkan Gündoğdu.
 - Sayfalar: Ana sayfa, Ürünler (her ürüne ayrı sayfa + PDF föy), Çözümler (konteyner, tanker, lojistik aracı, kasa, gümrük kargo takibi), Hakkımızda, İletişim / Teklif İste.
 
@@ -51,6 +52,8 @@ El yazısı domain listesi: `docs/notlar/domain-listesi-el-yazisi.jpg`
 
 ## Acenta (sonra)
 
+- Acenta unvanı: Anadolu Selçuklu Organizasyon Turizm · TÜRSAB belge no: 15385 · Telefon ve WhatsApp: +90 542 716 69 11.
+- Örnek alınan siteler (yapı ve akış için, tasarım kopyalanmaz): https://binhantur.com/ ve https://turiz.com.tr/
 - Online ödeme YOK. Rezervasyon WhatsApp üzerinden: her turda tur adı + tarih önceden yazılı "WhatsApp ile Rezervasyon" butonu.
 - Tur listesi/detay, basit yönetim paneli (tur, tarih, kontenjan), KVKK ve TURSAB bilgisi.
 

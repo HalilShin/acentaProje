@@ -1,4 +1,4 @@
-﻿@{
+@{
     var m = Baglam.Marka;
     var a = AyarDeposu.Al();
     var bolum = ViewData["Bolum"] as string;
@@ -26,9 +26,7 @@
         <meta name="robots" content="noindex">
     }
     <link rel="icon" type="image/svg+xml" href="/simge.svg?m=@m.Kod">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="@m.FontAdresi" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
     <style>:root{--ana:@m.RenkAna;--koyu:@m.RenkKoyu;--vurgu:@m.RenkVurgu;--acik:@m.RenkAcik;--baslik:@Html.Raw(m.FontBaslik)}</style>
 </head>

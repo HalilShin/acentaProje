@@ -3,7 +3,6 @@ namespace Tasimacilik.Markalar;
 /// <summary>Üç taşımacılık markası. Sıra önemlidir: ilk marka, alan adı eşleşmediğinde kullanılır.</summary>
 public static class MarkaKatalogu
 {
-    private const string Inter = "&family=Inter:wght@400;500;600;700&display=swap";
 
     public static readonly IReadOnlyList<Marka> Tumu =
     [
@@ -21,7 +20,6 @@ public static class MarkaKatalogu
             RenkVurgu = "#d9a441",
             RenkAcik = "#eef7f7",
             FontBaslik = "\"Playfair Display\", Georgia, serif",
-            FontAdresi = "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800" + Inter,
             VitrinAraci = "midibus",
             Baslik = "Selçuklu Turizm — Ankara Personel, Gezi ve Organizasyon Taşımacılığı",
             Aciklama = "Selçuklu Turizm; Ankara'da personel taşımacılığı, gezi ve tur ulaşımı, kongre ve organizasyon servisleri ile şehirlerarası özel seferler sunar.",
@@ -119,7 +117,6 @@ public static class MarkaKatalogu
             RenkVurgu = "#ffb703",
             RenkAcik = "#fdf1f2",
             FontBaslik = "\"Barlow Condensed\", \"Arial Narrow\", sans-serif",
-            FontAdresi = "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800" + Inter,
             VitrinAraci = "otobus",
             Baslik = "Ankara Otobüs Kirala — Şoförlü Otobüs, Midibüs ve Minibüs Kiralama",
             Aciklama = "Ankara'da şoförlü otobüs, midibüs ve minibüs kiralama. Düğün, gezi, okul ve şehirlerarası yolculuklar için grubunuza uygun aracı kiralayın.",
@@ -225,7 +222,6 @@ public static class MarkaKatalogu
             RenkVurgu = "#19c39c",
             RenkAcik = "#eef0fb",
             FontBaslik = "\"Sora\", \"Segoe UI\", sans-serif",
-            FontAdresi = "https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800" + Inter,
             VitrinAraci = "vip",
             Baslik = "Ankara Turizm Transfer — Esenboğa Havalimanı ve Şehir İçi Transfer",
             Aciklama = "Ankara Esenboğa Havalimanı transferi, otel ve şehir içi transfer, VIP araçla özel transfer ve şehirlerarası transfer hizmeti. Önceden rezervasyon, sabit fiyat.",

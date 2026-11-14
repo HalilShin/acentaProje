@@ -223,16 +223,16 @@ public static class UrunKatalogu
         {
             Kod = "hb-a1ms",
             Model = "HB-A1Ms",
-            Ad = ("Patlamaya Dayanıklı İkincil Kilit (Sub-Lock)", "Explosion-Proof Secondary Lock (Sub-Lock)"),
+            Ad = ("4G Patlamaya Dayanıklı İkincil Kilit (Sub-Lock)", "4G Explosion-Proof Secondary Lock (Sub-Lock)"),
             Slogan = ("Güvenli, akıllı ve yedek kilit çözümü", "A secure, smart backup lock"),
             Ozet = ("Ana kilitle Bluetooth üzerinden haberleşen ikincil kilit. 90 gün bekleme süresi, kompakt ve Ex-proof gövde.",
                     "Secondary lock that talks to the main lock over Bluetooth. 90 days standby, compact Ex-proof housing."),
-            Hakkinda = ("HB-A1Ms, ana kilitle Bluetooth üzerinden haberleşen, patlamaya dayanıklı ikincil kilit (Sub-Lock) sistemidir. Kompakt ve hafif yapısı, uzun bekleme süresi ve Ex-proof korumasıyla zorlu endüstriyel koşullarda güvenli ve akıllı bir yedek kilit çözümü sunar.",
-                        "HB-A1Ms is an explosion-proof secondary lock (sub-lock) that communicates with the main lock over Bluetooth. Compact and light, with long standby time and Ex-proof protection, it is a secure, smart backup lock for demanding industrial conditions."),
+            Hakkinda = ("HB-A1Ms, ana kilitle Bluetooth üzerinden haberleşen, 4G bağlantılı, patlamaya dayanıklı ikincil kilit (Sub-Lock) sistemidir. Kompakt ve hafif yapısı, uzun bekleme süresi ve Ex-proof korumasıyla zorlu endüstriyel koşullarda güvenli ve akıllı bir yedek kilit çözümü sunar.",
+                        "HB-A1Ms is a 4G-connected, explosion-proof secondary lock (sub-lock) that communicates with the main lock over Bluetooth. Compact and light, with long standby time and Ex-proof protection, it is a secure, smart backup lock for demanding industrial conditions."),
             Etiket = ("İKİNCİL KİLİT", "SUB-LOCK"),
             Gorsel = "/img/hb-a1ms.jpg",
             FormSecenegi = ("HB-A1Ms — İkincil kilit", "HB-A1Ms — Secondary lock"),
-            Baglanti = ["Bluetooth", "RFID"],
+            Baglanti = ["4G", "Bluetooth", "RFID"],
             KartMaddeleri =
             [
                 ("Ana kilitle Bluetooth üzerinden haberleşir", "Talks to the main lock over Bluetooth"),

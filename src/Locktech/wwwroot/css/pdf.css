@@ -24,7 +24,8 @@ body{font-family:var(--body);color:var(--ink);font-size:10pt;line-height:1.5}
 .rozetler{display:flex;gap:2mm;margin-top:6mm}
 .rozetler span{font-size:8.5pt;font-weight:700;padding:1.2mm 3.5mm;border-radius:99px;border:.3mm solid rgba(120,170,255,.5);background:rgba(10,36,86,.6)}
 .gorsel{justify-self:center;width:72mm;height:72mm;border-radius:7mm;background:linear-gradient(180deg,#fff,#e9effa);display:grid;place-items:center;padding:6mm;overflow:hidden}
-.gorsel img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
+.gorsel{position:relative}
+.gorsel img{position:absolute;inset:6mm;width:calc(100% - 12mm);height:calc(100% - 12mm);object-fit:contain;mix-blend-mode:multiply}
 
 .govde{flex:1;display:grid;grid-template-columns:1.1fr .9fr;gap:10mm;padding:11mm 14mm;align-content:start}
 h2{font-family:var(--head);font-weight:700;font-size:12.5pt;color:var(--navy-700);margin:0 0 2.5mm}
