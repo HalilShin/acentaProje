@@ -1,0 +1,17 @@
+@page "/hata/{kod:int?}"
+@{
+    var kod = RouteData.Values["kod"]?.ToString();
+    var bulunamadi = kod == "404";
+    ViewData["Title"] = (bulunamadi ? "Sayfa bulunamadı" : "Bir sorun oluştu") + " | " + Baglam.Marka.Ad;
+}
+
+<div class="sayfa-bas hata"><div class="sarma">
+    <span class="etiket">@(kod ?? "500")</span>
+    <h1>@(bulunamadi ? "Aradığınız sayfa bulunamadı" : "Bir sorun oluştu")</h1>
+    <p>@(bulunamadi ? "Adres değişmiş ya da yanlış yazılmış olabilir." : "Lütfen biraz sonra yeniden deneyin. Sorun sürerse bize ulaşın.")</p>
+    <div class="eylem">
+        <a class="dugme" href="/">Ana sayfaya dön</a>
+        <a class="dugme cizgi" href="/hizmetler">Hizmetler</a>
+        <a class="dugme cizgi" href="/iletisim">İletişim</a>
+    </div>
+</div></div>

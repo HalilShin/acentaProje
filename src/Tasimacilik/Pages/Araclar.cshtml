@@ -1,0 +1,35 @@
+@page "/arac-filosu"
+@{
+    var m = Baglam.Marka;
+    ViewData["Title"] = $"{m.AraclarBaslik} | {m.Ad}";
+    ViewData["Description"] = $"{m.Ad} araçları: {string.Join(", ", m.Araclar.Select(x => $"{x.Ad} ({x.Kapasite})"))}.";
+    ViewData["Bolum"] = "araclar";
+    ViewData["Yol"] = "/arac-filosu";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi(m.AraclarBaslik, m.AraclarMetin, ("Araç Filosu", null))' />
+
+<section><div class="sarma">
+    <div class="filo">
+        @foreach (var arac in m.Araclar)
+        {
+            <div class="filo-satir">
+                <div class="cizim"><partial name="_AracCizimi" model="arac.Tur" /></div>
+                <div>
+                    <span class="kapasite">@arac.Kapasite</span>
+                    <h2>@arac.Ad</h2>
+                    <p>@arac.Aciklama</p>
+                    <ul class="ozellikler">
+                        @foreach (var o in arac.Ozellikler)
+                        {
+                            <li><svg class="i"><use href="#i-onay"/></svg>@o</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        }
+    </div>
+    <p class="not">Görseller temsilidir. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
+</div></section>
+
+<partial name="_TeklifBandi" />

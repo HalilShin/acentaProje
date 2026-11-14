@@ -1,0 +1,34 @@
+@page
+@{
+    var m = Baglam.Marka;
+    ViewData["Title"] = $"Hakkımızda | {m.Ad}";
+    ViewData["Description"] = m.Hakkimizda[0];
+    ViewData["Bolum"] = "hakkimizda";
+    ViewData["Yol"] = "/hakkimizda";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("Hakkımızda", m.HakkimizdaBaslik, ("Hakkımızda", null))' />
+
+<section><div class="sarma ikili">
+    <div class="metin">
+        @foreach (var p in m.Hakkimizda)
+        {
+            <p>@p</p>
+        }
+        <div class="eylem">
+            <a class="dugme" href="/hizmetler">Hizmetlerimiz</a>
+            <a class="dugme cizgi koyu" href="/iletisim">Bize ulaşın</a>
+        </div>
+    </div>
+    <div class="kutu">
+        <h2>@m.NedenBaslik</h2>
+        <ul class="onaylar">
+            @foreach (var n in m.Nedenler)
+            {
+                <li><svg class="i"><use href="#i-onay"/></svg><span><b>@n.Baslik.</b> @n.Metin</span></li>
+            }
+        </ul>
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

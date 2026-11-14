@@ -1,0 +1,14 @@
+@{
+    var m = Baglam.Marka;
+    var a = AyarDeposu.Al();
+}
+<div class="bant"><div class="sarma">
+    <div>
+        <h2>@m.TeklifBaslik</h2>
+        <p>@m.TeklifMetin</p>
+    </div>
+    <div class="eylem">
+        <a class="dugme" href="/iletisim#teklif">Teklif Al <svg class="i"><use href="#i-ok"/></svg></a>
+        <a class="dugme cizgi" href="@a.TelefonBaglantisi"><svg class="i"><use href="#i-telefon"/></svg>@a.Telefon</a>
+    </div>
+</div></div>

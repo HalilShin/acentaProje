@@ -6,6 +6,12 @@
       "runtimeExecutable": "dotnet",
       "runtimeArgs": ["run", "--project", "src/Locktech", "--launch-profile", "http"],
       "port": 5031
+    },
+    {
+      "name": "tasimacilik",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/Tasimacilik", "--launch-profile", "http"],
+      "port": 5068
     }
   ]
 }

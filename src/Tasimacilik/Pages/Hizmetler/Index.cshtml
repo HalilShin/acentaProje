@@ -1,0 +1,21 @@
+@page
+@{
+    var m = Baglam.Marka;
+    ViewData["Title"] = $"Hizmetler | {m.Ad}";
+    ViewData["Description"] = $"{m.Ad} hizmetleri: {string.Join(", ", m.Hizmetler.Select(h => h.Ad))}.";
+    ViewData["Bolum"] = "hizmetler";
+    ViewData["Yol"] = "/hizmetler";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi(m.HizmetlerBaslik, m.HizmetlerMetin, ("Hizmetler", null))' />
+
+<section><div class="sarma">
+    <div class="kartlar">
+        @foreach (var h in m.Hizmetler)
+        {
+            <partial name="_HizmetKarti" model="h" />
+        }
+    </div>
+</div></section>
+
+<partial name="_TeklifBandi" />

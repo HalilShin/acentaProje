@@ -1,0 +1,72 @@
+@page
+@model IletisimModel
+@{
+    var m = Baglam.Marka;
+    var a = AyarDeposu.Al();
+    var wa = a.WhatsAppGoster ? a.WhatsAppBaglantisi(m.WhatsAppMesaj) : null;
+    var harita = "https://www.google.com/maps/search/?api=1&query=" + Uri.EscapeDataString(a.Adres);
+    ViewData["Title"] = $"İletişim ve Teklif | {m.Ad}";
+    ViewData["Description"] = $"{m.Ad} ile iletişime geçin, teklif alın. Telefon: {a.Telefon}.";
+    ViewData["Bolum"] = "iletisim";
+    ViewData["Yol"] = "/iletisim";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("İletişim", "Sorularınız ve teklif talepleriniz için bize yazın ya da arayın.", ("İletişim", null))' />
+
+<section class="ibilgi"><div class="sarma">
+    <a class="ikart" href="@a.TelefonBaglantisi"><svg class="i"><use href="#i-telefon"/></svg><small>Telefon</small><b>@a.Telefon</b></a>
+    @if (wa is not null)
+    {
+        <a class="ikart" href="@wa" target="_blank" rel="noopener"><svg class="i"><use href="#i-kisiler"/></svg><small>WhatsApp</small><b>Hemen yazın</b></a>
+    }
+    @if (!string.IsNullOrWhiteSpace(a.Eposta))
+    {
+        <a class="ikart" href="mailto:@a.Eposta"><svg class="i"><use href="#i-posta"/></svg><small>E-posta</small><b>@a.Eposta</b></a>
+    }
+    <a class="ikart" href="@harita" target="_blank" rel="noopener"><svg class="i"><use href="#i-konum"/></svg><small>Adres · Haritada aç</small><b>@a.Adres</b></a>
+</div></section>
+
+<section class="koyu" id="teklif"><div class="sarma ikili">
+    <div>
+        <span class="etiket">Teklif al</span>
+        <h2>@m.TeklifBaslik</h2>
+        <p>@m.TeklifMetin</p>
+        <ul class="onaylar acik-yazi">
+            @foreach (var adim in m.Adimlar)
+            {
+                <li><svg class="i"><use href="#i-onay"/></svg><span><b>@adim.Baslik.</b> @adim.Metin</span></li>
+            }
+        </ul>
+    </div>
+    <form method="post" action="/iletisim#teklif" asp-antiforgery="true">
+        <h3>Teklif formu</h3>
+        @if (Model.Gonderildi)
+        {
+            <p class="mesaj tamam">Talebiniz bize ulaştı. En kısa sürede size dönüş yapacağız.</p>
+        }
+        @if (Model.Hata is not null)
+        {
+            <p class="mesaj hata">@Model.Hata</p>
+        }
+        <label>Ad Soyad<input asp-for="Form.AdSoyad" maxlength="100" autocomplete="name"><span asp-validation-for="Form.AdSoyad"></span></label>
+        <label>Telefon<input asp-for="Form.Telefon" type="tel" maxlength="30" placeholder="05xx xxx xx xx" autocomplete="tel"><span asp-validation-for="Form.Telefon"></span></label>
+        <label class="tam">Hizmet
+            <select asp-for="Form.Hizmet">
+                <option>Emin değilim, öneri istiyorum</option>
+                @foreach (var h in m.Hizmetler)
+                {
+                    <option>@h.Ad</option>
+                }
+            </select>
+        </label>
+        <label>Tarih<input asp-for="Form.Tarih" type="date"></label>
+        <label>Kişi sayısı<input asp-for="Form.KisiSayisi" type="number" min="1" max="999" inputmode="numeric"></label>
+        <label>Nereden<input asp-for="Form.Nereden" maxlength="150" placeholder="Kalkış adresi / semt"></label>
+        <label>Nereye<input asp-for="Form.Nereye" maxlength="150" placeholder="Varış adresi / şehir"></label>
+        <label class="tam">E-posta (isteğe bağlı)<input asp-for="Form.Eposta" type="email" maxlength="150" autocomplete="email"><span asp-validation-for="Form.Eposta"></span></label>
+        <label class="tam">Notunuz<textarea asp-for="Form.Mesaj" rows="3" maxlength="2000" placeholder="Saat, dönüş bilgisi, özel istekler…"></textarea></label>
+        <label class="bal" aria-hidden="true">Web siteniz<input asp-for="Form.WebSitesi" tabindex="-1" autocomplete="off"></label>
+        <button class="dugme" type="submit">Teklif İste</button>
+        <p class="kucuk">Bilgileriniz yalnızca teklif hazırlamak için kullanılır. <a href="/kvkk">KVKK Aydınlatma Metni</a></p>
+    </form>
+</div></section>

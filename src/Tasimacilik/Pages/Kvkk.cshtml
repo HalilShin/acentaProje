@@ -1,0 +1,35 @@
+@page
+@{
+    var m = Baglam.Marka;
+    var a = AyarDeposu.Al();
+    ViewData["Title"] = $"KVKK Aydınlatma Metni | {m.Ad}";
+    ViewData["Description"] = $"{m.Ad} web sitesi üzerinden paylaştığınız kişisel verilerin işlenmesine ilişkin aydınlatma metni.";
+    ViewData["Yol"] = "/kvkk";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("KVKK Aydınlatma Metni", null, ("KVKK Aydınlatma Metni", null))' />
+
+<section><div class="sarma yazi">
+    <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, bu web sitesi üzerinden paylaştığınız kişisel verilerin @m.Ad tarafından nasıl işlendiğini açıklar.</p>
+
+    <h2>Veri sorumlusu</h2>
+    <p>@m.Ad — @a.Adres · @a.Telefon</p>
+
+    <h2>İşlenen veriler</h2>
+    <p>Teklif formunu gönderdiğinizde: adınız soyadınız, telefon numaranız, e-posta adresiniz, yolculuk bilgileriniz (hizmet, tarih, kişi sayısı, kalkış ve varış noktası) ve notunuz ile gönderim zamanı ve IP adresiniz.</p>
+
+    <h2>İşleme amacı</h2>
+    <p>Teklif talebinizi değerlendirmek, teklif hazırlamak ve bu konuda sizinle iletişime geçmek. Bu veriler pazarlama iletisi göndermek için kullanılmaz ve satılmaz.</p>
+
+    <h2>Hukuki sebep</h2>
+    <p>KVKK'nın 5/2-c maddesi (bir sözleşmenin kurulmasıyla doğrudan ilgili olması) ve 5/2-f maddesi (veri sorumlusunun meşru menfaati).</p>
+
+    <h2>Verilerin aktarımı</h2>
+    <p>Form gönderimleri ekibimize e-posta ile iletilir. Bu amaçla veriler, barındırma ve e-posta hizmeti aldığımız sağlayıcılar tarafından işlenir. Yasal zorunluluklar dışında başka üçüncü kişilerle paylaşılmaz.</p>
+
+    <h2>Saklama süresi</h2>
+    <p>Talebinizin sonuçlandırılması için gereken süre boyunca ve sonrasında ilgili mevzuatın öngördüğü saklama süreleri kadar.</p>
+
+    <h2>Haklarınız</h2>
+    <p>KVKK'nın 11. maddesi uyarınca verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini ya da silinmesini isteme ve işlenmesine itiraz etme haklarına sahipsiniz. Taleplerinizi yukarıdaki iletişim bilgileri üzerinden iletebilirsiniz.</p>
+</div></section>
