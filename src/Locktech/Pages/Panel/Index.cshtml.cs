@@ -20,6 +20,7 @@ public class IndexModel(AyarDeposu depo, PostaServisi posta, ILogger<IndexModel>
         SifreKayitli = a.SmtpSifre.Length > 0;
         Girdi = new AyarGirdisi
         {
+            Eposta = a.Eposta,
             SmtpSunucu = a.SmtpSunucu,
             SmtpPort = a.SmtpPort,
             SmtpGuvenlik = a.SmtpGuvenlik,
@@ -75,6 +76,7 @@ public class IndexModel(AyarDeposu depo, PostaServisi posta, ILogger<IndexModel>
 
         depo.Kaydet(onceki with
         {
+            Eposta = string.IsNullOrWhiteSpace(Girdi.Eposta) ? onceki.Eposta : Girdi.Eposta.Trim(),
             SmtpSunucu = Girdi.SmtpSunucu?.Trim() ?? "",
             SmtpPort = Girdi.SmtpPort,
             SmtpGuvenlik = Girdi.SmtpGuvenlik,
@@ -93,6 +95,7 @@ public class IndexModel(AyarDeposu depo, PostaServisi posta, ILogger<IndexModel>
 
     public class AyarGirdisi
     {
+        [EmailAddress(ErrorMessage = "Sitede görünen e-posta geçerli değil."), StringLength(150)] public string? Eposta { get; set; }
         [StringLength(200)] public string? SmtpSunucu { get; set; }
         [Range(1, 65535, ErrorMessage = "Port 1–65535 arasında olmalı.")] public int SmtpPort { get; set; } = 587;
         [RegularExpression("Auto|StartTls|SslOnConnect|None")] public string SmtpGuvenlik { get; set; } = "Auto";

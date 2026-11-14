@@ -18,6 +18,17 @@
 
 <form method="post">
     <section class="kart">
+        <h2>İletişim</h2>
+        <p class="aciklama">Sitenin üst barında, alt bilgisinde, iletişim sayfasında, KVKK metninde ve ürün PDF'lerinde görünen e-posta adresi.</p>
+        <div class="izgara">
+            <label class="genis">Sitede görünen e-posta
+                <input asp-for="Girdi.Eposta" type="email" placeholder="info@locktech.com.tr">
+                <small>PDF'lerdeki adres, PDF'ler yeniden üretildiğinde güncellenir.</small>
+            </label>
+        </div>
+    </section>
+
+    <section class="kart">
         <h2>E-posta (SMTP)</h2>
         <p class="aciklama">Sitedeki teklif formu bu hesap üzerinden gönderilir. Bilgileri e-posta sağlayıcınızın (hosting / kurumsal posta) panelinden alabilirsiniz.</p>
         <div class="izgara">

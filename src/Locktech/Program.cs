@@ -77,6 +77,23 @@ app.Use(async (ctx, next) =>
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/hata/500");
+
+    // www.locktech.com.tr -> locktech.com.tr (kalıcı yönlendirme, yol korunur)
+    app.Use(async (ctx, next) =>
+    {
+        var host = ctx.Request.Host.Host;
+        if (host.StartsWith("www.", StringComparison.OrdinalIgnoreCase))
+        {
+            var hedef = $"{ctx.Request.Scheme}://{host[4..]}{ctx.Request.PathBase}{ctx.Request.Path}{ctx.Request.QueryString}";
+            ctx.Response.Redirect(hedef, permanent: true);
+            return;
+        }
+        await next();
+    });
+
+    // IIS'te https bağlantısı (SSL sertifikası) tanımlandıktan sonra http istekleri https'e yönlenir.
+    app.UseHttpsRedirection();
+    app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/hata/{0}");
 

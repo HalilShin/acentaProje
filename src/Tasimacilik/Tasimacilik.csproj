@@ -10,4 +10,12 @@
     <PackageReference Include="MailKit" Version="5.0.0" />
   </ItemGroup>
 
+  <!-- Yayın paketine girmemesi gerekenler: yerel ayarlar (panel şifresi) ve çalışma verileri -->
+  <ItemGroup>
+    <Content Remove="App_Data\**" />
+    <None Remove="App_Data\**" />
+    <Content Update="appsettings.*.local.json" CopyToPublishDirectory="Never" />
+    <Content Update="appsettings.Development.json" CopyToPublishDirectory="Never" />
+  </ItemGroup>
+
 </Project>
