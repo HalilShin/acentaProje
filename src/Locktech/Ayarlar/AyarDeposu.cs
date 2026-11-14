@@ -15,12 +15,16 @@ public class AyarDeposu
     private readonly object _kilit = new();
     private SiteAyarlari _ayarlar;
 
+    /// <summary>Sitede görünen e-posta; Site.Eposta buradan okur (depo henüz kurulmadıysa varsayılan).</summary>
+    public static string GorunenEposta { get; private set; } = new SiteAyarlari().Eposta;
+
     public AyarDeposu(IWebHostEnvironment ortam, IDataProtectionProvider koruma, ILogger<AyarDeposu> log)
     {
         _dosya = Path.Combine(ortam.ContentRootPath, "App_Data", "ayarlar.json");
         _koruyucu = koruma.CreateProtector("Locktech.Ayarlar.SmtpSifre");
         _log = log;
         _ayarlar = Oku();
+        GorunenEposta = _ayarlar.Eposta;
     }
 
     /// <summary>Geçerli ayarların bir kopyası.</summary>
@@ -42,6 +46,7 @@ public class AyarDeposu
             File.WriteAllText(gecici, JsonSerializer.Serialize(dosyaya, JsonSecenekleri));
             File.Move(gecici, _dosya, overwrite: true);
             _ayarlar = yeni with { };
+            GorunenEposta = yeni.Eposta;
         }
     }
 
