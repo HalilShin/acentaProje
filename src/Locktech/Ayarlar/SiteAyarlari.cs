@@ -21,7 +21,7 @@ public record SiteAyarlari
 
     // WhatsApp
     public bool WhatsAppGoster { get; set; } = true;
-    public string WhatsAppNumara { get; set; } = "905424321010";
+    public string WhatsAppNumara { get; set; } = "905542640090";
     public string WhatsAppMesaj { get; set; } = "Merhaba, Locktech ürünleri hakkında bilgi almak istiyorum.";
 
     public bool PostaHazir =>

@@ -41,7 +41,7 @@ El yazısı domain listesi: `docs/notlar/domain-listesi-el-yazisi.jpg`
 - Sitede yalnızca Locktech markası kullanılır; üretici HBOIOT'un adı ve iletişim bilgisi sitede yer almaz.
 - Marka: koyu lacivert/elektrik mavisi zemin, turuncu vurgu (kartvizit ve banner'larla uyumlu). Logo mevcut (banner/kartvizitte); temiz vektör logo yoksa Halil'den istenir.
 - Marka sahibi şirket (KVKK'da veri sorumlusu): SELÇUKLU İMALAT PAZARLAMA MOBİLYA İNŞAAT İTHALAT İHRACAT SAN · İvedik VD 7601097707 · MERSİS 0760109770700001. KVKK metninin biçimi için örnek: selcuklusoba.com/kvkk.
-- İletişim (kartvizitten): İvedik OSB 1362 Cadde No:34, Yenimahalle / ANKARA · +90 542 432 10 10 · info@locktech.com.tr · Satış: Serkan Gündoğdu.
+- İletişim (kartvizitten): İvedik OSB 1362 Cadde No:34, Yenimahalle / ANKARA · +90 554 264 00 90 (telefon ve WhatsApp) · info@locktech.com.tr. Sitede kişi adı geçmez.
 - Sayfalar: Ana sayfa, Ürünler (her ürüne ayrı sayfa + PDF föy), Çözümler (konteyner, tanker, lojistik aracı, kasa, gümrük kargo takibi), Hakkımızda, İletişim / Teklif İste.
 
 ## Taşımacılık (sonra)
