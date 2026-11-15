@@ -56,6 +56,8 @@ public class AyarDeposu
         try
         {
             var a = JsonSerializer.Deserialize<SiteAyarlari>(File.ReadAllText(_dosya)) ?? new SiteAyarlari();
+            // Kasım 2026: eski iletişim numarası (0542 432 10 10) kayıtlı ayarlarda da yenisiyle değiştirilir.
+            if (a.WhatsAppNumara == "905424321010") a.WhatsAppNumara = new SiteAyarlari().WhatsAppNumara;
             if (!string.IsNullOrEmpty(a.SmtpSifre))
             {
                 try { a.SmtpSifre = _koruyucu.Unprotect(a.SmtpSifre); }

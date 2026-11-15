@@ -43,8 +43,8 @@ public static class Yollar
 public static class Site
 {
     public const string Adres = "https://locktech.com.tr";
-    public const string Telefon = "+90 542 432 10 10";
-    public const string TelefonBaglantisi = "tel:+905424321010";
+    public const string Telefon = "+90 554 264 00 90";
+    public const string TelefonBaglantisi = "tel:+905542640090";
     /// <summary>Panelden değiştirilebilen iletişim e-postası.</summary>
     public static string Eposta => Ayarlar.AyarDeposu.GorunenEposta;
     public const string AcikAdres = "İvedik OSB 1362 Cadde No:34, Yenimahalle / ANKARA";
