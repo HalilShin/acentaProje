@@ -11,8 +11,8 @@ uzak masaüstüyle sunucuda C:\kurulum klasörüne kopyalayın.
 
   2) DNS kayıtları sunucuya yönlendikten sonra SSL sertifikası:
        powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Site Tasimacilik -Islem Ssl -Eposta siz@ornek.com
-     Birden çok alan adı grubu olan sitelerde (Taşımacılık) her grup için ayrı sertifika alınır;
-     DNS'i henüz yönlenmemiş gruplar atlanır, betik sonra yeniden çalıştırılabilir.
+     Her alan adı (www'li haliyle) ayrı sertifika alır; DNS'i henüz yönlenmemiş alan adları atlanır,
+     betik sonra yeniden çalıştırılabilir. Sertifikası olan alan adları yeniden alınmaz.
 
   3) Siteyi güncellemek (yeni zip kopyalandıktan sonra):
        powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Site Tasimacilik -Islem Guncelle
@@ -45,7 +45,9 @@ $Siteler = @{
 }
 $SiteAdi = $Site
 $SiteKlasoru = $Siteler[$Site].Klasor
-$Gruplar = @($Siteler[$Site].Gruplar | ForEach-Object { , @($_ | ForEach-Object { $_; "www.$_" }) })
+# Her alan adı (www'li haliyle) ayrı bir sertifika grubudur; böylece DNS'i önce yayılan alan adı
+# diğerlerini beklemeden sertifika alır. Örn. .com yönlendiyse .com.tr'yi beklemez.
+$Gruplar = @($Siteler[$Site].Gruplar | ForEach-Object { $_ } | ForEach-Object { , @($_, "www.$_") })
 $AlanAdlari = @($Gruplar | ForEach-Object { $_ })
 if (-not $Paket) { $Paket = Join-Path $PSScriptRoot "$($Site.ToLowerInvariant()).zip" }
 $Indirilenler = "C:\kurulum\indirilenler"
@@ -217,7 +219,11 @@ function SslKur {
         Adim "DNS denetimi: $($grup[0])"
         $eksik = @()
         foreach ($alan in $grup) {
-            $kayitlar = @(Resolve-DnsName -Name $alan -Type A -Server 1.1.1.1 -ErrorAction SilentlyContinue | Where-Object { $_.Type -eq "A" } | ForEach-Object { $_.IPAddress })
+            # Genel DNS sunucuları eski kaydı bir süre önbellekte tutar; Let's Encrypt ise alan adının kendi
+            # DNS'ine bakar. Üç genel DNS'ten herhangi biri yeni adresi görüyorsa kayıt değişmiş demektir.
+            $kayitlar = @(foreach ($dns in "1.1.1.1", "8.8.8.8", "9.9.9.9") {
+                Resolve-DnsName -Name $alan -Type A -Server $dns -DnsOnly -ErrorAction SilentlyContinue | Where-Object { $_.Type -eq "A" } | ForEach-Object { $_.IPAddress }
+            }) | Select-Object -Unique
             if ($kayitlar -contains $SunucuIp) { Tamam "$alan -> $SunucuIp" }
             else { Uyari "$alan henüz bu sunucuya yönlenmiyor (bulunan: $($kayitlar -join ', '))"; $eksik += $alan }
         }
@@ -237,6 +243,10 @@ function SslKur {
     $basarisiz = @()
     foreach ($grup in $hazir) {
         Write-Host ""
+        if (Get-WebBinding -Name $SiteAdi -Protocol https -HostHeader $grup[0]) {
+            Tamam "$($grup[0]) için https bağlantısı zaten var, atlandı."
+            continue
+        }
         Write-Host "   Sertifika: $($grup -join ', ')"
         & $wacs --source iis --siteid $siteNo --host ($grup -join ",") --friendlyname "$SiteAdi - $($grup[0])" --validation selfhosting `
                 --store certificatestore --installation iis --installationsiteid $siteNo `
