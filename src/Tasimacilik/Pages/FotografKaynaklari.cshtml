@@ -1,0 +1,24 @@
+@page "/fotograf-kaynaklari"
+@{
+    var m = Baglam.Marka;
+    ViewData["Title"] = $"Fotoğraf kaynakları | {m.Ad}";
+    ViewData["Description"] = $"{m.Ad} web sitesinde kullanılan fotoğrafların kaynakları ve lisansları.";
+    ViewData["Yol"] = "/fotograf-kaynaklari";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("Fotoğraf kaynakları", "Sitedeki fotoğraflar temsilidir; araç modellerini ve tur bölgelerini tanıtmak için kullanılır.", ("Fotoğraf kaynakları", null))' />
+
+<section><div class="sarma yazi">
+    <p>Aşağıdaki fotoğraflar Wikimedia Commons'tan, belirtilen serbest lisanslarla alınmıştır. Araç fotoğraflarında plakalar, yüzler ve başka firmalara ait yazılar bulanıklaştırılmış, bazı fotoğraflar kırpılmıştır. Fotoğraflardaki araçlar firmamıza ait değildir.</p>
+    <ul class="kaynaklar">
+        @foreach (var f in FiloFotograflari.Tumu)
+        {
+            <li>
+                <img src="@f.Dosya" alt="" loading="lazy" width="120" height="80">
+                <span><b>@f.Konu</b><br>
+                    <a href="@f.KaynakAdresi" target="_blank" rel="noopener">Fotoğraf: @f.Yazar</a> ·
+                    <a href="@f.LisansAdresi" target="_blank" rel="noopener">@f.Lisans</a>@(f.Lisans == "CC0" ? "" : " · değiştirildi")</span>
+            </li>
+        }
+    </ul>
+</div></section>
