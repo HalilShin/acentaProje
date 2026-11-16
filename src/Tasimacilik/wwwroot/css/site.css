@@ -238,3 +238,54 @@ footer .telif{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-
 
 /* Koyu zeminde (alt bilgi) logo sembolünün kenarı belirgin olsun */
 footer .logo svg > :first-child{stroke:rgba(255,255,255,.9);stroke-width:2}
+
+/* İlk ekran: gerçek fotoğraf (çizim yerine) */
+.vitrin.foto{background:linear-gradient(90deg,color-mix(in srgb,var(--koyu) 94%,transparent) 0%,color-mix(in srgb,var(--koyu) 80%,transparent) 42%,color-mix(in srgb,var(--koyu) 15%,transparent) 78%,transparent 100%),var(--vitrin-foto) center/cover no-repeat;background-color:var(--koyu)}
+.vitrin.foto::before{content:none}
+.vitrin.foto .sarma{grid-template-columns:minmax(0,640px);min-height:560px;padding-bottom:120px}
+.vitrin.foto .giris{text-shadow:0 1px 12px rgba(0,0,0,.35)}
+.vitrin-atif{position:absolute;right:14px;bottom:72px;font-size:11px;color:rgba(255,255,255,.7);text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.vitrin-atif a{text-decoration:underline}
+
+/* Hızlı teklif kutusu */
+.hizli{padding:0;position:relative;z-index:2;margin-top:-56px}
+.hizli-kutu{grid-template-columns:1.25fr 1fr 1fr .8fr .55fr auto;align-items:end;padding:22px 24px;box-shadow:0 30px 60px -30px rgba(10,20,40,.45)}
+.hizli-bas{display:grid;gap:3px;align-self:center}
+.hizli-bas b{font-size:17px;line-height:1.25}
+.hizli-bas span{font-size:12.5px;color:var(--soluk)}
+.hizli-kutu .dugme{grid-column:auto;white-space:nowrap;padding:12px 18px}
+.hizli-kutu .dugme svg.i{fill:currentColor;stroke:none}
+.hizli-kutu .dugme svg use{fill:none;stroke:currentColor}
+.hizli-not{font-size:12.5px;color:var(--soluk);margin-top:10px;text-align:center}
+.hizli-not a{text-decoration:underline}
+.hizli + section{padding-top:64px}
+
+/* Hizmet kartı fotoğrafı */
+.kart.fotolu{padding:0 0 22px;overflow:hidden}
+.kart.fotolu > :not(.kart-foto){margin-left:24px;margin-right:24px}
+.kart-foto{aspect-ratio:16/9;overflow:hidden;background:var(--acik)}
+.kart-foto img{width:100%;height:100%;object-fit:cover;transition:transform .4s}
+.kart.fotolu:hover .kart-foto img{transform:scale(1.04)}
+.kart.fotolu .simge{margin-top:-30px;position:relative;background:#fff;box-shadow:0 8px 20px -10px rgba(0,0,0,.35)}
+.hizmet-foto{margin:0 0 22px}
+.hizmet-foto img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:12px}
+.hizmet-foto figcaption{font-size:11.5px;color:var(--soluk);margin-top:6px}
+.hizmet-foto figcaption a{text-decoration:underline}
+
+/* Fotoğraf kaynakları sayfası */
+.kaynaklar{list-style:none;padding:0;display:grid;gap:14px;margin-top:22px}
+.kaynaklar li{display:flex;gap:16px;align-items:center;font-size:14px}
+.kaynaklar img{width:120px;height:80px;object-fit:cover;border-radius:8px;flex:none}
+.kaynaklar a{text-decoration:underline}
+
+@media (max-width:980px){
+  .hizli-kutu{grid-template-columns:1fr 1fr}
+  .hizli-bas,.hizli-kutu .dugme{grid-column:1/-1}
+  .vitrin.foto{background:linear-gradient(180deg,color-mix(in srgb,var(--koyu) 70%,transparent),color-mix(in srgb,var(--koyu) 92%,transparent)),var(--vitrin-foto) center/cover no-repeat}
+  .vitrin.foto .sarma{min-height:0;padding-bottom:96px}
+}
+@media (max-width:560px){
+  .hizli-kutu{grid-template-columns:1fr 1fr;padding:18px}
+  .vitrin.foto .sarma{padding-bottom:18px}
+  .vitrin-atif{position:static;display:block;padding:0 16px 72px;font-size:10.5px}
+}

@@ -22,6 +22,13 @@
         </div>
     </div>
     <div class="kutu">
+        @if (FiloFotograflari.HizmetFotografi(h.Kod) is { } foto)
+        {
+            <figure class="hizmet-foto">
+                <img src="@foto.Dosya" alt="@foto.Konu" width="600" height="340">
+                <figcaption>Temsili: @foto.Konu · <a href="/fotograf-kaynaklari">@foto.Yazar, @foto.Lisans</a></figcaption>
+            </figure>
+        }
         <h2>Bu hizmette</h2>
         <ul class="onaylar">
             @foreach (var madde in h.Maddeler)

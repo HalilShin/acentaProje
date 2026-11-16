@@ -18,11 +18,21 @@ public class IletisimModel(MarkaBaglami baglam, AyarDeposu depo, PostaServisi po
     [TempData] public bool Gonderildi { get; set; }
     public string? Hata { get; private set; }
 
-    /// <summary>Hizmet sayfasından gelindiyse (?hizmet=kod) formda o hizmet seçili gelir.</summary>
-    public void OnGet(string? hizmet)
+    /// <summary>
+    /// Hizmet sayfasından gelindiyse (?hizmet=kod) formda o hizmet seçili gelir.
+    /// Ana sayfadaki hızlı teklif kutusundan gelindiyse (WhatsApp kapalıyken) girilen bilgiler forma taşınır.
+    /// </summary>
+    public void OnGet(string? hizmet, string? nereden, string? nereye, DateTime? tarih, int? kisi)
     {
         if (baglam.Marka.HizmetBul(hizmet) is { } secilen) Form.Hizmet = secilen.Ad;
+        Form.Nereden = Kisalt(nereden, 150);
+        Form.Nereye = Kisalt(nereye, 150);
+        Form.Tarih = tarih;
+        Form.KisiSayisi = kisi is >= 1 and <= 999 ? kisi : null;
     }
+
+    private static string? Kisalt(string? s, int en) =>
+        string.IsNullOrWhiteSpace(s) ? null : (s.Trim().Length > en ? s.Trim()[..en] : s.Trim());
 
     public async Task<IActionResult> OnPostAsync(CancellationToken iptal)
     {

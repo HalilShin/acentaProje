@@ -9,7 +9,11 @@
     ViewData["Yol"] = "/";
 }
 
-<div class="vitrin"><div class="sarma">
+@{
+    var vitrin = FiloFotograflari.Vitrin(m.Kod);
+    var stil = vitrin is { } v ? $"--vitrin-foto:url('{v.Dosya}')" : null;
+}
+<div class="vitrin @(vitrin is null ? null : "foto")" style="@stil"><div class="sarma">
     <div>
         <span class="etiket">@m.Etiket</span>
         <h1>@m.HeroBaslik <em>@m.HeroVurgu</em></h1>
@@ -29,11 +33,21 @@
             }
         </div>
     </div>
-    <div class="sahne">
-        <div class="yol"></div>
-        <partial name="_AracCizimi" model="m.VitrinAraci" />
-    </div>
-</div></div>
+    @if (vitrin is null)
+    {
+        <div class="sahne">
+            <div class="yol"></div>
+            <partial name="_AracCizimi" model="m.VitrinAraci" />
+        </div>
+    }
+</div>
+@if (vitrin is { } vf)
+{
+    <span class="vitrin-atif">Temsili fotoğraf: @vf.Atif.Konu · <a href="/fotograf-kaynaklari">@vf.Atif.Yazar, @vf.Atif.Lisans</a></span>
+}
+</div>
+
+<partial name="_HizliTeklif" />
 
 <section><div class="sarma">
     <div class="bolum-bas">

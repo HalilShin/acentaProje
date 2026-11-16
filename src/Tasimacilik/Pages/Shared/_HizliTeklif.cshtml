@@ -1,0 +1,56 @@
+@{
+    var m = Baglam.Marka;
+    var a = AyarDeposu.Al();
+    var waNumara = a.WhatsAppGoster ? SiteAyarlari.NumaraDuzenle(a.WhatsAppNumara) : null;
+    // Markaya göre alan örnekleri
+    var (baslik, neredenOrnek, nereyeOrnek) = m.Kod switch
+    {
+        "selcuklu" => ("Turunuz için fiyat alın", "Ankara, semt", "Kapadokya, Ege…"),
+        "transfer" => ("Transferiniz için fiyat alın", "Esenboğa", "Otel ya da adres"),
+        _ => ("Kiralık araç için fiyat alın", "Kalkış semti", "Varış yeri"),
+    };
+}
+@* Hızlı teklif: bilgiler WhatsApp mesajına hazır yazılır. WhatsApp kapalıysa ya da JavaScript yoksa
+   aynı bilgilerle iletişim sayfasındaki teklif formu doldurulmuş olarak açılır. *@
+<section class="hizli"><div class="sarma">
+    <form class="hizli-kutu" method="get" action="/iletisim" data-wa="@waNumara" data-mesaj="@m.WhatsAppMesaj">
+        <div class="hizli-bas">
+            <b>@baslik</b>
+            <span>Bilgileri yazın, @(waNumara is null ? "teklif formuna" : "WhatsApp'ta hazır mesaj olarak") gelsin.</span>
+        </div>
+        <label>Nereden<input name="nereden" maxlength="150" placeholder="@neredenOrnek" autocomplete="off"></label>
+        <label>Nereye<input name="nereye" maxlength="150" placeholder="@nereyeOrnek" autocomplete="off"></label>
+        <label>Tarih<input name="tarih" type="date"></label>
+        <label>Kişi<input name="kisi" type="number" min="1" max="999" inputmode="numeric" placeholder="Kaç kişi?"></label>
+        <button class="dugme" type="submit">
+            @if (waNumara is not null)
+            {
+                <svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></svg><span>WhatsApp'tan fiyat al</span>
+            }
+            else
+            {
+                <span>Teklif al</span><svg class="i"><use href="#i-ok"/></svg>
+            }
+        </button>
+        <input type="hidden" name="kaynak" value="hizli">
+    </form>
+    @if (waNumara is not null)
+    {
+        <p class="hizli-not">WhatsApp kullanmıyorsanız <a href="/iletisim#teklif">teklif formunu</a> doldurabilir ya da <a href="@a.TelefonBaglantisi">@a.Telefon</a> numarasını arayabilirsiniz.</p>
+    }
+</div></section>
+<script>
+(() => {
+  const f = document.querySelector('.hizli-kutu');
+  if (!f || !f.dataset.wa) return;
+  f.addEventListener('submit', e => {
+    e.preventDefault();
+    const d = new FormData(f), satirlar = [f.dataset.mesaj];
+    const ekle = (ad, v) => { v = (v || '').toString().trim(); if (v) satirlar.push(ad + ': ' + v); };
+    ekle('Nereden', d.get('nereden')); ekle('Nereye', d.get('nereye'));
+    const t = d.get('tarih'); if (t) { const [y, a, g] = t.split('-'); ekle('Tarih', `${g}.${a}.${y}`); }
+    ekle('Kişi sayısı', d.get('kisi'));
+    window.open('https://wa.me/' + f.dataset.wa + '?text=' + encodeURIComponent(satirlar.join('\n')), '_blank', 'noopener');
+  });
+})();
+</script>
