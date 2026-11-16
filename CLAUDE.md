@@ -48,11 +48,14 @@ El yazısı domain listesi: `docs/notlar/domain-listesi-el-yazisi.jpg`
 
 - Üç marka aynı firmanın yan markaları. Tek ASP.NET Core uygulaması, gelen Host'a göre marka (logo, ad, renk, metin) seçer.
 - Telefon/WhatsApp/adres ortak. Her markanın metinleri FARKLI yazılmalı (kopya içerik riski). Tek Google İşletme profili.
+- Firma ve iletişim acentayla aynı: Anadolu Selçuklu Organizasyon Turizm (KVKK'da veri sorumlusu) · +90 542 716 69 11 (telefon ve WhatsApp) · selcuklutravel@gmail.com (sitede görünen adres ve teklif formlarının alıcısı). Açık adres henüz verilmedi; boşken sitede gösterilmez, panelden eklenir.
+- Filo: Mercedes-Benz Vito (8), Sprinter (19), Otokar Sultan (31), Travego (46), MAN Lion's Coach (54), Tourismo (54). Fotoğraflar Wikimedia Commons'tan temsili (CC BY-SA, atıf araç filosu sayfasında); kendi araç fotoğrafları gelince değiştirilecek.
+- D2 belgeli. Hizmetler üç markaya dağıtıldı: Selçuklu = turlar ve gezi, Otobüs Kirala = kiralama, Transfer = transfer, etkinlik ve kongre.
 - Logolar ve tasarım Claude'da.
 
 ## Acenta (sonra)
 
-- Acenta unvanı: Anadolu Selçuklu Organizasyon Turizm · TÜRSAB belge no: 15385 · Telefon ve WhatsApp: +90 542 716 69 11.
+- Acenta unvanı: Anadolu Selçuklu Organizasyon Turizm · TÜRSAB belge no: 15385 · Telefon ve WhatsApp: +90 542 716 69 11 · E-posta: selcuklutravel@gmail.com · Yetkili: Erkan Gündoğdu (sitede kişi adı kullanılmıyor).
 - Örnek alınan siteler (yapı ve akış için, tasarım kopyalanmaz): https://binhantur.com/ ve https://turiz.com.tr/
 - Online ödeme YOK. Rezervasyon WhatsApp üzerinden: her turda tur adı + tarih önceden yazılı "WhatsApp ile Rezervasyon" butonu.
 - Tur listesi/detay, basit yönetim paneli (tur, tarih, kontenjan), KVKK ve TURSAB bilgisi.

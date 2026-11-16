@@ -51,6 +51,13 @@ public class AyarDeposu
         try
         {
             var a = JsonSerializer.Deserialize<SiteAyarlari>(File.ReadAllText(_dosya)) ?? new SiteAyarlari();
+            // Eski örnek değerler kaldıysa gerçek varsayılanlarla değiştirilir.
+            var varsayilan = new SiteAyarlari();
+            if (a.Telefon == SiteAyarlari.EskiOrnekTelefon) a.Telefon = varsayilan.Telefon;
+            if (a.Adres == SiteAyarlari.EskiOrnekAdres) a.Adres = "";
+            if (string.IsNullOrWhiteSpace(a.WhatsAppNumara)) a.WhatsAppNumara = varsayilan.WhatsAppNumara;
+            if (string.IsNullOrWhiteSpace(a.Eposta)) a.Eposta = varsayilan.Eposta;
+            if (string.IsNullOrWhiteSpace(a.AliciAdres)) a.AliciAdres = varsayilan.AliciAdres;
             if (!string.IsNullOrEmpty(a.SmtpSifre))
             {
                 try { a.SmtpSifre = _koruyucu.Unprotect(a.SmtpSifre); }

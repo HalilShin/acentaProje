@@ -10,10 +10,10 @@
 <partial name="_SayfaBasi" model='new SayfaBasi("KVKK Aydınlatma Metni", null, ("KVKK Aydınlatma Metni", null))' />
 
 <section><div class="sarma yazi">
-    <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, bu web sitesi üzerinden paylaştığınız kişisel verilerin @m.Ad tarafından nasıl işlendiğini açıklar.</p>
+    <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, bu web sitesi üzerinden paylaştığınız kişisel verilerin veri sorumlusu sıfatıyla @SiteAyarlari.FirmaUnvani tarafından nasıl işlendiğini açıklar. @m.Ad, bu firmanın markasıdır.</p>
 
     <h2>Veri sorumlusu</h2>
-    <p>@m.Ad — @a.Adres · @a.Telefon</p>
+    <p>@SiteAyarlari.FirmaUnvani · @(string.IsNullOrWhiteSpace(a.Adres) ? "" : a.Adres + " · ")@a.Telefon@(string.IsNullOrWhiteSpace(a.Eposta) ? "" : " · " + a.Eposta)</p>
 
     <h2>İşlenen veriler</h2>
     <p>Teklif formunu gönderdiğinizde: adınız soyadınız, telefon numaranız, e-posta adresiniz, yolculuk bilgileriniz (hizmet, tarih, kişi sayısı, kalkış ve varış noktası) ve notunuz ile gönderim zamanı ve IP adresiniz.</p>

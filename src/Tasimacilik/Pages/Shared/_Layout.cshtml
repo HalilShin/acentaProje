@@ -51,6 +51,12 @@
     <symbol id="i-okul" viewBox="0 0 24 24"><path d="m12 4 10 5-10 5L2 9l10-5zM6 11.500V16c0 1.500 2.700 3 6 3s6-1.500 6-3v-4.500M22 9v5"/></symbol>
     <symbol id="i-ucak" viewBox="0 0 24 24"><path d="M10.500 3.500c0-1 3-1 3 0V9l7.500 4.500v2L13.500 13v4.500l2.500 2V21l-4-1-4 1v-1.500l2.500-2V13L3 15.500v-2L10.500 9V3.500z"/></symbol>
     <symbol id="i-bina" viewBox="0 0 24 24"><path d="M5 21V5a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v16M16 9h2a2 2 0 0 1 2 2v10M3 21h18M9 7.500h3M9 11.500h3M9 15.500h3"/></symbol>
+    <symbol id="i-dalga" viewBox="0 0 24 24"><path d="M2.5 9c2.4 0 2.4-2 4.75-2S9.6 9 12 9s2.4-2 4.75-2S19.1 9 21.5 9M2.5 14c2.4 0 2.4-2 4.75-2S9.6 14 12 14s2.4-2 4.75-2 2.35 2 4.75 2M2.5 19c2.4 0 2.4-2 4.75-2S9.6 19 12 19s2.4-2 4.75-2 2.35 2 4.75 2"/></symbol>
+    <symbol id="i-gunes" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M2.5 12H5M19 12h2.5M5.3 5.3l1.8 1.8M16.9 16.9l1.8 1.8M5.3 18.7l1.8-1.8M16.9 7.1l1.8-1.8"/></symbol>
+    <symbol id="i-agac" viewBox="0 0 24 24"><path d="M12 3 6 11h3.5L5 17h14l-4.5-6H18L12 3zM12 17v4"/></symbol>
+    <symbol id="i-dag" viewBox="0 0 24 24"><path d="M2.5 20 9 8l4 7 2.5-4 6 9H2.5zM9 8l2 3.5"/></symbol>
+    <symbol id="i-kamera" viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="13" height="11" rx="2"/><path d="m15.5 10.5 6-3.5v10l-6-3.5"/></symbol>
+    <symbol id="i-belge" viewBox="0 0 24 24"><path d="M6 2.5h8.5L19 7v14.5H6V2.5zM14 2.5V7h5M9 12h7M9 15.5h7M9 8.5h3"/></symbol>
     <symbol id="i-yildiz" viewBox="0 0 24 24"><path d="m12 3.500 2.600 5.400 5.900.800-4.300 4.100 1.100 5.900L12 16.900l-5.300 2.800 1.100-5.900-4.300-4.100 5.900-.800L12 3.500z"/></symbol>
   </defs>
 </svg>
@@ -106,7 +112,10 @@
       <li><a href="/cerez-politikasi">Çerez Politikası</a></li>
     </ul></div>
     <div><h4>İletişim</h4><ul>
-      <li>@a.Adres</li>
+      @if (!string.IsNullOrWhiteSpace(a.Adres))
+      {
+          <li>@a.Adres</li>
+      }
       <li><a href="@a.TelefonBaglantisi">@a.Telefon</a></li>
       @if (!string.IsNullOrWhiteSpace(a.Eposta))
       {

@@ -74,6 +74,23 @@ app.Use(async (ctx, next) =>
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/hata/500");
+
+    // www'li adresler ve ek alan adları (.com.tr) markanın ana adresine kalıcı olarak yönlenir; yol korunur.
+    app.Use(async (ctx, next) =>
+    {
+        var host = ctx.Request.Host.Host;
+        if (MarkaKatalogu.AlanAdinaGore(host) is { } marka && !string.Equals(host, marka.Domain, StringComparison.OrdinalIgnoreCase))
+        {
+            var hedef = $"{ctx.Request.Scheme}://{marka.Domain}{ctx.Request.PathBase}{ctx.Request.Path}{ctx.Request.QueryString}";
+            ctx.Response.Redirect(hedef, permanent: true);
+            return;
+        }
+        await next();
+    });
+
+    // IIS'te https bağlantısı (SSL sertifikası) tanımlandıktan sonra http istekleri https'e yönlenir.
+    app.UseHttpsRedirection();
+    app.UseHsts();
 }
 app.UseStatusCodePagesWithReExecute("/hata/{0}");
 
@@ -104,7 +121,7 @@ app.MapGet("/sitemap.xml", (MarkaBaglami b) =>
 app.MapGet("/simge.svg", (MarkaBaglami b) =>
 {
     var m = b.Marka;
-    var svg = $"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" style="--ana:{m.RenkAna};--koyu:{m.RenkKoyu};--vurgu:{m.RenkVurgu}">{m.Sembol}</svg>""";
+    var svg = $"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" style="--ana:{m.RenkAna};--koyu:{m.RenkKoyu};--vurgu:{m.RenkVurgu}">{m.Sembol}</svg>""";
     return Results.Content(svg, "image/svg+xml", Encoding.UTF8);
 });
 

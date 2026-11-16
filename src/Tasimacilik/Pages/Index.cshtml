@@ -1,4 +1,4 @@
-﻿@page
+@page
 @{
     var m = Baglam.Marka;
     var a = AyarDeposu.Al();
@@ -69,12 +69,13 @@
         @foreach (var arac in m.Araclar)
         {
             <a class="arac-kart" href="/arac-filosu">
-                <partial name="_AracCizimi" model="arac.Tur" />
+                <partial name="_AracGorseli" model="arac" />
                 <h3>@arac.Ad</h3>
-                <span>@arac.Kapasite</span>
+                <span>@arac.Tip · @arac.Kapasite</span>
             </a>
         }
     </div>
+    <p class="foto-not">Fotoğraflar araç modellerini tanıtmak içindir. <a href="/arac-filosu#fotograflar">Fotoğraf kaynakları ve lisansları</a></p>
 </div></section>
 
 <section class="koyu"><div class="sarma">
