@@ -2,7 +2,7 @@
 @{
     var m = Baglam.Marka;
     ViewData["Title"] = $"{m.AraclarBaslik} | {m.Ad}";
-    ViewData["Description"] = $"{m.Ad} araçları: {string.Join(", ", m.Araclar.Select(x => $"{x.Ad} ({x.Kapasite})"))}.";
+    ViewData["Description"] = $"{m.Ad} araç filosu: {string.Join(", ", m.Araclar.Select(x => $"{x.Ad} ({x.Kapasite})"))}.";
     ViewData["Bolum"] = "araclar";
     ViewData["Yol"] = "/arac-filosu";
 }
@@ -14,9 +14,9 @@
         @foreach (var arac in m.Araclar)
         {
             <div class="filo-satir">
-                <div class="cizim"><partial name="_AracCizimi" model="arac.Tur" /></div>
+                <div class="cizim"><partial name="_AracGorseli" model="arac" /></div>
                 <div>
-                    <span class="kapasite">@arac.Kapasite</span>
+                    <span class="kapasite">@arac.Tip · @arac.Kapasite</span>
                     <h2>@arac.Ad</h2>
                     <p>@arac.Aciklama</p>
                     <ul class="ozellikler">
@@ -29,7 +29,20 @@
             </div>
         }
     </div>
-    <p class="not">Görseller temsilidir. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
+    <p class="not">Fotoğraflar araç modellerini tanıtmak içindir, firmamıza ait araçları göstermez. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
+    <div class="atif" id="fotograflar">
+        <h3>Fotoğraf kaynakları</h3>
+        <p>Fotoğraflar Wikimedia Commons'tan, aşağıdaki lisanslarla alınmıştır. Plakalar ve başka firmalara ait yazılar bulanıklaştırılmış, fotoğraflar kırpılmış ve yeniden boyutlandırılmıştır.</p>
+        <ul>
+            @foreach (var arac in m.Araclar)
+            {
+                if (FiloFotograflari.Bul(arac.Ad) is { } foto)
+                {
+                    <li>@arac.Ad: <a href="@foto.KaynakAdresi" target="_blank" rel="noopener">@foto.Yazar</a>, <a href="@foto.LisansAdresi" target="_blank" rel="noopener license">@foto.Lisans</a></li>
+                }
+            }
+        </ul>
+    </div>
 </div></section>
 
 <partial name="_TeklifBandi" />

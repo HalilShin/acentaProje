@@ -10,7 +10,7 @@ public class IndexModel(AyarDeposu depo, PostaServisi posta, ILogger<IndexModel>
 {
     [BindProperty] public AyarGirdisi Girdi { get; set; } = new();
     public bool SifreKayitli { get; private set; }
-    public bool IletisimEksik { get; private set; }
+    public bool AdresEksik { get; private set; }
 
     [TempData] public string? Basari { get; set; }
     [TempData] public string? Hata { get; set; }
@@ -19,7 +19,7 @@ public class IndexModel(AyarDeposu depo, PostaServisi posta, ILogger<IndexModel>
     {
         var a = depo.Al();
         SifreKayitli = a.SmtpSifre.Length > 0;
-        IletisimEksik = a.IletisimEksik;
+        AdresEksik = a.AdresEksik;
         Girdi = new AyarGirdisi
         {
             Telefon = a.Telefon,
@@ -71,21 +71,20 @@ public class IndexModel(AyarDeposu depo, PostaServisi posta, ILogger<IndexModel>
     {
         var onceki = depo.Al();
         SifreKayitli = onceki.SmtpSifre.Length > 0;
-        IletisimEksik = onceki.IletisimEksik;
+        AdresEksik = onceki.AdresEksik;
 
         if (SiteAyarlari.NumaraDuzenle(Girdi.Telefon) is null)
             ModelState.AddModelError("Girdi.Telefon", "Telefon numarası geçerli değil.");
         var whatsapp = SiteAyarlari.NumaraDuzenle(Girdi.WhatsAppNumara);
         if (!string.IsNullOrWhiteSpace(Girdi.WhatsAppNumara) && whatsapp is null)
             ModelState.AddModelError("Girdi.WhatsAppNumara", "WhatsApp numarası geçerli değil.");
-        if (string.IsNullOrWhiteSpace(Girdi.Adres))
-            ModelState.AddModelError("Girdi.Adres", "Adres boş olamaz.");
+
         if (!ModelState.IsValid) return false;
 
         depo.Kaydet(onceki with
         {
             Telefon = Girdi.Telefon!.Trim(),
-            Adres = Girdi.Adres!.Trim(),
+            Adres = Girdi.Adres?.Trim() ?? "",
             Eposta = Girdi.Eposta?.Trim() ?? "",
             WhatsAppGoster = Girdi.WhatsAppGoster,
             WhatsAppNumara = whatsapp ?? "",

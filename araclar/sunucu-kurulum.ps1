@@ -1,25 +1,30 @@
 ﻿<#
-Locktech sunucu kurulumu — Windows Server 2019/2022 üzerinde, YÖNETİCİ olarak açılmış PowerShell'de çalıştırılır.
+Site kurulumu — Windows Server 2019/2022 üzerinde, YÖNETİCİ olarak açılmış PowerShell'de çalıştırılır.
+-Site Locktech (varsayılan) ya da -Site Tasimacilik.
 
-Hazırlık: geliştirme bilgisayarındaki publish\sunucu klasörünün içeriğini (bu betik + locktech.zip)
+Hazırlık: geliştirme bilgisayarındaki publish\sunucu klasörünün içeriğini (bu betik + locktech.zip / tasimacilik.zip)
 uzak masaüstüyle sunucuda C:\kurulum klasörüne kopyalayın.
 
   1) İlk kurulum (IIS, .NET 8, site, panel şifresi, güvenlik duvarı):
        cd C:\kurulum
-       powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1
+       powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Site Tasimacilik
 
   2) DNS kayıtları sunucuya yönlendikten sonra SSL sertifikası:
-       powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Islem Ssl -Eposta siz@ornek.com
+       powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Site Tasimacilik -Islem Ssl -Eposta siz@ornek.com
+     Birden çok alan adı grubu olan sitelerde (Taşımacılık) her grup için ayrı sertifika alınır;
+     DNS'i henüz yönlenmemiş gruplar atlanır, betik sonra yeniden çalıştırılabilir.
 
-  3) Siteyi güncellemek (yeni locktech.zip kopyalandıktan sonra):
-       powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Islem Guncelle
+  3) Siteyi güncellemek (yeni zip kopyalandıktan sonra):
+       powershell -ExecutionPolicy Bypass -File .\sunucu-kurulum.ps1 -Site Tasimacilik -Islem Guncelle
 
 Betik tekrar çalıştırılabilir: kurulu olanı atlar, eksik olanı tamamlar.
 Uzak masaüstü (RDP) ayarlarına ve Windows güncellemelerine dokunmaz.
 #>
 param(
+    [ValidateSet("Locktech", "Tasimacilik")][string]$Site = "Locktech",
     [ValidateSet("Kur", "Guncelle", "Ssl")][string]$Islem = "Kur",
-    [string]$Paket = (Join-Path $PSScriptRoot "locktech.zip"),
+    # Boş bırakılırsa bu betikle aynı klasördeki <site>.zip kullanılır.
+    [string]$Paket = "",
     # Let's Encrypt'in sertifika süresi uyarılarını göndereceği adres (yalnızca -Islem Ssl için)
     [string]$Eposta = "",
     [string]$SunucuIp = "185.33.234.70"
@@ -29,9 +34,20 @@ $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-$SiteAdi = "Locktech"
-$SiteKlasoru = "C:\siteler\locktech"
-$AlanAdlari = @("locktech.com.tr", "www.locktech.com.tr")
+# Her site: IIS adı, klasör ve alan adı grupları. Her grup ayrı SSL sertifikası alır; ilk alan adı grubun ana adresidir.
+$Siteler = @{
+    "Locktech"    = @{ Klasor = "C:\siteler\locktech"; Gruplar = @(
+        , @("locktech.com.tr") ) }
+    "Tasimacilik" = @{ Klasor = "C:\siteler\tasimacilik"; Gruplar = @(
+        @("selcukluturizm.com", "selcukluturizm.com.tr"),
+        @("ankaraotobuskirala.com", "ankaraotobuskirala.com.tr", "ankaraotobuskiralama.com.tr"),
+        @("ankaraturizmtransfer.com", "ankaraturizmtransfer.com.tr") ) }
+}
+$SiteAdi = $Site
+$SiteKlasoru = $Siteler[$Site].Klasor
+$Gruplar = @($Siteler[$Site].Gruplar | ForEach-Object { , @($_ | ForEach-Object { $_; "www.$_" }) })
+$AlanAdlari = @($Gruplar | ForEach-Object { $_ })
+if (-not $Paket) { $Paket = Join-Path $PSScriptRoot "$($Site.ToLowerInvariant()).zip" }
 $Indirilenler = "C:\kurulum\indirilenler"
 $BarindirmaPaketi = "https://aka.ms/dotnet/8.0/dotnet-hosting-win.exe"
 $WinAcme = "https://github.com/win-acme/win-acme/releases/download/v2.4.1/win-acme.v2.4.1.2444.x64.pluggable.zip"
@@ -119,7 +135,7 @@ function SiteKur {
 
 function PaketiYukle {
     Adim "Site dosyaları"
-    if (-not (Test-Path $Paket)) { throw "Paket bulunamadı: $Paket  (locktech.zip bu betikle aynı klasörde olmalı)" }
+    if (-not (Test-Path $Paket)) { throw "Paket bulunamadı: $Paket  ($(Split-Path $Paket -Leaf) bu betikle aynı klasörde olmalı)" }
     Import-Module WebAdministration
     $cevrimdisi = Join-Path $SiteKlasoru "app_offline.htm"
     Set-Content -Path $cevrimdisi -Value "<!doctype html><meta charset='utf-8'><title>Bakım</title><p>Site güncelleniyor, lütfen birkaç saniye sonra yeniden deneyin.</p>" -Encoding UTF8
@@ -172,12 +188,12 @@ function GuvenlikDuvari {
     Tamam "80 (http) ve 443 (https) portları açık."
 }
 
-function SiteyiDene($sema) {
-    Adim "Site denemesi ($sema)"
+function SiteyiDene($sema, $alan = $AlanAdlari[0]) {
+    Adim "Site denemesi ($sema, $alan)"
     try {
         # http: alan adı henüz yönlenmemiş olabilir, bu yüzden yerel adres + Host başlığı. https: sertifika alan adına bağlı.
-        if ($sema -eq "https") { $istek = [Net.WebRequest]::Create("https://$($AlanAdlari[0])/") }
-        else { $istek = [Net.WebRequest]::Create("http://127.0.0.1/"); $istek.Host = $AlanAdlari[0] }
+        if ($sema -eq "https") { $istek = [Net.WebRequest]::Create("https://$alan/") }
+        else { $istek = [Net.WebRequest]::Create("http://127.0.0.1/"); $istek.Host = $alan }
         $istek.AllowAutoRedirect = $false
         $istek.Timeout = 60000
         if ($sema -eq "https") { [Net.ServicePointManager]::ServerCertificateValidationCallback = { $true } }
@@ -193,15 +209,21 @@ function SiteyiDene($sema) {
 }
 
 function SslKur {
-    Adim "DNS denetimi"
     if (-not $Eposta) { throw "Sertifika için bir e-posta adresi gerekli:  -Islem Ssl -Eposta siz@ornek.com" }
-    foreach ($alan in $AlanAdlari) {
-        $kayitlar = @(Resolve-DnsName -Name $alan -Type A -Server 1.1.1.1 -ErrorAction SilentlyContinue | Where-Object { $_.Type -eq "A" } | ForEach-Object { $_.IPAddress })
-        if ($kayitlar -notcontains $SunucuIp) {
-            throw "$alan henüz bu sunucuya ($SunucuIp) yönlenmiyor (bulunan: $($kayitlar -join ', ')). DNS kayıtlarını girip yayılmasını bekleyin, sonra yeniden deneyin."
+
+    # Her alan adı grubu için DNS denetlenir; tüm alan adları bu sunucuya yönlenmiş gruplar sertifika alır.
+    $hazir = @()
+    foreach ($grup in $Gruplar) {
+        Adim "DNS denetimi: $($grup[0])"
+        $eksik = @()
+        foreach ($alan in $grup) {
+            $kayitlar = @(Resolve-DnsName -Name $alan -Type A -Server 1.1.1.1 -ErrorAction SilentlyContinue | Where-Object { $_.Type -eq "A" } | ForEach-Object { $_.IPAddress })
+            if ($kayitlar -contains $SunucuIp) { Tamam "$alan -> $SunucuIp" }
+            else { Uyari "$alan henüz bu sunucuya yönlenmiyor (bulunan: $($kayitlar -join ', '))"; $eksik += $alan }
         }
-        Tamam "$alan -> $SunucuIp"
+        if ($eksik) { Uyari "Bu grup atlandı. DNS yayılınca betiği yeniden çalıştırın." } else { $hazir += , $grup }
     }
+    if (-not $hazir) { throw "Hiçbir alan adı grubu bu sunucuya ($SunucuIp) yönlenmiyor. DNS kayıtlarını girip yayılmasını bekleyin, sonra yeniden deneyin." }
 
     Adim "SSL sertifikası (Let's Encrypt, win-acme)"
     Import-Module WebAdministration
@@ -212,15 +234,22 @@ function SslKur {
         Expand-Archive -Path $zip -DestinationPath $WinAcmeKlasoru -Force
     }
     $siteNo = (Get-Website -Name $SiteAdi).Id
-    & $wacs --source iis --siteid $siteNo --host ($AlanAdlari -join ",") --validation selfhosting `
-            --store certificatestore --installation iis --installationsiteid $siteNo `
-            --accepttos --emailaddress $Eposta --setuptaskscheduler
-    if ($LASTEXITCODE -ne 0) {
-        Uyari "win-acme hata verdi. Elle denemek için: $wacs  (menüden 'N' ile yeni sertifika oluşturun)."
-        throw "Sertifika alınamadı."
+    $basarisiz = @()
+    foreach ($grup in $hazir) {
+        Write-Host ""
+        Write-Host "   Sertifika: $($grup -join ', ')"
+        & $wacs --source iis --siteid $siteNo --host ($grup -join ",") --friendlyname "$SiteAdi - $($grup[0])" --validation selfhosting `
+                --store certificatestore --installation iis --installationsiteid $siteNo `
+                --accepttos --emailaddress $Eposta --setuptaskscheduler
+        if ($LASTEXITCODE -ne 0) { Uyari "$($grup[0]) için sertifika alınamadı."; $basarisiz += $grup[0]; continue }
+        Tamam "$($grup[0]) için sertifika kuruldu."
+        SiteyiDene "https" $grup[0]
     }
-    Tamam "Sertifika kuruldu; yenileme için zamanlanmış görev oluşturuldu."
-    SiteyiDene "https"
+    if ($basarisiz) {
+        Uyari "win-acme hata verdi. Elle denemek için: $wacs  (menüden 'N' ile yeni sertifika oluşturun)."
+        throw "Sertifika alınamayan gruplar: $($basarisiz -join ', ')"
+    }
+    Tamam "Yenileme için zamanlanmış görev hazır."
 }
 
 switch ($Islem) {
@@ -237,9 +266,10 @@ switch ($Islem) {
         SiteyiDene "http"
         Write-Host ""
         Write-Host "Kurulum tamamlandı. Sıradaki adımlar:" -ForegroundColor Cyan
-        Write-Host "  1. İsimtescil'de locktech.com.tr için @ ve www A kayıtlarını $SunucuIp adresine yönlendirin."
-        Write-Host "  2. Kayıtlar yayılınca: .\sunucu-kurulum.ps1 -Islem Ssl -Eposta siz@ornek.com"
-        Write-Host "  3. https://locktech.com.tr/panel adresinden SMTP ve WhatsApp ayarlarını girin."
+        Write-Host "  1. İsimtescil'de şu alan adlarının @ ve www A kayıtlarını $SunucuIp adresine yönlendirin:"
+        foreach ($grup in $Siteler[$Site].Gruplar) { Write-Host "       $($grup -join ', ')" }
+        Write-Host "  2. Kayıtlar yayılınca: .\sunucu-kurulum.ps1 -Site $Site -Islem Ssl -Eposta siz@ornek.com"
+        Write-Host "  3. https://$($AlanAdlari[0])/panel adresinden iletişim, WhatsApp ve SMTP ayarlarını girin."
     }
     "Guncelle" {
         PaketiYukle

@@ -222,3 +222,16 @@ footer .telif{border-top:1px solid rgba(255,255,255,.1);margin-top:40px;padding-
   .wa{padding:14px;right:14px;bottom:14px}
 }
 @media (prefers-reduced-motion:reduce){.sahne .yol,.sahne .arac{animation:none}}
+
+/* Araç fotoğrafları ve atıf */
+.arac-foto{display:block;width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:10px;background:var(--acik)}
+.arac-kart{padding:14px 14px 20px}
+.arac-kart h3{margin-top:14px}
+.filo-satir .cizim:has(.arac-foto){padding:0;overflow:hidden}
+.filo-satir .cizim .arac-foto{border-radius:16px}
+.atif{margin-top:36px;padding-top:22px;border-top:1px solid var(--cizgi);font-size:13px;color:var(--soluk)}
+.atif h3{font-family:var(--govde);font-size:14px;font-weight:700;color:var(--murekkep);margin-bottom:6px}
+.atif ul{list-style:none;padding:0;margin-top:8px;display:grid;gap:4px}
+.atif a{text-decoration:underline}
+.foto-not{margin-top:14px;font-size:12.5px;color:var(--soluk)}
+.foto-not a{text-decoration:underline}

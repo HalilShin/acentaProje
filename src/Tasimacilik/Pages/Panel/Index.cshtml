@@ -15,9 +15,9 @@
 {
     <p class="uyari hata">@Model.Hata</p>
 }
-@if (Model.IletisimEksik)
+@if (Model.AdresEksik)
 {
-    <p class="uyari hata">Telefon ya da adres hâlâ örnek değerde. Siteyi yayına almadan önce gerçek bilgileri girin.</p>
+    <p class="uyari hata">Adres henüz girilmedi; sitelerde adres gösterilmiyor. Açık adresi aşağıdan ekleyebilirsiniz.</p>
 }
 <div asp-validation-summary="All" class="uyari hata"></div>
 
@@ -33,7 +33,7 @@
                 <input asp-for="Girdi.Eposta" type="email" placeholder="Boş bırakılırsa gösterilmez">
             </label>
             <label class="genis">Adres
-                <input asp-for="Girdi.Adres">
+                <input asp-for="Girdi.Adres" placeholder="Boş bırakılırsa sitede adres gösterilmez">
             </label>
         </div>
     </section>

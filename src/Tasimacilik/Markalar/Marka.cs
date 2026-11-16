@@ -5,8 +5,11 @@ public record Hizmet(string Kod, string Ad, string Ikon, string Ozet, string[] P
     public string Adres => $"/hizmetler/{Kod}";
 }
 
-/// <summary>Tur: araç çiziminin türü (otobus, midibus, minibus, vip).</summary>
-public record Arac(string Tur, string Ad, string Kapasite, string Aciklama, string[] Ozellikler);
+/// <summary>
+/// Tur: araç çiziminin türü (otobus, midibus, minibus, vip). Tip: sitede görünen araç sınıfı (Otobüs, Midibüs...).
+/// Ad: marka ve model. Filo üç markada aynıdır; açıklamalar markaya göre farklı yazılır.
+/// </summary>
+public record Arac(string Tur, string Tip, string Ad, string Kapasite, string Aciklama, string[] Ozellikler);
 
 /// <summary>
 /// Bir markanın kimliği ve tüm metinleri. Üç marka aynı uygulamada çalışır;
@@ -18,8 +21,10 @@ public record Marka
     public required string Kod { get; init; }
     public required string Ad { get; init; }
     public required string Domain { get; init; }
+    /// <summary>Bu markaya kalıcı olarak yönlenen ek alan adları (.com.tr vb.).</summary>
+    public string[] EkAlanAdlari { get; init; } = [];
 
-    // Logo: sembol (SVG iç içeriği, 48x48) ve iki satırlı yazı
+    // Logo: sembol (SVG iç içeriği, 64x64; seçim için bkz. docs/tasimacilik/logo-onerileri.html) ve iki satırlı yazı
     public required string Sembol { get; init; }
     public required string LogoUst { get; init; }
     public required string LogoAlt { get; init; }

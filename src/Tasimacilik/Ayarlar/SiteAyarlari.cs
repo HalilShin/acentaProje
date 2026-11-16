@@ -6,18 +6,23 @@ namespace Tasimacilik.Ayarlar;
 /// </summary>
 public record SiteAyarlari
 {
-    public const string OrnekTelefon = "0 (312) 000 00 00";
-    public const string OrnekAdres = "Adres bilgisi eklenecek, Ankara";
+    /// <summary>Markaların sahibi firma; KVKK metninde veri sorumlusu.</summary>
+    public const string FirmaUnvani = "Anadolu Selçuklu Organizasyon Turizm";
+
+    // Eski örnek değerler; kayıtlı ayarlarda kaldıysa okunurken temizlenir.
+    public const string EskiOrnekTelefon = "0 (312) 000 00 00";
+    public const string EskiOrnekAdres = "Adres bilgisi eklenecek, Ankara";
 
     // İletişim (üç markada ortak)
-    public string Telefon { get; set; } = OrnekTelefon;
-    public string Adres { get; set; } = OrnekAdres;
+    public string Telefon { get; set; } = "+90 542 716 69 11";
+    /// <summary>Açık adres; boşsa sitede adres gösterilmez.</summary>
+    public string Adres { get; set; } = "";
     /// <summary>Sitede gösterilen e-posta adresi; boşsa gösterilmez.</summary>
-    public string Eposta { get; set; } = "";
+    public string Eposta { get; set; } = "selcuklutravel@gmail.com";
 
     // WhatsApp
     public bool WhatsAppGoster { get; set; } = true;
-    public string WhatsAppNumara { get; set; } = "";
+    public string WhatsAppNumara { get; set; } = "905427166911";
 
     // E-posta gönderimi (SMTP)
     public string SmtpSunucu { get; set; } = "";
@@ -30,15 +35,15 @@ public record SiteAyarlari
     public string GonderenAdres { get; set; } = "";
     public string GonderenAd { get; set; } = "Web Sitesi";
     /// <summary>Teklif formlarının gideceği adres.</summary>
-    public string AliciAdres { get; set; } = "";
+    public string AliciAdres { get; set; } = "selcuklutravel@gmail.com";
 
     public bool PostaHazir =>
         !string.IsNullOrWhiteSpace(SmtpSunucu) &&
         !string.IsNullOrWhiteSpace(GonderenAdres) &&
         !string.IsNullOrWhiteSpace(AliciAdres);
 
-    /// <summary>Telefon ya da adres hâlâ örnek değerdeyse true; panelde uyarı gösterilir.</summary>
-    public bool IletisimEksik => Telefon == OrnekTelefon || Adres == OrnekAdres;
+    /// <summary>Adres girilmemişse true; panelde hatırlatma gösterilir.</summary>
+    public bool AdresEksik => string.IsNullOrWhiteSpace(Adres);
 
     /// <summary>tel: bağlantısı için yalnızca rakamlar (+90...).</summary>
     public string TelefonBaglantisi => "tel:+" + (NumaraDuzenle(Telefon) ?? "");

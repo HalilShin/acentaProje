@@ -23,7 +23,10 @@
     {
         <a class="ikart" href="mailto:@a.Eposta"><svg class="i"><use href="#i-posta"/></svg><small>E-posta</small><b>@a.Eposta</b></a>
     }
-    <a class="ikart" href="@harita" target="_blank" rel="noopener"><svg class="i"><use href="#i-konum"/></svg><small>Adres · Haritada aç</small><b>@a.Adres</b></a>
+    @if (!string.IsNullOrWhiteSpace(a.Adres))
+    {
+        <a class="ikart" href="@harita" target="_blank" rel="noopener"><svg class="i"><use href="#i-konum"/></svg><small>Adres · Haritada aç</small><b>@a.Adres</b></a>
+    }
 </div></section>
 
 <section class="koyu" id="teklif"><div class="sarma ikili">
