@@ -1,9 +1,10 @@
-# Bir sitenin yayın paketini üretir (geliştirme bilgisayarında çalıştırılır).
+﻿# Bir sitenin yayın paketini üretir (geliştirme bilgisayarında çalıştırılır).
 #   pwsh araclar/yayin-paketi.ps1            -> publish/sunucu/locktech.zip
 #   pwsh araclar/yayin-paketi.ps1 -Proje Tasimacilik
+#   pwsh araclar/yayin-paketi.ps1 -Proje Acenta
 # Paketle birlikte sunucu kurulum betiği de publish/sunucu klasörüne kopyalanır;
 # bu klasörün içeriği uzak masaüstüyle sunucuda C:\kurulum klasörüne kopyalanır.
-param([ValidateSet("Locktech", "Tasimacilik")][string]$Proje = "Locktech")
+param([ValidateSet("Locktech", "Tasimacilik", "Acenta")][string]$Proje = "Locktech")
 
 $ErrorActionPreference = "Stop"
 $kok = Split-Path $PSScriptRoot -Parent
@@ -12,7 +13,8 @@ $hedef = New-Item -ItemType Directory -Force (Join-Path $kok "publish\sunucu")
 $zip = Join-Path $hedef "$($Proje.ToLowerInvariant()).zip"
 
 if (Test-Path $gecici) { Remove-Item $gecici -Recurse -Force }
-dotnet publish (Join-Path $kok "src\$Proje") -c Release -o $gecici --nologo -v q
+# Sunucu Windows x64: yalnızca o platformun yerel kütüphaneleri pakete girer (.NET sunucuda kurulu, paket ona bağlı).
+dotnet publish (Join-Path $kok "src\$Proje") -c Release -r win-x64 --self-contained false -o $gecici --nologo -v q
 if ($LASTEXITCODE -ne 0) { throw "dotnet publish başarısız oldu." }
 
 # Pakete girmemesi gerekenler girmiş mi? (panel şifresi, yerel ayarlar, çalışma verileri)

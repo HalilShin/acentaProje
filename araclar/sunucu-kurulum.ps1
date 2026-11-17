@@ -1,8 +1,9 @@
 ﻿<#
 Site kurulumu — Windows Server 2019/2022 üzerinde, YÖNETİCİ olarak açılmış PowerShell'de çalıştırılır.
--Site Locktech (varsayılan) ya da -Site Tasimacilik.
+-Site Locktech (varsayılan), -Site Tasimacilik ya da -Site Acenta.
+Acenta kurulumu ayrıca SQL Server Express'i kurar, veritabanını hazırlar ve gece yedeğini zamanlar.
 
-Hazırlık: geliştirme bilgisayarındaki publish\sunucu klasörünün içeriğini (bu betik + locktech.zip / tasimacilik.zip)
+Hazırlık: geliştirme bilgisayarındaki publish\sunucu klasörünün içeriğini (bu betik + locktech.zip / tasimacilik.zip / acenta.zip)
 uzak masaüstüyle sunucuda C:\kurulum klasörüne kopyalayın.
 
   1) İlk kurulum (IIS, .NET 8, site, panel şifresi, güvenlik duvarı):
@@ -21,7 +22,7 @@ Betik tekrar çalıştırılabilir: kurulu olanı atlar, eksik olanı tamamlar.
 Uzak masaüstü (RDP) ayarlarına ve Windows güncellemelerine dokunmaz.
 #>
 param(
-    [ValidateSet("Locktech", "Tasimacilik")][string]$Site = "Locktech",
+    [ValidateSet("Locktech", "Tasimacilik", "Acenta")][string]$Site = "Locktech",
     [ValidateSet("Kur", "Guncelle", "Ssl")][string]$Islem = "Kur",
     # Boş bırakılırsa bu betikle aynı klasördeki <site>.zip kullanılır.
     [string]$Paket = "",
@@ -42,6 +43,8 @@ $Siteler = @{
         @("selcukluturizm.com", "selcukluturizm.com.tr"),
         @("ankaraotobuskirala.com", "ankaraotobuskirala.com.tr", "ankaraotobuskiralama.com.tr"),
         @("ankaraturizmtransfer.com", "ankaraturizmtransfer.com.tr") ) }
+    "Acenta"      = @{ Klasor = "C:\siteler\acenta"; Veritabani = "AnkaraKulturGezi"; Gruplar = @(
+        , @("ankarakulturgezi.com", "ankarakulturgezi.com.tr", "kulturgezi.com.tr") ) }
 }
 $SiteAdi = $Site
 $SiteKlasoru = $Siteler[$Site].Klasor
@@ -55,6 +58,11 @@ $BarindirmaPaketi = "https://aka.ms/dotnet/8.0/dotnet-hosting-win.exe"
 $WinAcme = "https://github.com/win-acme/win-acme/releases/download/v2.4.1/win-acme.v2.4.1.2444.x64.pluggable.zip"
 $WinAcmeKlasoru = "C:\araclar\win-acme"
 $HavuzKimligi = "IIS AppPool\$SiteAdi"
+$Veritabani = $Siteler[$Site].Veritabani
+$SqlOrnegi = ".\SQLEXPRESS"
+# SQL Server 2022 Express web kurucusu (Microsoft İndirme Merkezi, id=108838). Genel fwlink artık 2025'e yönleniyor.
+$SqlKurucu = "https://download.microsoft.com/download/29654887-7cde-4397-bba3-d7f087970845/SQL2022-SSEI-Expr.exe"
+$YedekKlasoru = "C:\yedekler\$($Site.ToLowerInvariant())"
 
 function Adim($metin) { Write-Host ""; Write-Host "== $metin" -ForegroundColor Cyan }
 function Tamam($metin) { Write-Host "   $metin" -ForegroundColor Green }
@@ -112,6 +120,8 @@ function SiteKur {
     Set-ItemProperty "IIS:\AppPools\$SiteAdi" -Name managedRuntimeVersion -Value ""          # .NET (Core) için "Yönetilen kod yok"
     Set-ItemProperty "IIS:\AppPools\$SiteAdi" -Name startMode -Value "AlwaysRunning"
     Set-ItemProperty "IIS:\AppPools\$SiteAdi" -Name processModel.idleTimeout -Value ([TimeSpan]::Zero)
+    # Oturum anahtarları Windows DPAPI ile şifrelenir; bunun için havuzun kullanıcı profili yüklenmeli.
+    Set-ItemProperty "IIS:\AppPools\$SiteAdi" -Name processModel.loadUserProfile -Value $true
 
     if (-not (Get-Website -Name $SiteAdi -ErrorAction SilentlyContinue)) {
         New-Website -Name $SiteAdi -PhysicalPath $SiteKlasoru -ApplicationPool $SiteAdi -Port 80 -HostHeader $AlanAdlari[0] | Out-Null
@@ -158,7 +168,11 @@ function PaketiYukle {
 function PanelSifresiBelirle {
     Adim "Yönetim paneli şifresi"
     $dosya = Join-Path $SiteKlasoru "appsettings.Production.local.json"
-    if (Test-Path $dosya) { Tamam "Panel şifresi zaten tanımlı (değiştirmek için $dosya dosyasını silip betiği yeniden çalıştırın)."; return }
+    if (Test-Path $dosya) {
+        Tamam "Panel şifresi zaten tanımlı (değiştirmek için $dosya dosyasını silip betiği yeniden çalıştırın)."
+        BaglantiAyariniYaz $dosya
+        return
+    }
 
     function DuzMetin($guvenli) {
         $isaretci = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($guvenli)
@@ -176,6 +190,134 @@ function PanelSifresiBelirle {
     # Dosyayı yalnızca yöneticiler, sistem ve sitenin uygulama havuzu okuyabilsin.
     & icacls.exe $dosya /inheritance:r /grant "*S-1-5-32-544:F" "*S-1-5-18:F" "${HavuzKimligi}:R" /Q | Out-Null
     Tamam "Panel şifresi kaydedildi. Şifreyi güvenli bir yere not edin; panel adresi: /panel"
+    BaglantiAyariniYaz $dosya
+}
+
+# Veritabanı kullanan sitede bağlantı ayarı yerel ayar dosyasına eklenir (Windows kimliğiyle, şifresiz).
+function BaglantiAyariniYaz($dosya) {
+    if (-not $Veritabani) { return }
+    $ayar = Get-Content $dosya -Raw -Encoding UTF8 | ConvertFrom-Json
+    if ($ayar.ConnectionStrings -and $ayar.ConnectionStrings.$SiteAdi) { return }
+    $baglanti = "Server=$SqlOrnegi;Database=$Veritabani;Trusted_Connection=True;TrustServerCertificate=True"
+    if (-not $ayar.ConnectionStrings) { $ayar | Add-Member -NotePropertyName ConnectionStrings -NotePropertyValue ([pscustomobject]@{}) -Force }
+    $ayar.ConnectionStrings | Add-Member -NotePropertyName $SiteAdi -NotePropertyValue $baglanti -Force
+    $ayar | ConvertTo-Json -Depth 5 | Set-Content -Path $dosya -Encoding UTF8
+    Tamam "Veritabanı bağlantı ayarı eklendi."
+}
+
+function SqlKomut($sql, $veritabani = "master") {
+    $baglanti = New-Object System.Data.SqlClient.SqlConnection "Server=$SqlOrnegi;Database=$veritabani;Integrated Security=True;Connect Timeout=30"
+    $baglanti.Open()
+    try {
+        $komut = $baglanti.CreateCommand()
+        $komut.CommandText = $sql
+        $komut.CommandTimeout = 600
+        [void]$komut.ExecuteNonQuery()
+    } finally { $baglanti.Close() }
+}
+
+function SqlKur {
+    Adim "SQL Server Express"
+    if (Get-Service -Name 'MSSQL$SQLEXPRESS' -ErrorAction SilentlyContinue) {
+        Start-Service -Name 'MSSQL$SQLEXPRESS'
+        try { SqlKomut "SELECT 1" } catch {
+            throw "SQLEXPRESS kurulu ama bu Windows kullanıcısıyla bağlanılamadı ($($_.Exception.Message)). Betiği SQL'i kuran yönetici hesabıyla çalıştırın."
+        }
+        Tamam "SQL Server Express zaten kurulu ve erişilebilir."
+        return
+    }
+
+    $kurucu = Indir $SqlKurucu "SQL2022-SSEI-Expr.exe"
+    Write-Host "   Kuruluyor (indirme dahil 5-15 dakika sürebilir)..."
+    # Varsayılan örnek adı SQLEXPRESS; betiği çalıştıran yönetici SQL yöneticisi olur.
+    $islem = Start-Process -FilePath $kurucu -ArgumentList "/ACTION=Install", "/QUIET", "/IACCEPTSQLSERVERLICENSETERMS", "/ENU" -Wait -PassThru
+    if ($islem.ExitCode -eq 3010) {
+        Uyari "SQL Server kuruldu ama Windows yeniden başlatma istiyor."
+        throw "Sunucuyu yeniden başlatın, sonra aynı komutu yeniden çalıştırın (kurulan kısımlar atlanır)."
+    }
+    if ($islem.ExitCode -ne 0) {
+        throw "SQL Server Express kurulamadı (çıkış kodu $($islem.ExitCode)). Kurulum günlüğü: C:\Program Files\Microsoft SQL Server\160\Setup Bootstrap\Log"
+    }
+    if (-not (Get-Service -Name 'MSSQL$SQLEXPRESS' -ErrorAction SilentlyContinue)) { throw "SQL Server Express hizmeti kurulumdan sonra bulunamadı." }
+    Set-Service -Name 'MSSQL$SQLEXPRESS' -StartupType Automatic
+    Start-Service -Name 'MSSQL$SQLEXPRESS'
+    SqlKomut "SELECT 1"
+    Tamam "SQL Server Express kuruldu (örnek: $SqlOrnegi). Dışarıdan bağlantıya kapalıdır."
+}
+
+function VeritabaniKur {
+    Adim "Veritabanı ve izinler"
+    $havuz = "IIS APPPOOL\$SiteAdi"
+    # Yedek görevi SYSTEM hesabıyla çalışır; hesap adı Windows diline göre değişir (NT AUTHORITY / NT YETKİLİSİ).
+    $sistem = (New-Object Security.Principal.SecurityIdentifier "S-1-5-18").Translate([Security.Principal.NTAccount]).Value
+    # Tablolar site ilk açıldığında oluşturulur (EF Core göçleri); havuz kendi veritabanında db_owner olur.
+    SqlKomut @"
+IF DB_ID(N'$Veritabani') IS NULL CREATE DATABASE [$Veritabani];
+IF SUSER_ID(N'$havuz') IS NULL CREATE LOGIN [$havuz] FROM WINDOWS WITH DEFAULT_DATABASE = [$Veritabani];
+IF SUSER_ID(N'$sistem') IS NULL CREATE LOGIN [$sistem] FROM WINDOWS;
+"@
+    SqlKomut @"
+IF USER_ID(N'$havuz') IS NULL CREATE USER [$havuz] FOR LOGIN [$havuz];
+ALTER ROLE db_owner ADD MEMBER [$havuz];
+IF USER_ID(N'$sistem') IS NULL CREATE USER [$sistem] FOR LOGIN [$sistem];
+ALTER ROLE db_backupoperator ADD MEMBER [$sistem];
+"@ $Veritabani
+    Tamam "Veritabanı '$Veritabani' hazır; '$havuz' erişebilir."
+}
+
+function YedekZamanla {
+    Adim "Gece yedeği (veritabanı + tur fotoğrafları, 14 gün)"
+    New-Item -ItemType Directory -Force $YedekKlasoru | Out-Null
+    # SQL Server hizmeti yedek dosyasını bu klasöre yazar.
+    & icacls.exe $YedekKlasoru /grant 'NT Service\MSSQL$SQLEXPRESS:(OI)(CI)M' /T /Q | Out-Null
+
+    $betik = Join-Path "C:\araclar" "yedek-$($Site.ToLowerInvariant()).ps1"
+    New-Item -ItemType Directory -Force "C:\araclar" | Out-Null
+    $icerik = @"
+# Otomatik oluşturuldu (sunucu-kurulum.ps1). Her gece SYSTEM hesabıyla çalışır.
+`$ErrorActionPreference = "Stop"
+`$gunluk = Join-Path "$YedekKlasoru" "yedek.log"
+try {
+    `$zaman = Get-Date -Format "yyyy-MM-dd_HHmm"
+    `$dosya = Join-Path "$YedekKlasoru" "$Veritabani-`$zaman.bak"
+    `$b = New-Object System.Data.SqlClient.SqlConnection "Server=$SqlOrnegi;Database=master;Integrated Security=True"
+    `$b.Open()
+    `$k = `$b.CreateCommand(); `$k.CommandTimeout = 1800
+    # Express sıkıştırmalı yedek desteklemez; CHECKSUM bozuk sayfaları yakalar.
+    `$k.CommandText = "BACKUP DATABASE [$Veritabani] TO DISK = N'`$dosya' WITH INIT, CHECKSUM"
+    [void]`$k.ExecuteNonQuery()
+    `$k.CommandText = "RESTORE VERIFYONLY FROM DISK = N'`$dosya' WITH CHECKSUM"
+    [void]`$k.ExecuteNonQuery()
+    `$b.Close()
+    # Panelden yüklenen fotoğraflar ve site ayarları (silinen dosyalar yedekte kalır).
+    robocopy "$SiteKlasoru\App_Data" "$YedekKlasoru\App_Data" /E /R:1 /W:1 /NFL /NDL /NJH /NJS | Out-Null
+    if (`$LASTEXITCODE -ge 8) { throw "App_Data kopyalanamadı (robocopy `$LASTEXITCODE)." }
+    Get-ChildItem "$YedekKlasoru" -Filter "*.bak" | Where-Object { `$_.LastWriteTime -lt (Get-Date).AddDays(-14) } | Remove-Item -Force
+    Add-Content `$gunluk "`$(Get-Date -Format s) TAMAM `$dosya"
+} catch {
+    Add-Content `$gunluk "`$(Get-Date -Format s) HATA `$(`$_.Exception.Message)"
+    exit 1
+}
+"@
+    Set-Content -Path $betik -Value $icerik -Encoding UTF8
+    & icacls.exe $betik /inheritance:r /grant "*S-1-5-32-544:F" "*S-1-5-18:F" /Q | Out-Null
+
+    $gorevAdi = "Yedek - $SiteAdi"
+    $eylem = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$betik`""
+    $zaman = New-ScheduledTaskTrigger -Daily -At 3am
+    # SYSTEM hesabı SID'iyle verilir (Türkçe Windows'ta hesap adı farklıdır).
+    $sistem = (New-Object Security.Principal.SecurityIdentifier "S-1-5-18").Translate([Security.Principal.NTAccount]).Value
+    $kimlik = New-ScheduledTaskPrincipal -UserId $sistem -LogonType ServiceAccount -RunLevel Highest
+    Register-ScheduledTask -TaskName $gorevAdi -Action $eylem -Trigger $zaman -Principal $kimlik -Force | Out-Null
+
+    # İlk yedek hemen alınır ve sonucu denetlenir.
+    Start-ScheduledTask -TaskName $gorevAdi
+    for ($i = 0; $i -lt 120 -and (Get-ScheduledTask -TaskName $gorevAdi).State -eq "Running"; $i++) { Start-Sleep -Seconds 1 }
+    $sonuc = (Get-ScheduledTaskInfo -TaskName $gorevAdi).LastTaskResult
+    $son = Get-Content (Join-Path $YedekKlasoru "yedek.log") -Tail 1 -ErrorAction SilentlyContinue
+    if ($sonuc -eq 0 -and $son -like "*TAMAM*") { Tamam "İlk yedek alındı. Her gece 03.00'te tekrarlanır: $YedekKlasoru" }
+    else { Uyari "İlk yedek alınamadı (sonuç $sonuc). Ayrıntı: $son"; Uyari "Günlük: $(Join-Path $YedekKlasoru 'yedek.log')" }
+    Uyari "Bu yedekler aynı sunucudadır. Ara sıra bu klasörü başka bir yere (bilgisayarınıza ya da buluta) kopyalayın."
 }
 
 function GuvenlikDuvari {
@@ -266,20 +408,26 @@ switch ($Islem) {
     "Kur" {
         IisKur
         BarindirmaPaketiKur
+        if ($Veritabani) { SqlKur }
         SiteKur
-        PaketiYukle
+        if ($Veritabani) { VeritabaniKur }
+        # Ayar dosyası (şifre, bağlantı) site ilk kez başlamadan önce yazılır.
         PanelSifresiBelirle
+        PaketiYukle
         GuvenlikDuvari
         # Şifre dosyasının okunması için havuz yeniden başlatılır.
         Import-Module WebAdministration
         Restart-WebAppPool -Name $SiteAdi
         SiteyiDene "http"
+        # Veritabanı tabloları sitenin ilk açılışında oluşur; yedek ondan sonra zamanlanır.
+        if ($Veritabani) { YedekZamanla }
         Write-Host ""
         Write-Host "Kurulum tamamlandı. Sıradaki adımlar:" -ForegroundColor Cyan
         Write-Host "  1. İsimtescil'de şu alan adlarının @ ve www A kayıtlarını $SunucuIp adresine yönlendirin:"
         foreach ($grup in $Siteler[$Site].Gruplar) { Write-Host "       $($grup -join ', ')" }
         Write-Host "  2. Kayıtlar yayılınca: .\sunucu-kurulum.ps1 -Site $Site -Islem Ssl -Eposta siz@ornek.com"
         Write-Host "  3. https://$($AlanAdlari[0])/panel adresinden iletişim, WhatsApp ve SMTP ayarlarını girin."
+        if ($Veritabani) { Write-Host "  4. Panelde turları, tarihleri ve kontenjanları girin (site boş başlar)." }
     }
     "Guncelle" {
         PaketiYukle
