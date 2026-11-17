@@ -1,0 +1,24 @@
+@model SayfaBasi
+
+<div class="sayfa-bas"><div class="sarma">
+    <nav class="iz" aria-label="Sayfa yolu">
+        <a href="/">Ana Sayfa</a>
+        @foreach (var adim in Model.Yol)
+        {
+            <span>/</span>
+            @if (adim.Adres is null)
+            {
+                <b>@adim.Ad</b>
+            }
+            else
+            {
+                <a href="@adim.Adres">@adim.Ad</a>
+            }
+        }
+    </nav>
+    <h1>@Model.Baslik</h1>
+    @if (Model.Metin is not null)
+    {
+        <p>@Model.Metin</p>
+    }
+</div></div>

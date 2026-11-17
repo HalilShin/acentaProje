@@ -1,0 +1,139 @@
+@page "/turlar/{kod}"
+@model Acenta.Pages.Turlar.DetayModel
+@inject TurServisi Turlar
+@{
+    var t = Model.Tur;
+    ViewData["Title"] = $"{t.Ad} | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = string.IsNullOrWhiteSpace(t.Ozet) ? $"{t.Ad}: Ankara çıkışlı, {t.Sure}." : t.Ozet;
+    ViewData["Bolum"] = "turlar";
+    ViewData["Yol"] = t.Adres;
+    var program = t.Satirlar(t.Program).ToList();
+    var dahil = t.Satirlar(t.Dahil).ToList();
+    var haric = t.Satirlar(t.Haric).ToList();
+    var bosTarih = Model.Tarihler.FirstOrDefault(d => !d.Dolu);
+    var a = AyarDeposu.Al();
+    var genelWa = Turlar.Rezervasyon(t, null);
+}
+
+<div class="detay-bas">
+    <div class="gorsel" style="background-image:url('@TurServisi.Fotograf(t)')"></div>
+    <div class="sarma">
+        <nav class="iz" aria-label="Sayfa yolu"><a href="/">Ana Sayfa</a><span>/</span><a href="/turlar">Turlar</a><span>/</span><a href="/turlar?bolge=@t.Bolge">@Bolgeler.Ad(t.Bolge)</a></nav>
+        <span class="etiket" style="color:var(--vurgu)">@(t.Turu == TurTuru.Gunubirlik ? "Günübirlik tur" : "Konaklamalı tur")</span>
+        <h1>@t.Ad</h1>
+        @if (!string.IsNullOrWhiteSpace(t.Ozet))
+        {
+            <p>@t.Ozet</p>
+        }
+        <div class="bilgi"><span>@t.Sure</span><span>@t.Ulasim</span><span>Ankara çıkışlı</span><span>@Bolgeler.Ad(t.Bolge)</span></div>
+        <div class="eylem detay-eylem">
+            <a class="dugme" href="#tarihler">@(bosTarih is null ? "Tarihleri gör" : $"{TurServisi.Para(bosTarih.Fiyat ?? t.Fiyat)} · Tarih seç")</a>
+        </div>
+    </div>
+</div>
+
+<section><div class="sarma detay">
+    <div>
+        @if (program.Count > 0)
+        {
+            <div class="blok">
+                <h2>Program</h2>
+                <ol class="program">
+                    @foreach (var satir in program)
+                    {
+                        <li>@satir</li>
+                    }
+                </ol>
+            </div>
+        }
+        @if (dahil.Count > 0 || haric.Count > 0)
+        {
+            <div class="ikiz">
+                @if (dahil.Count > 0)
+                {
+                    <div class="blok"><h2>Fiyata dahil</h2><ul class="liste">
+                        @foreach (var m in dahil)
+                        {
+                            <li><svg class="i"><use href="#i-onay"/></svg>@m</li>
+                        }
+                    </ul></div>
+                }
+                @if (haric.Count > 0)
+                {
+                    <div class="blok"><h2>Fiyata dahil değil</h2><ul class="liste haric">
+                        @foreach (var m in haric)
+                        {
+                            <li><svg class="i"><use href="#i-carpi"/></svg>@m</li>
+                        }
+                    </ul></div>
+                }
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(t.Notlar))
+        {
+            <div class="blok"><h2>Bilmeniz gerekenler</h2><p class="notlar">@t.Notlar</p></div>
+        }
+    </div>
+
+    <aside class="rezervasyon" id="tarihler">
+        <div class="fiyat"><span><small>Kişi başı</small><b>@TurServisi.Para(bosTarih?.Fiyat ?? t.Fiyat)</b></span></div>
+        @if (!string.IsNullOrWhiteSpace(t.Bulusma))
+        {
+            <p class="bulusma"><svg class="i"><use href="#i-konum"/></svg><span><small>Buluşma</small>@t.Bulusma</span></p>
+        }
+        <h2>Tarih seçin</h2>
+        <p>Düğme, tur adı ve tarihi WhatsApp mesajına hazır yazar.</p>
+        @if (Model.Tarihler.Count > 0)
+        {
+            <ul class="tarih-liste">
+                @foreach (var d in Model.Tarihler)
+                {
+                    var wa = d.Dolu ? null : Turlar.Rezervasyon(t, d);
+                    <li class="@(d.Dolu ? "dolu" : null)">
+                        <b>@TurServisi.GunluTarih(d.Tarih)</b>
+                        @if (d.Dolu)
+                        {
+                            <small>Dolu</small>
+                            <span class="dugme pasif">Dolu</span>
+                        }
+                        else
+                        {
+                            <small class="@(d.Az ? "az" : null)">@(d.Az ? $"Son {d.Bos} yer" : "Yer var") · @TurServisi.Para(d.Fiyat ?? t.Fiyat)@(string.IsNullOrWhiteSpace(d.Not) ? "" : $" · {d.Not}")</small>
+                            @if (wa is not null)
+                            {
+                                <a class="dugme wa-d" href="@wa" target="_blank" rel="noopener">Rezervasyon</a>
+                            }
+                            else
+                            {
+                                <a class="dugme" href="@a.TelefonBaglantisi">Ara</a>
+                            }
+                        }
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p>Bu tur için yeni tarihler yakında açıklanacak.</p>
+            @if (genelWa is not null)
+            {
+                <a class="dugme wa-d" href="@genelWa" target="_blank" rel="noopener" style="width:100%">WhatsApp'tan bilgi alın</a>
+            }
+        }
+        <p class="alt-not tursab">@SiteAyarlari.FirmaUnvani · TÜRSAB belge no @SiteAyarlari.TursabBelgeNo</p>
+        <p class="alt-not">Online ödeme alınmaz. Yeriniz, kontenjan kontrolünden sonra WhatsApp'tan onaylanır. Telefon: <a href="@a.TelefonBaglantisi">@a.Telefon</a></p>
+    </aside>
+</div></section>
+
+@if (Model.Benzerler.Count > 0)
+{
+    <section class="ilk"><div class="sarma">
+        <div class="bas"><div><span class="etiket">Diğer turlar</span><h2>Bunlar da ilginizi çekebilir</h2></div><a href="/turlar">Tüm turlar →</a></div>
+        <div class="turlar">
+            @foreach (var b in Model.Benzerler)
+            {
+                <partial name="_TurKarti" model="b" />
+            }
+        </div>
+    </div></section>
+}

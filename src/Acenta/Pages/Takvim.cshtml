@@ -1,0 +1,46 @@
+@page "/tur-takvimi"
+@using Microsoft.EntityFrameworkCore
+@inject TurServisi Turlar
+@{
+    ViewData["Title"] = $"Tur Takvimi | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = "Ankara çıkışlı turların kalkış tarihleri ve boş yer durumu, aylara göre.";
+    ViewData["Bolum"] = "takvim";
+    ViewData["Yol"] = "/tur-takvimi";
+    var bugun = DateTime.Today;
+    var turlar = await Turlar.Yayindakiler().ToListAsync();
+    var kalkislar = turlar.SelectMany(t => t.GelecekTarihler(bugun).Select(d => (Tur: t, Tarih: d)))
+        .OrderBy(x => x.Tarih.Tarih).ThenBy(x => x.Tur.Ad)
+        .GroupBy(x => new DateTime(x.Tarih.Tarih.Year, x.Tarih.Tarih.Month, 1)).ToList();
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("Tur takvimi", "Bütün kalkışlar tarih sırasıyla. Boş yer durumu düzenli olarak güncellenir; kesin bilgi için WhatsApp üzerinden sorabilirsiniz.", ("Tur takvimi", null))' />
+
+<section><div class="sarma">
+    @if (kalkislar.Count == 0)
+    {
+        <div class="bos"><b>Yeni tarihler yakında</b>Tur takvimimizi hazırlıyoruz.</div>
+    }
+    @foreach (var ay in kalkislar)
+    {
+        <h2 class="ay-baslik" id="@ay.Key.ToString("yyyy-MM")">@ay.Key.ToString("MMMM yyyy", TurServisi.Tr)</h2>
+        <div class="takvim-liste">
+            @foreach (var (tur, d) in ay)
+            {
+                var wa = d.Dolu ? null : Turlar.Rezervasyon(tur, d);
+                <div class="takvim-satir">
+                    <div class="gun">@d.Tarih.ToString("d MMMM", TurServisi.Tr)<small>@d.Tarih.ToString("dddd", TurServisi.Tr) · @tur.Sure</small></div>
+                    <h3><a href="@tur.Adres">@tur.Ad</a></h3>
+                    <div class="durum"><b>@TurServisi.Para(d.Fiyat ?? tur.Fiyat)</b>@(d.Dolu ? "Dolu" : d.Az ? $"Son {d.Bos} yer" : "Yer var")</div>
+                    @if (wa is not null)
+                    {
+                        <a class="dugme wa-d" href="@wa" target="_blank" rel="noopener">Rezervasyon</a>
+                    }
+                    else
+                    {
+                        <a class="dugme @(d.Dolu ? "pasif" : null)" href="@tur.Adres">@(d.Dolu ? "Dolu" : "İncele")</a>
+                    }
+                </div>
+            }
+        </div>
+    }
+</div></section>

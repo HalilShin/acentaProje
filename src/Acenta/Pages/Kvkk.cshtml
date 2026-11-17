@@ -1,0 +1,34 @@
+@page
+@{
+    var a = AyarDeposu.Al();
+    ViewData["Title"] = $"KVKK Aydınlatma Metni | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = $"{SiteAyarlari.SiteAdi} web sitesi üzerinden paylaştığınız kişisel verilerin işlenmesine ilişkin aydınlatma metni.";
+    ViewData["Yol"] = "/kvkk";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("KVKK Aydınlatma Metni", null, ("KVKK Aydınlatma Metni", null))' />
+
+<section><div class="sarma yazi">
+    <p>Bu metin, 6698 sayılı Kişisel Verilerin Korunması Kanunu (KVKK) uyarınca, bu web sitesi üzerinden paylaştığınız kişisel verilerin veri sorumlusu sıfatıyla @SiteAyarlari.FirmaUnvani tarafından nasıl işlendiğini açıklar. @SiteAyarlari.SiteAdi, bu firmanın markasıdır.</p>
+
+    <h2>Veri sorumlusu</h2>
+    <p>@SiteAyarlari.FirmaUnvani · @(string.IsNullOrWhiteSpace(a.Adres) ? "" : a.Adres + " · ")@a.Telefon@(string.IsNullOrWhiteSpace(a.Eposta) ? "" : " · " + a.Eposta)</p>
+
+    <h2>İşlenen veriler</h2>
+    <p>İletişim formunu gönderdiğinizde: adınız soyadınız, telefon numaranız, e-posta adresiniz, ilgilendiğiniz tur, kişi sayısı ve mesajınız ile gönderim zamanı ve IP adresiniz. WhatsApp ya da telefonla rezervasyon yaptırdığınızda: rezervasyonu yapanın ad soyadı ve telefonu, katılımcıların ad soyadı, yolcu listesi için gerektiğinde T.C. kimlik ya da pasaport numarası, biniş yeri ve ödeme bilgisi (tutar, alınan ödeme). Bu bilgiler rezervasyonunuz, yolcu listesi ve sigorta işlemleri için kullanılır.</p>
+
+    <h2>İşleme amacı</h2>
+    <p>Sorunuzu yanıtlamak, rezervasyonunuzu oluşturmak ve turla ilgili sizinle iletişime geçmek; mevzuatın gerektirdiği yolcu kayıtlarını tutmak. Bu veriler pazarlama iletisi göndermek için kullanılmaz ve satılmaz.</p>
+
+    <h2>Hukuki sebep</h2>
+    <p>KVKK'nın 5/2-c maddesi (bir sözleşmenin kurulmasıyla doğrudan ilgili olması), 5/2-ç maddesi (hukuki yükümlülüğün yerine getirilmesi) ve 5/2-f maddesi (veri sorumlusunun meşru menfaati).</p>
+
+    <h2>Verilerin aktarımı</h2>
+    <p>Form gönderimleri ekibimize e-posta ile iletilir. Tur için gerekli olduğu ölçüde konaklama tesisleri ve sigorta şirketleriyle, yasal zorunluluk hâlinde yetkili kamu kurumlarıyla paylaşılabilir. Bu amaçla veriler, barındırma ve e-posta hizmeti aldığımız sağlayıcılar tarafından işlenir. Bunlar dışında üçüncü kişilerle paylaşılmaz.</p>
+
+    <h2>Saklama süresi</h2>
+    <p>Talebinizin ya da turunuzun sonuçlandırılması için gereken süre boyunca ve sonrasında ilgili mevzuatın öngördüğü saklama süreleri kadar.</p>
+
+    <h2>Haklarınız</h2>
+    <p>KVKK'nın 11. maddesi uyarınca verilerinizin işlenip işlenmediğini öğrenme, bilgi talep etme, düzeltilmesini ya da silinmesini isteme ve işlenmesine itiraz etme haklarına sahipsiniz. Taleplerinizi yukarıdaki iletişim bilgileri üzerinden iletebilirsiniz.</p>
+</div></section>

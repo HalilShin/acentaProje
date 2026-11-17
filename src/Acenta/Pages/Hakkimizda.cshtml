@@ -1,0 +1,28 @@
+@page
+@{
+    ViewData["Title"] = $"Hakkımızda | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = $"{SiteAyarlari.SiteAdi}, {SiteAyarlari.FirmaUnvani} markasıdır. TÜRSAB belge no {SiteAyarlari.TursabBelgeNo}.";
+    ViewData["Bolum"] = "hakkimizda";
+    ViewData["Yol"] = "/hakkimizda";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("Hakkımızda", "Ankara çıkışlı yurt içi kültür turları düzenleyen, TÜRSAB belgeli bir seyahat acentasıyız.", ("Hakkımızda", null))' />
+
+<section><div class="sarma yazi">
+    <p>@SiteAyarlari.SiteAdi, @(SiteAyarlari.FirmaUnvani)'in yurt içi tur markasıdır. Ankara'dan hareketli günübirlik gezileri ve konaklamalı bölge turlarını düzenliyoruz: Kapadokya'dan Mardin'e, Karadeniz yaylalarından Ege'nin antik kentlerine kadar.</p>
+    <p>Turlarımızı kendi araçlarımızla yapıyoruz. Aynı firmanın taşımacılık markaları olan Selçuklu Turizm, Ankara Otobüs Kirala ve Ankara Turizm Transfer'in D2 belgeli filosu turlarımızda da kullanılır.</p>
+
+    <h2>Nasıl çalışıyoruz?</h2>
+    <ul>
+        <li>Her turun programını, fiyata dahil olanları ve olmayanları tur sayfasında açıkça yazıyoruz.</li>
+        <li>Online ödeme almıyoruz. Rezervasyonu WhatsApp'tan yapıyor, kontenjanı kontrol ettikten sonra ödeme ve buluşma bilgilerini size iletiyoruz.</li>
+        <li>Okullar, dernekler ve kurumlar için gruba özel tur da düzenliyoruz.</li>
+    </ul>
+
+    <h2>Acenta bilgileri</h2>
+    <ul>
+        <li><b>Unvan:</b> @SiteAyarlari.FirmaUnvani</li>
+        <li><b>TÜRSAB belge no:</b> @SiteAyarlari.TursabBelgeNo</li>
+        <li><b>İletişim:</b> <a href="/iletisim" style="text-decoration:underline">İletişim sayfası</a></li>
+    </ul>
+</div></section>

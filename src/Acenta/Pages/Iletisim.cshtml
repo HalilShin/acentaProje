@@ -1,0 +1,53 @@
+@page
+@model IletisimModel
+@{
+    var a = AyarDeposu.Al();
+    var wa = a.WhatsAppGoster ? a.WhatsAppBaglantisi(SiteAyarlari.WhatsAppMesaj) : null;
+    var harita = "https://www.google.com/maps/search/?api=1&query=" + Uri.EscapeDataString(a.Adres);
+    ViewData["Title"] = $"İletişim | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = $"{SiteAyarlari.SiteAdi} ile iletişime geçin. Telefon ve WhatsApp: {a.Telefon}.";
+    ViewData["Bolum"] = "iletisim";
+    ViewData["Yol"] = "/iletisim";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("İletişim", "Turlarımız, grup ve okul gezileri için bize yazın ya da arayın. Rezervasyon için en hızlı yol WhatsApp.", ("İletişim", null))' />
+
+<section><div class="sarma ikili">
+    <div>
+        <a class="ikart" href="@a.TelefonBaglantisi"><svg class="i"><use href="#i-telefon"/></svg><span><small>Telefon</small><b>@a.Telefon</b></span></a>
+        @if (wa is not null)
+        {
+            <a class="ikart" href="@wa" target="_blank" rel="noopener"><svg class="i"><use href="#i-mesaj"/></svg><span><small>WhatsApp · rezervasyon</small><b>Hemen yazın</b></span></a>
+        }
+        @if (!string.IsNullOrWhiteSpace(a.Eposta))
+        {
+            <a class="ikart" href="mailto:@a.Eposta"><svg class="i"><use href="#i-posta"/></svg><span><small>E-posta</small><b>@a.Eposta</b></span></a>
+        }
+        @if (!string.IsNullOrWhiteSpace(a.Adres))
+        {
+            <a class="ikart" href="@harita" target="_blank" rel="noopener"><svg class="i"><use href="#i-konum"/></svg><span><small>Adres · Haritada aç</small><b>@a.Adres</b></span></a>
+        }
+        <div class="ikart"><svg class="i"><use href="#i-belge"/></svg><span><small>Acenta</small><b>@SiteAyarlari.FirmaUnvani · TÜRSAB belge no @SiteAyarlari.TursabBelgeNo</b></span></div>
+    </div>
+
+    <form class="kart" id="form" method="post" action="/iletisim#form">
+        <h2>Bize yazın</h2>
+        @if (Model.Gonderildi)
+        {
+            <p class="mesaj tamam">Mesajınız bize ulaştı. En kısa sürede size dönüş yapacağız.</p>
+        }
+        @if (Model.Hata is not null)
+        {
+            <p class="mesaj hata">@Model.Hata</p>
+        }
+        <label>Ad Soyad<input asp-for="Form.AdSoyad" maxlength="100" autocomplete="name"><span asp-validation-for="Form.AdSoyad"></span></label>
+        <label>Telefon<input asp-for="Form.Telefon" type="tel" maxlength="30" placeholder="05xx xxx xx xx" autocomplete="tel"><span asp-validation-for="Form.Telefon"></span></label>
+        <label>İlgilendiğiniz tur<input asp-for="Form.Tur" maxlength="160" placeholder="Tur adı ya da bölge"></label>
+        <label>Kişi sayısı<input asp-for="Form.KisiSayisi" type="number" min="1" max="999" inputmode="numeric"></label>
+        <label class="tam">E-posta (isteğe bağlı)<input asp-for="Form.Eposta" type="email" maxlength="150" autocomplete="email"><span asp-validation-for="Form.Eposta"></span></label>
+        <label class="tam">Mesajınız<textarea asp-for="Form.Mesaj" rows="4" maxlength="2000" placeholder="Tarih, grup bilgisi, sorularınız…"></textarea></label>
+        <label class="bal" aria-hidden="true">Web siteniz<input asp-for="Form.WebSitesi" tabindex="-1" autocomplete="off"></label>
+        <button class="dugme" type="submit">Gönder</button>
+        <p class="kucuk">Bilgileriniz yalnızca size dönüş yapmak için kullanılır. <a href="/kvkk">KVKK Aydınlatma Metni</a></p>
+    </form>
+</div></section>
