@@ -1,0 +1,23 @@
+@page "/fotograf-kaynaklari"
+@{
+    ViewData["Title"] = $"Fotoğraf kaynakları | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = $"{SiteAyarlari.SiteAdi} web sitesinde kullanılan fotoğrafların kaynakları ve lisansları.";
+    ViewData["Yol"] = "/fotograf-kaynaklari";
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi("Fotoğraf kaynakları", "Bölge fotoğrafları temsilidir; tur bölgelerini tanıtmak için kullanılır.", ("Fotoğraf kaynakları", null))' />
+
+<section><div class="sarma yazi">
+    <p>Aşağıdaki fotoğraflar Wikimedia Commons'tan, belirtilen serbest lisanslarla alınmıştır. Bazı fotoğraflar kırpılmış, başka firmalara ait yazılar bulanıklaştırılmıştır.</p>
+    <ul class="kaynaklar">
+        @foreach (var f in Fotograflar.Tumu)
+        {
+            <li>
+                <img src="@f.Dosya" alt="" loading="lazy" width="120" height="80">
+                <span><b>@f.Konu</b><br>
+                    <a href="@f.KaynakAdresi" target="_blank" rel="noopener">Fotoğraf: @f.Yazar</a> ·
+                    <a href="@f.LisansAdresi" target="_blank" rel="noopener">@f.Lisans</a>@(f.Lisans == "CC0" ? "" : " · değiştirildi")</span>
+            </li>
+        }
+    </ul>
+</div></section>

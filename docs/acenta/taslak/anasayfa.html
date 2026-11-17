@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Ankara Kültür Gezi — Taslak</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ana:#b4532a;--koyu:#2a1d2c;--vurgu:#e9a23b;--krem:#faf5ec;--acik:#f3e9da;--murekkep:#231a22;--soluk:#6b5f66;--cizgi:#e8ddcd;--r:14px}
+*{box-sizing:border-box;margin:0}
+body{font:16px/1.6 Inter,system-ui,sans-serif;color:var(--murekkep);background:var(--krem)}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;line-height:1.12;letter-spacing:-.01em}
+.sarma{max-width:1200px;margin:0 auto;padding:0 24px}
+.taslak{background:#fff3c4;color:#6b4b00;font-size:13px;text-align:center;padding:6px}
+.ust{background:var(--koyu);color:rgba(255,255,255,.8);font-size:13px}
+.ust .sarma{display:flex;justify-content:space-between;padding-top:8px;padding-bottom:8px;gap:16px}
+.ust b{color:var(--vurgu)}
+header{background:#fff;border-bottom:1px solid var(--cizgi);position:sticky;top:0;z-index:5}
+header .sarma{display:flex;align-items:center;gap:28px;height:76px}
+.logo{display:flex;align-items:center;gap:12px}
+.logo svg{width:46px;height:46px}
+.logo b{display:block;font-family:Fraunces,serif;font-size:21px;line-height:1;color:var(--koyu)}
+.logo small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ana);font-weight:600}
+nav{display:flex;gap:22px;margin-left:auto;font-weight:500;font-size:15px}
+nav a:hover{color:var(--ana)}
+.dugme{display:inline-flex;align-items:center;gap:8px;padding:12px 20px;border-radius:999px;font-weight:600;font-size:15px;background:var(--ana);color:#fff;border:0;cursor:pointer}
+.dugme.wa{background:#1f9d55}
+.dugme.cizgi{background:transparent;border:1.5px solid currentColor}
+/* İlk ekran */
+.vitrin{position:relative;color:#fff;background:linear-gradient(180deg,rgba(42,29,44,.15) 0%,rgba(42,29,44,.55) 55%,rgba(42,29,44,.92) 100%),url(../../../src/Tasimacilik/wwwroot/img/yerler/kapadokya-genis.jpg) center 70%/cover}
+.vitrin .sarma{padding-top:120px;padding-bottom:150px}
+.etiket{font-size:13px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--vurgu)}
+.vitrin h1{font-size:clamp(40px,5.4vw,68px);max-width:15ch;margin:12px 0 16px}
+.vitrin p{font-size:19px;max-width:54ch;color:rgba(255,255,255,.88)}
+.ara{position:relative;margin-top:-70px;z-index:2}
+.ara form{background:#fff;border-radius:20px;padding:20px;display:grid;grid-template-columns:1.2fr 1fr 1fr auto;gap:12px;align-items:end;box-shadow:0 30px 60px -30px rgba(42,29,44,.45)}
+.ara label{display:grid;gap:6px;font-size:13px;font-weight:600}
+.ara select{font:inherit;padding:12px;border:1px solid var(--cizgi);border-radius:10px;background:var(--krem)}
+.ara .ipucu{grid-column:1/-1;font-size:13px;color:var(--soluk);display:flex;gap:10px;flex-wrap:wrap}
+.ara .ipucu a{padding:4px 12px;border-radius:99px;background:var(--acik);color:var(--koyu);font-weight:500}
+section{padding:80px 0}
+.bas{display:flex;justify-content:space-between;align-items:end;gap:24px;margin-bottom:32px}
+.bas h2{font-size:clamp(30px,3.4vw,42px);margin-top:6px}
+.bas .etiket{color:var(--ana)}
+.bas a{font-weight:600;color:var(--ana)}
+/* Bölgeler */
+.bolgeler{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+.bolge{position:relative;border-radius:var(--r);overflow:hidden;aspect-ratio:3/4;color:#fff}
+.bolge img{width:100%;height:100%;object-fit:cover;transition:.4s}
+.bolge:hover img{transform:scale(1.05)}
+.bolge span{position:absolute;inset:auto 0 0 0;padding:40px 14px 14px;background:linear-gradient(transparent,rgba(42,29,44,.85))}
+.bolge b{display:block;font-family:Fraunces,serif;font-size:20px}
+.bolge small{font-size:12.5px;opacity:.85}
+/* Tur kartları */
+.turlar{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.tur{background:#fff;border:1px solid var(--cizgi);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.tur .foto{position:relative;aspect-ratio:16/10}
+.tur .foto img{width:100%;height:100%;object-fit:cover}
+.rozet{position:absolute;left:12px;top:12px;background:#fff;color:var(--koyu);font-size:12px;font-weight:700;padding:5px 10px;border-radius:99px}
+.rozet.az{left:auto;right:12px;background:var(--ana);color:#fff}
+.tur .govde{padding:18px 20px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+.tur h3{font-size:21px}
+.bilgi{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13.5px;color:var(--soluk)}
+.bilgi span::before{content:"•";margin-right:6px;color:var(--ana)}
+.bilgi span:first-child::before{content:none}
+.tarihler{display:flex;gap:6px;flex-wrap:wrap}
+.tarihler span{font-size:12.5px;font-weight:600;padding:5px 9px;border-radius:8px;background:var(--acik)}
+.tarihler span.dolu{text-decoration:line-through;opacity:.5}
+.alt{display:flex;align-items:center;justify-content:space-between;margin-top:auto;padding-top:12px;border-top:1px dashed var(--cizgi)}
+.fiyat small{display:block;font-size:12px;color:var(--soluk)}
+.fiyat b{font-family:Fraunces,serif;font-size:24px;color:var(--koyu)}
+.alt .dugme{padding:10px 16px;font-size:14px}
+/* Güven */
+.guven{background:var(--koyu);color:#fff}
+.guven .izgara{display:grid;grid-template-columns:repeat(4,1fr);gap:28px}
+.guven h3{font-size:20px;margin:12px 0 6px}
+.guven p{color:rgba(255,255,255,.75);font-size:15px}
+.guven .simge{width:48px;height:48px;border-radius:12px;background:rgba(233,162,59,.15);color:var(--vurgu);display:grid;place-items:center;font-size:22px}
+/* Rezervasyon */
+.adimlar{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:a}
+.adimlar div{background:#fff;border:1px solid var(--cizgi);border-radius:18px;padding:26px}
+.adimlar div::before{counter-increment:a;content:counter(a);display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--ana);color:#fff;font-weight:700;margin-bottom:14px}
+.adimlar h3{font-size:20px;margin-bottom:6px}
+.adimlar p{color:var(--soluk);font-size:15px}
+/* Takvim */
+.takvim{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.takvim a{background:#fff;border:1px solid var(--cizgi);border-radius:14px;padding:16px;text-align:center}
+.takvim b{display:block;font-family:Fraunces,serif;font-size:22px}
+.takvim small{color:var(--soluk);font-size:13px}
+.takvim a:hover{border-color:var(--ana)}
+footer{background:#1d141f;color:rgba(255,255,255,.7);padding:56px 0 24px;font-size:14px}
+footer .kolon{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:32px}
+footer h4{color:#fff;font-size:15px;margin-bottom:12px}
+footer ul{list-style:none;padding:0;display:grid;gap:7px}
+footer .tursab{margin-top:16px;display:inline-flex;gap:10px;align-items:center;border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:10px 14px;color:#fff}
+footer .tursab b{color:var(--vurgu)}
+footer .telif{border-top:1px solid rgba(255,255,255,.1);margin-top:36px;padding-top:18px;font-size:12.5px}
+.wa-yuzen{position:fixed;right:20px;bottom:20px;background:#1f9d55;color:#fff;border-radius:99px;padding:12px 18px;font-weight:600;box-shadow:0 10px 30px -10px rgba(0,0,0,.5)}
+@media (max-width:980px){
+  nav{display:none}
+  .ara form{grid-template-columns:1fr 1fr}
+  .bolgeler{grid-template-columns:repeat(3,1fr)}
+  .turlar,.adimlar{grid-template-columns:1fr 1fr}
+  .guven .izgara,.takvim{grid-template-columns:1fr 1fr 1fr}
+  footer .kolon{grid-template-columns:1fr 1fr}
+}
+@media (max-width:600px){
+  .ust .sarma span:last-child{display:none}
+  header .dugme{display:none}
+  .vitrin .sarma{padding-top:70px;padding-bottom:120px}
+  .ara form,.turlar,.adimlar,.guven .izgara{grid-template-columns:1fr}
+  .bolgeler{grid-template-columns:1fr 1fr}
+  .takvim{grid-template-columns:1fr 1fr}
+  .bas{flex-direction:column;align-items:start}
+}
+</style>
+</head>
+<body>
+<div class="taslak">TASLAK · Turlar, tarihler ve fiyatlar örnektir · Fotoğraflar temsili (Wikimedia Commons)</div>
+<div class="ust"><div class="sarma">
+  <span>TÜRSAB üyesi · Belge no <b>15385</b> · Anadolu Selçuklu Organizasyon Turizm</span>
+  <span>☎ +90 542 716 69 11 · WhatsApp ile rezervasyon</span>
+</div></div>
+<header><div class="sarma">
+  <a class="logo" href="#">
+    <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 44V22a18 18 0 0 1 36 0v22" fill="none" stroke="#b4532a" stroke-width="3.5"/><path d="M14 44V24a10 10 0 0 1 20 0v20" fill="none" stroke="#2a1d2c" stroke-width="3.5"/><path d="M24 4l2.4 4.6 5 .8-3.6 3.6.8 5-4.6-2.4-4.6 2.4.8-5-3.6-3.6 5-.8z" fill="#e9a23b"/></svg>
+    <span><small>Ankara</small><b>Kültür Gezi</b></span>
+  </a>
+  <nav><a href="#">Turlar</a><a href="#">Günübirlik</a><a href="#">Konaklamalı</a><a href="#">Tur Takvimi</a><a href="#">Hakkımızda</a><a href="#">İletişim</a></nav>
+  <a class="dugme wa" href="#">WhatsApp'tan yazın</a>
+</div></header>
+
+<div class="vitrin"><div class="sarma">
+  <span class="etiket">Ankara çıkışlı yurt içi kültür turları</span>
+  <h1>Anadolu'yu rehberle, rahatça gezin</h1>
+  <p>Günübirlik gezilerden konaklamalı bölge turlarına kadar Ankara'dan hareketli turlar. Yerinizi WhatsApp'tan ayırtın, gerisini bize bırakın.</p>
+</div></div>
+
+<div class="ara"><div class="sarma">
+  <form>
+    <label>Nereye?<select><option>Tüm bölgeler</option><option>Kapadokya</option><option>GAP · Mardin</option><option>Karadeniz</option><option>Ege</option><option>Doğu Anadolu</option></select></label>
+    <label>Ne zaman?<select><option>Tüm tarihler</option><option>Kasım 2026</option><option>Aralık 2026</option><option>Ocak 2027</option></select></label>
+    <label>Tur türü<select><option>Hepsi</option><option>Günübirlik</option><option>Konaklamalı</option></select></label>
+    <button class="dugme" type="button">Tur ara</button>
+    <div class="ipucu">Sık arananlar: <a href="#">Kapadokya</a><a href="#">Mardin</a><a href="#">Safranbolu</a><a href="#">Hafta sonu turları</a><a href="#">Okul gezileri</a></div>
+  </form>
+</div></div>
+
+<section><div class="sarma">
+  <div class="bas"><div><span class="etiket">Bölgeler</span><h2>Nereyi görmek istersiniz?</h2></div><a href="#">Tüm turlar →</a></div>
+  <div class="bolgeler">
+    <a class="bolge" href="#"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/kapadokya.jpg" alt=""><span><b>Kapadokya</b><small>6 tur</small></span></a>
+    <a class="bolge" href="#"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/gobeklitepe.jpg" alt=""><span><b>GAP</b><small>4 tur</small></span></a>
+    <a class="bolge" href="#"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/uzungol.jpg" alt=""><span><b>Karadeniz</b><small>3 tur</small></span></a>
+    <a class="bolge" href="#"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/pamukkale.jpg" alt=""><span><b>Ege</b><small>3 tur</small></span></a>
+    <a class="bolge" href="#"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/ishakpasa.jpg" alt=""><span><b>Doğu Anadolu</b><small>2 tur</small></span></a>
+    <a class="bolge" href="#"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/safranbolu.jpg" alt=""><span><b>Batı Karadeniz</b><small>5 tur</small></span></a>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="sarma">
+  <div class="bas"><div><span class="etiket">Yaklaşan turlar</span><h2>Yakında yola çıkıyoruz</h2></div><a href="#">Tur takvimi →</a></div>
+  <div class="turlar">
+    <article class="tur">
+      <div class="foto"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/kapadokya.jpg" alt=""><span class="rozet">En yakın: 22 Kasım Cmt</span><span class="rozet az">Son 6 yer</span></div>
+      <div class="govde">
+        <h3>Konaklamalı Kapadokya ve Ihlara Vadisi Turu</h3>
+        <div class="bilgi"><span>1 gece 2 gün</span><span>Otobüsle</span><span>Rehberli</span></div>
+        <div class="tarihler"><span>22 Kas</span><span>6 Ara</span><span>20 Ara</span><span class="dolu">8 Kas</span></div>
+        <div class="alt"><div class="fiyat"><small>Kişi başı</small><b>4.950 ₺</b></div><a class="dugme wa" href="#">WhatsApp ile rezervasyon</a></div>
+      </div>
+    </article>
+    <article class="tur">
+      <div class="foto"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/safranbolu.jpg" alt=""><span class="rozet">En yakın: 23 Kasım Paz</span></div>
+      <div class="govde">
+        <h3>Günübirlik Safranbolu ve Yörük Köyü Turu</h3>
+        <div class="bilgi"><span>Günübirlik</span><span>Otobüsle</span><span>Öğle yemeği dahil</span></div>
+        <div class="tarihler"><span>23 Kas</span><span>30 Kas</span><span>7 Ara</span><span>14 Ara</span></div>
+        <div class="alt"><div class="fiyat"><small>Kişi başı</small><b>1.450 ₺</b></div><a class="dugme wa" href="#">WhatsApp ile rezervasyon</a></div>
+      </div>
+    </article>
+    <article class="tur">
+      <div class="foto"><img src="../../../src/Tasimacilik/wwwroot/img/yerler/gobeklitepe.jpg" alt=""><span class="rozet">En yakın: 27 Kasım Per</span><span class="rozet az">Son 4 yer</span></div>
+      <div class="govde">
+        <h3>Göbeklitepe, Şanlıurfa ve Mardin Turu</h3>
+        <div class="bilgi"><span>3 gece 4 gün</span><span>Otobüsle</span><span>Rehberli</span></div>
+        <div class="tarihler"><span>27 Kas</span><span>11 Ara</span><span>25 Ara</span></div>
+        <div class="alt"><div class="fiyat"><small>Kişi başı</small><b>12.900 ₺</b></div><a class="dugme wa" href="#">WhatsApp ile rezervasyon</a></div>
+      </div>
+    </article>
+  </div>
+</div></section>
+
+<section class="guven"><div class="sarma">
+  <div class="bas"><div><span class="etiket">Neden biz</span><h2>Gönül rahatlığıyla yola çıkın</h2></div></div>
+  <div class="izgara">
+    <div><div class="simge">✓</div><h3>TÜRSAB belgeli acenta</h3><p>Belge no 15385. Turlarımız Seyahat Acentaları Kanunu'na uygun düzenlenir.</p></div>
+    <div><div class="simge">🚌</div><h3>Kendi araçlarımızla</h3><p>D2 belgeli filomuzla Ankara'dan hareket ediyoruz; şoförlerimiz uzun yola alışkın.</p></div>
+    <div><div class="simge">🧭</div><h3>Rehberli program</h3><p>Her turda profesyonel rehber; durakları, süreleri ve yemek molalarını önceden bilirsiniz.</p></div>
+    <div><div class="simge">💬</div><h3>Kolay rezervasyon</h3><p>Online ödeme yok; WhatsApp'tan yazın, yerinizi ayıralım ve ödeme bilgisini size iletelim.</p></div>
+  </div>
+</div></section>
+
+<section><div class="sarma">
+  <div class="bas"><div><span class="etiket">Rezervasyon</span><h2>Üç adımda yerinizi ayırtın</h2></div></div>
+  <div class="adimlar">
+    <div><h3>Turu ve tarihi seçin</h3><p>Tur sayfasında programı, fiyata dahil olanları ve boş tarihleri görün.</p></div>
+    <div><h3>WhatsApp'tan yazın</h3><p>"WhatsApp ile rezervasyon" düğmesi tur adını ve tarihi hazır yazar; kişi sayısını ekleyip gönderin.</p></div>
+    <div><h3>Yeriniz ayrılsın</h3><p>Kontenjanı kontrol edip size dönelim; ödeme ve buluşma bilgilerini iletelim.</p></div>
+  </div>
+</div></section>
+
+<section style="padding-top:0"><div class="sarma">
+  <div class="bas"><div><span class="etiket">Tur takvimi</span><h2>Aylara göre turlar</h2></div></div>
+  <div class="takvim">
+    <a href="#"><b>Kasım</b><small>9 tur</small></a><a href="#"><b>Aralık</b><small>12 tur</small></a><a href="#"><b>Ocak</b><small>7 tur</small></a>
+    <a href="#"><b>Şubat</b><small>8 tur</small></a><a href="#"><b>Mart</b><small>10 tur</small></a><a href="#"><b>Nisan</b><small>14 tur</small></a>
+  </div>
+</div></section>
+
+<footer><div class="sarma">
+  <div class="kolon">
+    <div><a class="logo" href="#" style="color:#fff"><span><small>Ankara</small><b style="color:#fff">Kültür Gezi</b></span></a>
+      <p style="margin-top:12px">Ankara çıkışlı günübirlik ve konaklamalı yurt içi kültür turları.</p>
+      <div class="tursab">TÜRSAB · Belge no <b>15385</b></div></div>
+    <div><h4>Turlar</h4><ul><li>Günübirlik turlar</li><li>Konaklamalı turlar</li><li>Tur takvimi</li><li>Okul gezileri</li></ul></div>
+    <div><h4>Kurumsal</h4><ul><li>Hakkımızda</li><li>İletişim</li><li>KVKK Aydınlatma Metni</li><li>Çerez Politikası</li></ul></div>
+    <div><h4>İletişim</h4><ul><li>+90 542 716 69 11</li><li>selcuklutravel@gmail.com</li><li>WhatsApp: +90 542 716 69 11</li></ul></div>
+  </div>
+  <div class="telif">© 2026 Anadolu Selçuklu Organizasyon Turizm · Ankara Kültür Gezi bir Anadolu Selçuklu Organizasyon Turizm markasıdır.</div>
+</div></footer>
+<a class="wa-yuzen" href="#">WhatsApp</a>
+</body>
+</html>

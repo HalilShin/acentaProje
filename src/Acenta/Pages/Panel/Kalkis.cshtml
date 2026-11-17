@@ -1,0 +1,105 @@
+@page "/panel/kalkis/{id:int}"
+@model Acenta.Pages.Panel.KalkisModel
+@{
+    var k = Model.Kalkis;
+    ViewData["Title"] = $"{k.Tur.Ad} · {k.Tarih:dd.MM.yyyy}";
+    var sira = 1;
+    var aktifler = Model.Aktifler.ToList();
+    var iptaller = Model.Kayitlar.Where(x => x.Iptal).ToList();
+}
+
+<div class="baslik-satir">
+    <div>
+        <h1>@TurServisi.UzunTarih(k.Tarih)</h1>
+        <p class="aciklama"><a href="/panel/tur/@k.TurId">@k.Tur.Ad</a> · @k.Tur.Sure@(string.IsNullOrWhiteSpace(k.Tur.Bulusma) ? "" : " · Buluşma: " + k.Tur.Bulusma)</p>
+    </div>
+    <div class="dugmeler yazdirma">
+        <a class="btn" href="/panel/kayit?kalkis=@k.Id">+ Yeni kayıt</a>
+        <button class="btn ikincil" type="button" onclick="print()">Yazdır</button>
+        <a class="btn ikincil" href="/panel/kalkis/@k.Id?handler=Excel">Excel</a>
+        <a class="btn ikincil" href="/panel/kalkis/@k.Id?handler=Pdf">PDF</a>
+    </div>
+</div>
+
+@if (Model.Basari is not null)
+{
+    <p class="uyari tamam yazdirma">@Model.Basari</p>
+}
+
+<div class="ozet-kutular">
+    <div><small>Dolu / kontenjan</small><b>@Model.YolcuSayisi / @k.Kontenjan</b></div>
+    <div><small>Boş koltuk</small><b>@Math.Max(0, k.Kontenjan - Model.YolcuSayisi)</b></div>
+    <div><small>Yoklama</small><b><span id="binen">@Model.Binen</span> bindi · <span id="gelmeyen">@Model.Gelmeyen</span> gelmedi</b></div>
+    <div><small>Tahsilat</small><b>@TurServisi.Para(aktifler.Sum(x => x.Alinan)) / @TurServisi.Para(aktifler.Sum(x => x.Tutar))</b></div>
+</div>
+
+@if (aktifler.Count == 0)
+{
+    <div class="kart yazdirma"><p>Bu kalkışa henüz kayıt girilmedi. WhatsApp'tan gelen rezervasyonları <a href="/panel/kayit?kalkis=@k.Id">yeni kayıt</a> olarak ekleyin.</p></div>
+}
+else
+{
+    <div class="kart tablo-kart">
+        <table class="tablo yoklama">
+            <thead><tr><th>#</th><th>Yolcu</th><th>Rezervasyon</th><th>Biniş</th><th>Ödeme</th><th class="yazdirma">Yoklama</th><th class="sadece-yazdir">İmza / ✓</th></tr></thead>
+            <tbody>
+            @foreach (var x in aktifler)
+            {
+                var yolcular = x.Yolcular.OrderBy(y => y.Sira).ToList();
+                for (var i = 0; i < yolcular.Count; i++)
+                {
+                    var y = yolcular[i];
+                    <tr id="y@(y.Id)" class="@(i == 0 ? "grup-bas" : null) @(y.Bindi == true ? "bindi" : y.Bindi == false ? "gelmedi" : null)">
+                        <td>@(sira++)</td>
+                        <td><b>@y.AdSoyad</b>@if (!string.IsNullOrEmpty(y.KimlikNo)) { <small>@y.KimlikNo</small> }</td>
+                        @if (i == 0)
+                        {
+                            <td rowspan="@yolcular.Count"><a href="/panel/kayit/@x.Id" class="yazdirma-duz">@x.IletisimAd</a><small><a href="tel:@x.Telefon">@x.Telefon</a></small>@if (!string.IsNullOrEmpty(x.Not)) { <small class="not">@x.Not</small> }</td>
+                            <td rowspan="@yolcular.Count">@x.BinisYeri</td>
+                            <td rowspan="@yolcular.Count"><span class="odeme @(x.OdemeDurumu == "Ödendi" ? "tamam" : x.OdemeDurumu == "Kapora" ? "kismi" : "bekliyor")">@x.OdemeDurumu</span><small>@TurServisi.Para(x.Alinan) / @TurServisi.Para(x.Tutar)</small></td>
+                        }
+                        <td class="yazdirma">
+                            <form method="post" asp-page-handler="Yoklama" asp-route-id="@k.Id" class="yoklama-form">
+                                <input type="hidden" name="yolcuId" value="@y.Id">
+                                <button name="durum" value="bindi" class="yk bindi @(y.Bindi == true ? "secili" : null)" title="Bindi">✓ Bindi</button>
+                                <button name="durum" value="gelmedi" class="yk gelmedi @(y.Bindi == false ? "secili" : null)" title="Gelmedi">✕</button>
+                                <button name="durum" value="bekliyor" class="yk sifirla" title="Sıfırla">↺</button>
+                            </form>
+                        </td>
+                        <td class="sadece-yazdir"></td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+}
+
+@if (iptaller.Count > 0)
+{
+    <section class="kart yazdirma">
+        <h2>İptal edilen kayıtlar</h2>
+        <ul class="sade-liste">
+            @foreach (var x in iptaller)
+            {
+                <li><a href="/panel/kayit/@x.Id">@x.IletisimAd</a> · @x.Telefon · @x.Yolcular.Count kişi · alınan @TurServisi.Para(x.Alinan)</li>
+            }
+        </ul>
+    </section>
+}
+
+<script>
+// Yoklama düğmeleri sayfa yenilenmeden çalışır (telefonda otobüs kapısında kullanım için).
+document.querySelectorAll('.yoklama-form').forEach(f => f.addEventListener('click', async e => {
+  const d = e.target.closest('button'); if (!d) return;
+  e.preventDefault();
+  const veri = new FormData(f); veri.set('durum', d.value);
+  const yanit = await fetch(f.action, { method: 'POST', body: veri, headers: { 'X-Requested-With': 'fetch' } });
+  if (!yanit.ok) { alert('Kaydedilemedi, sayfayı yenileyin.'); return; }
+  const tr = f.closest('tr');
+  tr.classList.toggle('bindi', d.value === 'bindi'); tr.classList.toggle('gelmedi', d.value === 'gelmedi');
+  f.querySelectorAll('.yk').forEach(b => b.classList.toggle('secili', b === d && d.value !== 'bekliyor'));
+  document.getElementById('binen').textContent = document.querySelectorAll('tr.bindi').length;
+  document.getElementById('gelmeyen').textContent = document.querySelectorAll('tr.gelmedi').length;
+}));
+</script>

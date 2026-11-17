@@ -1,0 +1,93 @@
+@page "/panel/rapor"
+@model Acenta.Pages.Panel.RaporModel
+@{
+    ViewData["Title"] = "Rapor";
+    var s = Model.Satirlar;
+    var sorgu = $"baslangic={Model.Baslangic:yyyy-MM-dd}&bitis={Model.Bitis:yyyy-MM-dd}" + (Model.TurId is null ? "" : $"&turId={Model.TurId}");
+}
+
+<div class="baslik-satir">
+    <h1>Kalkış raporu</h1>
+    <div class="dugmeler yazdirma">
+        <button class="btn ikincil" type="button" onclick="print()">Yazdır</button>
+        <a class="btn ikincil" href="/panel/rapor?handler=Excel&@sorgu">Excel</a>
+        <a class="btn ikincil" href="/panel/rapor?handler=Pdf&@sorgu">PDF</a>
+    </div>
+</div>
+
+<form method="get" class="kart suzgec yazdirma">
+    <label>Başlangıç<input type="date" name="baslangic" value="@Model.Baslangic?.ToString("yyyy-MM-dd")"></label>
+    <label>Bitiş<input type="date" name="bitis" value="@Model.Bitis?.ToString("yyyy-MM-dd")"></label>
+    <label>Tur
+        <select name="turId">
+            <option value="">Tüm turlar</option>
+            @foreach (var t in Model.Turlar)
+            {
+                <option value="@t.Id" selected="@(Model.TurId == t.Id)">@t.Ad</option>
+            }
+        </select>
+    </label>
+    <button class="btn" type="submit">Göster</button>
+</form>
+
+<p class="aciklama sadece-yazdir">@Model.Baslangic?.ToString("dd.MM.yyyy") – @Model.Bitis?.ToString("dd.MM.yyyy")</p>
+
+<div class="ozet-kutular">
+    <div><small>Kalkış</small><b>@s.Count</b></div>
+    <div><small>Yolcu / kontenjan</small><b>@s.Sum(x => x.Yolcu) / @s.Sum(x => x.Kalkis.Kontenjan)</b></div>
+    <div><small>Toplam ücret</small><b>@TurServisi.Para(s.Sum(x => x.Tutar))</b></div>
+    <div><small>Alınan · kalan</small><b>@TurServisi.Para(s.Sum(x => x.Alinan)) · @TurServisi.Para(s.Sum(x => x.Kalan))</b></div>
+</div>
+
+@if (s.Count == 0)
+{
+    <div class="kart"><p>Bu aralıkta kalkış yok.</p></div>
+}
+else
+{
+    <div class="kart tablo-kart">
+        <table class="tablo">
+            <thead><tr><th>Tarih</th><th>Tur</th><th>Dolu</th><th>Doluluk</th><th>Kayıt</th><th>Bindi</th><th>Ücret</th><th>Alınan</th><th>Kalan</th></tr></thead>
+            <tbody>
+            @foreach (var x in s)
+            {
+                <tr class="@(x.Kalkis.Tarih < DateTime.Today ? "gecmis" : null)">
+                    <td><a href="/panel/kalkis/@x.Kalkis.Id">@x.Kalkis.Tarih.ToString("dd.MM.yyyy")</a><small>@x.Kalkis.Tarih.ToString("dddd", TurServisi.Tr)</small></td>
+                    <td>@x.Kalkis.Tur.Ad</td>
+                    <td>@x.Yolcu / @x.Kalkis.Kontenjan</td>
+                    <td><div class="cubuk"><span style="width:@(Math.Min(100, x.Doluluk))%"></span></div><small>%@x.Doluluk</small></td>
+                    <td>@x.KayitSayisi@if (x.IptalSayisi > 0) { <small>@x.IptalSayisi iptal</small> }</td>
+                    <td>@x.Binen</td>
+                    <td>@TurServisi.Para(x.Tutar)</td>
+                    <td>@TurServisi.Para(x.Alinan)</td>
+                    <td class="@(x.Kalan > 0 ? "kalan" : null)">@TurServisi.Para(x.Kalan)</td>
+                </tr>
+            }
+            </tbody>
+            <tfoot><tr><th colspan="2">Toplam</th><th>@s.Sum(x => x.Yolcu) / @s.Sum(x => x.Kalkis.Kontenjan)</th><th></th><th>@s.Sum(x => x.KayitSayisi)</th><th>@s.Sum(x => x.Binen)</th><th>@TurServisi.Para(s.Sum(x => x.Tutar))</th><th>@TurServisi.Para(s.Sum(x => x.Alinan))</th><th>@TurServisi.Para(s.Sum(x => x.Kalan))</th></tr></tfoot>
+        </table>
+    </div>
+}
+
+@if (Model.Bekleyenler.Count > 0)
+{
+    <div class="baslik-satir" style="margin:28px 0 12px"><h2>Ödemesi tamamlanmamış kayıtlar</h2><a class="btn ikincil kucuk yazdirma" href="/panel/rapor?handler=BekleyenExcel&@sorgu">Excel</a></div>
+    <div class="kart tablo-kart">
+        <table class="tablo">
+            <thead><tr><th>Kalkış</th><th>Rezervasyon</th><th>Kişi</th><th>Ücret</th><th>Alınan</th><th>Kalan</th></tr></thead>
+            <tbody>
+            @foreach (var x in Model.Bekleyenler)
+            {
+                <tr>
+                    <td>@x.TurTarihi.Tarih.ToString("dd.MM.yyyy")<small>@x.TurTarihi.Tur.Ad</small></td>
+                    <td><a href="/panel/kayit/@x.Id">@x.IletisimAd</a><small><a href="tel:@x.Telefon">@x.Telefon</a></small></td>
+                    <td>@x.Yolcular.Count</td>
+                    <td>@TurServisi.Para(x.Tutar)</td>
+                    <td>@TurServisi.Para(x.Alinan)</td>
+                    <td class="kalan">@TurServisi.Para(x.Kalan)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

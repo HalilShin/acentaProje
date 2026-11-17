@@ -1,0 +1,137 @@
+@{
+    var a = AyarDeposu.Al();
+    var bolum = ViewData["Bolum"] as string;
+    var yol = ViewData["Yol"] as string;
+    var aciklama = ViewData["Description"] as string;
+    var wa = a.WhatsAppGoster ? a.WhatsAppBaglantisi(SiteAyarlari.WhatsAppMesaj) : null;
+}
+<!doctype html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewData["Title"]</title>
+    @if (!string.IsNullOrEmpty(aciklama))
+    {
+        <meta name="description" content="@aciklama">
+    }
+    @if (yol is not null)
+    {
+        <link rel="canonical" href="@(SiteAyarlari.SiteAdresi)@yol">
+    }
+    else
+    {
+        <meta name="robots" content="noindex">
+    }
+    <link rel="icon" type="image/svg+xml" href="~/simge.svg">
+    <link rel="stylesheet" href="~/css/fonts.css" asp-append-version="true">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true">
+    @await RenderSectionAsync("Bas", required: false)
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-telefon" viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-posta" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+    <symbol id="i-konum" viewBox="0 0 24 24"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-ok" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-onay" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    <symbol id="i-carpi" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-belge" viewBox="0 0 24 24"><path d="M6 2.5h8.5L19 7v14.5H6V2.5zM14 2.5V7h5M9 12h7M9 15.5h7M9 8.5h3"/></symbol>
+    <symbol id="i-otobus" viewBox="0 0 24 24"><rect x="4" y="3.5" width="16" height="14" rx="3"/><path d="M4 11h16M7 17.5V20M17 17.5V20M8 14.5h.01M16 14.5h.01"/></symbol>
+    <symbol id="i-pusula" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5 5-2z"/></symbol>
+    <symbol id="i-mesaj" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/></symbol>
+    <symbol id="i-takvim" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4M8 14h3"/></symbol>
+  </defs>
+</svg>
+
+<div class="ustbar"><div class="sarma">
+  <span>TÜRSAB üyesi · Belge no <b>@SiteAyarlari.TursabBelgeNo</b> · @SiteAyarlari.FirmaUnvani</span>
+  <div class="sag">
+    @if (!string.IsNullOrWhiteSpace(a.Eposta))
+    {
+        <a href="mailto:@a.Eposta"><svg class="i"><use href="#i-posta"/></svg>@a.Eposta</a>
+    }
+    <a href="@a.TelefonBaglantisi"><svg class="i"><use href="#i-telefon"/></svg>@a.Telefon</a>
+  </div>
+</div></div>
+
+<header class="ust"><div class="sarma">
+  <partial name="_Logo" />
+  <input type="checkbox" id="menu-ac" aria-hidden="true">
+  <nav class="menu">
+    <a class="@(bolum == "turlar" ? "secili" : null)" href="/turlar">Turlar</a>
+    <a class="@(bolum == "gunubirlik" ? "secili" : null)" href="/turlar?tur=gunubirlik">Günübirlik</a>
+    <a class="@(bolum == "konaklamali" ? "secili" : null)" href="/turlar?tur=konaklamali">Konaklamalı</a>
+    <a class="@(bolum == "takvim" ? "secili" : null)" href="/tur-takvimi">Tur Takvimi</a>
+    <a class="@(bolum == "hakkimizda" ? "secili" : null)" href="/hakkimizda">Hakkımızda</a>
+    <a class="@(bolum == "iletisim" ? "secili" : null)" href="/iletisim">İletişim</a>
+  </nav>
+  <div class="ust-son">
+    @if (wa is not null)
+    {
+        <a class="dugme wa-d" href="@wa" target="_blank" rel="noopener">WhatsApp'tan yazın</a>
+    }
+    else
+    {
+        <a class="dugme" href="/iletisim">Bize ulaşın</a>
+    }
+    <label class="burger" for="menu-ac" aria-label="Menü"><svg class="i"><use href="#i-menu"/></svg></label>
+  </div>
+</div></header>
+
+<main>
+@RenderBody()
+</main>
+
+<footer><div class="sarma">
+  <div class="kolonlar">
+    <div>
+      <partial name="_Logo" />
+      <p>Ankara çıkışlı günübirlik ve konaklamalı yurt içi kültür turları.</p>
+      <div class="tursab">TÜRSAB · Belge no <b>@SiteAyarlari.TursabBelgeNo</b></div>
+    </div>
+    <div><h4>Turlar</h4><ul>
+      <li><a href="/turlar?tur=gunubirlik">Günübirlik turlar</a></li>
+      <li><a href="/turlar?tur=konaklamali">Konaklamalı turlar</a></li>
+      <li><a href="/tur-takvimi">Tur takvimi</a></li>
+      <li><a href="/turlar">Tüm turlar</a></li>
+    </ul></div>
+    <div><h4>Kurumsal</h4><ul>
+      <li><a href="/hakkimizda">Hakkımızda</a></li>
+      <li><a href="/iletisim">İletişim</a></li>
+      <li><a href="/kvkk">KVKK Aydınlatma Metni</a></li>
+      <li><a href="/cerez-politikasi">Çerez Politikası</a></li>
+      <li><a href="/fotograf-kaynaklari">Fotoğraf Kaynakları</a></li>
+    </ul></div>
+    <div><h4>İletişim</h4><ul>
+      @if (!string.IsNullOrWhiteSpace(a.Adres))
+      {
+          <li>@a.Adres</li>
+      }
+      <li><a href="@a.TelefonBaglantisi">@a.Telefon</a></li>
+      @if (!string.IsNullOrWhiteSpace(a.Eposta))
+      {
+          <li><a href="mailto:@a.Eposta">@a.Eposta</a></li>
+      }
+      @if (wa is not null)
+      {
+          <li><a href="@wa" target="_blank" rel="noopener">WhatsApp ile yazın</a></li>
+      }
+    </ul></div>
+  </div>
+  <div class="telif">© @DateTime.Now.Year @SiteAyarlari.FirmaUnvani · @SiteAyarlari.SiteAdi, @SiteAyarlari.FirmaUnvani markasıdır. TÜRSAB belge no @SiteAyarlari.TursabBelgeNo.</div>
+</div></footer>
+
+@if (wa is not null)
+{
+    <a class="wa" href="@wa" target="_blank" rel="noopener" aria-label="WhatsApp ile yazın">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 0 0-7.7 13.6L3 21l4.5-1.2A9 9 0 1 0 12 3z"/><path d="M9 8.5c-.4 2.8 3.7 6.9 6.5 6.5l.8-1.6-2-1-.9.9c-1.1-.5-2.2-1.6-2.7-2.7l.9-.9-1-2L9 8.5z"/></svg>
+        <span>WhatsApp</span>
+    </a>
+}
+
+</body>
+</html>

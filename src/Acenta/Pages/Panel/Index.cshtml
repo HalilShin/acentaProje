@@ -1,0 +1,61 @@
+@page
+@model Acenta.Pages.Panel.IndexModel
+@{
+    ViewData["Title"] = "Turlar";
+    var bugun = DateTime.Today;
+}
+
+<div class="baslik-satir">
+    <h1>Turlar</h1>
+    <a class="btn" href="/panel/tur">+ Yeni tur</a>
+</div>
+
+@if (Model.Basari is not null)
+{
+    <p class="uyari tamam">@Model.Basari</p>
+}
+@if (Model.Hata is not null)
+{
+    <p class="uyari hata">@Model.Hata</p>
+}
+
+@if (Model.Turlar.Count == 0)
+{
+    <div class="kart"><p>Henüz tur eklenmedi. <a href="/panel/tur">İlk turu ekleyin</a>.</p></div>
+}
+else
+{
+    <div class="kart tablo-kart">
+        <table class="tablo">
+            <thead><tr><th>Tur</th><th>Bölge</th><th>Fiyat</th><th>Sıradaki tarih</th><th>Durum</th><th></th></tr></thead>
+            <tbody>
+            @foreach (var t in Model.Turlar)
+            {
+                var siradaki = t.GelecekTarihler(bugun).FirstOrDefault();
+                var gelecek = t.GelecekTarihler(bugun).Count();
+                <tr>
+                    <td><a href="/panel/tur/@t.Id"><b>@t.Ad</b></a><small>@t.Sure · @(t.Turu == TurTuru.Gunubirlik ? "Günübirlik" : "Konaklamalı")</small></td>
+                    <td>@Bolgeler.Ad(t.Bolge)</td>
+                    <td>@TurServisi.Para(t.Fiyat)</td>
+                    <td>
+                        @if (siradaki is null)
+                        {
+                            <span class="soluk">Tarih yok</span>
+                        }
+                        else
+                        {
+                            <a href="/panel/kalkis/@siradaki.Id">@TurServisi.GunluTarih(siradaki.Tarih)</a><small>@siradaki.Ayrilan / @siradaki.Kontenjan dolu · toplam @gelecek tarih</small>
+                        }
+                    </td>
+                    <td>@if (t.Yayinda) { <span class="etiket-y">Yayında</span> } else { <span class="etiket-t">Taslak</span> }</td>
+                    <td class="sag">
+                        <a class="btn ikincil kucuk" href="/panel/tur/@t.Id">Düzenle</a>
+                        <form method="post" asp-page-handler="Kopyala" class="satir-ici"><input type="hidden" name="id" value="@t.Id"><button class="btn ikincil kucuk" type="submit" title="Bilgileri ve fotoğrafıyla yeni bir taslak tur oluşturur; tarihler kopyalanmaz">Kopyala</button></form>
+                        <a class="btn ikincil kucuk" href="@t.Adres" target="_blank" rel="noopener">Gör ↗</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+}

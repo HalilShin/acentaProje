@@ -1,0 +1,117 @@
+@page "/panel/kayit/{id:int?}"
+@model Acenta.Pages.Panel.KayitModel
+@{
+    ViewData["Title"] = Model.Id is null ? "Yeni kayıt" : "Kaydı düzenle";
+    var k = Model.Kalkis;
+}
+
+<div class="baslik-satir">
+    <div>
+        <h1>@(Model.Id is null ? "Yeni kayıt" : "Kaydı düzenle")</h1>
+        <p class="aciklama">@k.Tur.Ad · @TurServisi.UzunTarih(k.Tarih) · @k.Ayrilan / @k.Kontenjan dolu</p>
+    </div>
+    <a class="btn ikincil" href="/panel/kalkis/@k.Id">← Kalkışa dön</a>
+</div>
+
+<div asp-validation-summary="All" class="uyari hata"></div>
+
+<form method="post">
+    <section class="kart">
+        <h2>Rezervasyonu yapan</h2>
+        <div class="izgara">
+            <label>Ad Soyad<input asp-for="Girdi.IletisimAd" maxlength="100" autofocus></label>
+            <label>Telefon<input asp-for="Girdi.Telefon" type="tel" maxlength="30" placeholder="05xx xxx xx xx"></label>
+            <label>Biniş yeri<input asp-for="Girdi.BinisYeri" maxlength="120" placeholder="Kızılay, Batıkent…"></label>
+            <label>Kalkış
+                <select asp-for="Girdi.KalkisId">
+                    @foreach (var d in Model.DigerKalkislar)
+                    {
+                        <option value="@d.Id">@TurServisi.GunluTarih(d.Tarih) @d.Tarih.Year · @d.Ayrilan/@d.Kontenjan dolu</option>
+                    }
+                </select>
+                <small>Kaydı başka tarihe taşımak için değiştirin.</small>
+            </label>
+        </div>
+    </section>
+
+    <section class="kart">
+        <h2>Yolcular</h2>
+        <p class="aciklama">Her satır bir koltuk. İsimleri sonra da girebilirsiniz: "Kişi sayısı"na yazdığınız kadar koltuk ayrılır, isimsiz koltuklar "Ad Soyad +1" olarak listelenir. Kimlik no yolcu listesi için isteğe bağlıdır.</p>
+        <div class="izgara">
+            <label>Kişi sayısı (isimsiz koltuklar dahil)
+                <input asp-for="Girdi.KisiSayisi" type="number" min="1" max="999" placeholder="Satır sayısı kadar">
+            </label>
+        </div>
+        <table class="tablo tarihler yolcu-tablo" id="yolcular">
+            <thead><tr><th>#</th><th>Ad Soyad</th><th>TC / pasaport no</th><th></th></tr></thead>
+            <tbody>
+            @for (var i = 0; i < Model.Yolcular.Count; i++)
+            {
+                <tr>
+                    <td class="sira">@(i + 1)</td>
+                    <td><input type="hidden" name="Yolcular[@i].Id" value="@Model.Yolcular[i].Id"><input type="hidden" name="Yolcular[@i].Bindi" value="@Model.Yolcular[i].Bindi?.ToString().ToLowerInvariant()"><input name="Yolcular[@i].AdSoyad" maxlength="100" value="@Model.Yolcular[i].AdSoyad"></td>
+                    <td><input name="Yolcular[@i].KimlikNo" maxlength="20" value="@Model.Yolcular[i].KimlikNo" autocomplete="off"></td>
+                    <td><button type="button" class="btn ikincil kucuk sil-satir">Sil</button></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <button type="button" class="btn ikincil" id="yolcu-ekle">+ Yolcu ekle</button>
+        <template id="yolcu-sablon">
+            <tr>
+                <td class="sira"></td>
+                <td><input type="hidden" name="Yolcular[#].Id" value=""><input type="hidden" name="Yolcular[#].Bindi" value=""><input name="Yolcular[#].AdSoyad" maxlength="100"></td>
+                <td><input name="Yolcular[#].KimlikNo" maxlength="20" autocomplete="off"></td>
+                <td><button type="button" class="btn ikincil kucuk sil-satir">Sil</button></td>
+            </tr>
+        </template>
+    </section>
+
+    <section class="kart">
+        <h2>Ödeme</h2>
+        <div class="izgara">
+            <label>Toplam ücret (₺)
+                <input asp-for="Girdi.Tutar" asp-format="{0:0}" type="number" min="0" step="1" placeholder="Boşsa kişi başı @TurServisi.Para(Model.Girdi.KisiBasiFiyat ?? k.Fiyat ?? k.Tur.Fiyat) × kişi">
+                <input type="hidden" asp-for="Girdi.KisiBasiFiyat" asp-format="{0:0}">
+            </label>
+            <label>Alınan ödeme (₺)
+                <input asp-for="Girdi.Alinan" asp-format="{0:0}" type="number" min="0" step="1" placeholder="0">
+                <small>Kapora dahil, şimdiye kadar alınan.</small>
+            </label>
+            <label class="genis">Not
+                <input asp-for="Girdi.Not" maxlength="500" placeholder="Oda tercihi, çocuk yaşı, özel istek…">
+            </label>
+            <label class="onay genis"><input asp-for="Girdi.Iptal" type="checkbox"> Kayıt iptal edildi (koltuk tutmaz, raporda iptal olarak görünür)</label>
+        </div>
+    </section>
+
+    <div class="dugmeler">
+        <button class="btn" type="submit">Kaydet</button>
+        <a class="btn ikincil" href="/panel/kalkis/@k.Id">Vazgeç</a>
+    </div>
+</form>
+
+@if (Model.Id is not null)
+{
+    <form method="post" asp-page-handler="Sil" asp-route-id="@Model.Id" class="sil-form" onsubmit="return confirm('Bu kayıt ve yolcuları kalıcı olarak silinsin mi? İptal edilen kayıtları raporda görmek için silmek yerine \'iptal edildi\' işaretleyin.')">
+        <button class="btn tehlike" type="submit">Kaydı sil</button>
+    </form>
+}
+
+<script>
+(() => {
+  const govde = document.querySelector('#yolcular tbody');
+  const sablon = document.getElementById('yolcu-sablon').innerHTML;
+  const numarala = () => govde.querySelectorAll('tr').forEach((tr, i) => {
+    tr.querySelector('.sira').textContent = i + 1;
+    tr.querySelectorAll('[name^="Yolcular["]').forEach(el => el.name = el.name.replace(/Yolcular\[[^\]]*\]/, `Yolcular[${i}]`));
+  });
+  document.getElementById('yolcu-ekle').addEventListener('click', () => {
+    govde.insertAdjacentHTML('beforeend', sablon); numarala();
+    govde.lastElementChild.querySelector('input:not([type=hidden])').focus();
+  });
+  govde.addEventListener('click', e => {
+    if (e.target.classList.contains('sil-satir')) { e.target.closest('tr').remove(); numarala(); }
+  });
+})();
+</script>

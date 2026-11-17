@@ -12,6 +12,18 @@
       "runtimeExecutable": "dotnet",
       "runtimeArgs": ["run", "--project", "src/Tasimacilik", "--launch-profile", "http"],
       "port": 5068
+    },
+    {
+      "name": "acenta",
+      "runtimeExecutable": "dotnet",
+      "runtimeArgs": ["run", "--project", "src/Acenta", "--launch-profile", "http"],
+      "port": 5095
+    },
+    {
+      "name": "taslak",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "5090", "--bind", "127.0.0.1"],
+      "port": 5090
     }
   ]
 }

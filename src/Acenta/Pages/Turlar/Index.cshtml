@@ -1,0 +1,61 @@
+@page "/turlar"
+@model Acenta.Pages.Turlar.IndexModel
+@{
+    ViewData["Title"] = $"{Model.Baslik} | {SiteAyarlari.SiteAdi}";
+    ViewData["Description"] = "Ankara çıkışlı günübirlik ve konaklamalı yurt içi turlar: tarihler, fiyatlar ve programlar.";
+    ViewData["Bolum"] = Model.Tur switch { "gunubirlik" => "gunubirlik", "konaklamali" => "konaklamali", _ => "turlar" };
+    // Süzülmüş listeler arama motorlarına ayrı sayfa olarak verilmez.
+    ViewData["Yol"] = Model.Suzuldu ? null : "/turlar";
+    ViewData["Ay"] = Model.SeciliAy;
+}
+
+<partial name="_SayfaBasi" model='new SayfaBasi(Model.Baslik, "Ankara çıkışlı yurt içi turlarımız. Tarih ve bölge seçerek süzebilirsiniz.", ("Turlar", null))' />
+
+<section><div class="sarma">
+    <form class="suzgec" method="get">
+        <label>Bölge
+            <select name="bolge">
+                <option value="">Tüm bölgeler</option>
+                @foreach (var b in Bolgeler.Tumu)
+                {
+                    <option value="@b.Kod" selected="@(Model.Bolge == b.Kod)">@b.Ad</option>
+                }
+            </select>
+        </label>
+        <label>Ay
+            <select name="ay">
+                <option value="">Tüm tarihler</option>
+                @foreach (var ay in Model.Aylar)
+                {
+                    <option value="@ay.Kod" selected="@(Model.Ay == ay.Kod)">@ay.Ad</option>
+                }
+            </select>
+        </label>
+        <label>Tur türü
+            <select name="tur">
+                <option value="">Hepsi</option>
+                <option value="gunubirlik" selected="@(Model.Tur == "gunubirlik")">Günübirlik</option>
+                <option value="konaklamali" selected="@(Model.Tur == "konaklamali")">Konaklamalı</option>
+            </select>
+        </label>
+        <button class="dugme" type="submit">Göster</button>
+        @if (Model.Suzuldu)
+        {
+            <a class="temizle" href="/turlar">Temizle</a>
+        }
+    </form>
+
+    @if (Model.Sonuclar.Count > 0)
+    {
+        <div class="turlar">
+            @foreach (var t in Model.Sonuclar)
+            {
+                <partial name="_TurKarti" model="t" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="bos"><b>Bu seçime uygun tur bulunamadı</b>Başka bir ay ya da bölge seçebilir veya <a href="/iletisim" style="text-decoration:underline">bize ulaşarak</a> grubunuza özel tur isteyebilirsiniz.</div>
+    }
+</div></section>

@@ -1,0 +1,164 @@
+@page "/panel/tur/{id:int?}"
+@model Acenta.Pages.Panel.TurModel
+@{
+    ViewData["Title"] = Model.Id is null ? "Yeni tur" : Model.Girdi.Ad;
+}
+
+<div class="baslik-satir">
+    <h1>@(Model.Id is null ? "Yeni tur" : "Turu düzenle")</h1>
+    <a class="btn ikincil" href="/panel">← Turlar</a>
+</div>
+
+@if (Model.Basari is not null)
+{
+    <p class="uyari tamam">@Model.Basari @if (Model.Adres is not null && Model.Girdi.Yayinda) { <a href="@Model.Adres" target="_blank" rel="noopener">Sitede gör ↗</a> }</p>
+}
+<div asp-validation-summary="All" class="uyari hata"></div>
+
+<form method="post" enctype="multipart/form-data">
+    @foreach (var b in Model.BilinenTarihler)
+    {
+        <input type="hidden" name="BilinenTarihler" value="@b">
+    }
+    <section class="kart">
+        <h2>Tur bilgileri</h2>
+        <div class="izgara">
+            <label class="genis">Tur adı
+                <input asp-for="Girdi.Ad" maxlength="160" placeholder="Konaklamalı Kapadokya ve Ihlara Vadisi Turu">
+            </label>
+            <label>Bölge
+                <select asp-for="Girdi.Bolge">
+                    <option value="">Seçin</option>
+                    @foreach (var b in Bolgeler.Tumu)
+                    {
+                        <option value="@b.Kod">@b.Ad</option>
+                    }
+                </select>
+            </label>
+            <label>Tur türü
+                <select asp-for="Girdi.Turu">
+                    <option value="@TurTuru.Gunubirlik">Günübirlik</option>
+                    <option value="@TurTuru.Konaklamali">Konaklamalı</option>
+                </select>
+            </label>
+            <label>Süre
+                <input asp-for="Girdi.Sure" maxlength="60" placeholder="1 gece 2 gün / Günübirlik">
+            </label>
+            <label>Ulaşım
+                <input asp-for="Girdi.Ulasim" maxlength="60" placeholder="Otobüsle">
+            </label>
+            <label>Kişi başı fiyat (₺)
+                <input asp-for="Girdi.Fiyat" asp-format="{0:0}" type="number" min="0" step="1">
+                <small>Tarihe özel fiyat girilmezse bu fiyat gösterilir.</small>
+            </label>
+            <label>Adres (isteğe bağlı)
+                <input asp-for="Girdi.Kod" maxlength="120" placeholder="Boşsa tur adından üretilir">
+                <small>/turlar/… — yayındaki bir turda değiştirmeyin.</small>
+            </label>
+            <label class="genis">Buluşma yeri ve saati
+                <input asp-for="Girdi.Bulusma" maxlength="120" placeholder="Kızılay Güvenpark önü, 07.00 · dönüş yaklaşık 21.00">
+                <small>Tur sayfasında fiyatın altında görünür.</small>
+            </label>
+            <label class="genis">Kısa tanıtım
+                <input asp-for="Girdi.Ozet" maxlength="300" placeholder="Tur kartında ve arama sonuçlarında görünen bir iki cümle">
+            </label>
+            <label class="onay"><input asp-for="Girdi.Yayinda" type="checkbox"> Sitede yayında</label>
+            <label class="onay"><input asp-for="Girdi.OneCikan" type="checkbox"> Ana sayfada öne çıkar</label>
+        </div>
+    </section>
+
+    <section class="kart">
+        <h2>Kalkış tarihleri ve kontenjan</h2>
+        <p class="aciklama">Dolu koltuk, kalkışa girilen kayıtlardan hesaplanır. Kontenjan dolunca tarih sitede "Dolu" görünür; 10 ve daha az yer kalınca "Son … yer" yazar. Geçmiş tarihler sitede görünmez. Yeni tarih ekledikten sonra kaydedin, sonra "Kayıtlar"a girebilirsiniz.</p>
+        <table class="tablo tarihler" id="tarihler">
+            <thead><tr><th>Tarih</th><th>Kontenjan</th><th>Dolu</th><th>Özel fiyat (₺)</th><th>Not</th><th></th></tr></thead>
+            <tbody>
+            @for (var i = 0; i < Model.Tarihler.Count; i++)
+            {
+                <tr>
+                    <td><input type="hidden" name="Tarihler[@i].Id" value="@Model.Tarihler[i].Id"><input type="date" name="Tarihler[@i].Tarih" value="@Model.Tarihler[i].Tarih?.ToString("yyyy-MM-dd")"></td>
+                    <td><input type="number" min="0" max="999" name="Tarihler[@i].Kontenjan" value="@Model.Tarihler[i].Kontenjan"></td>
+                    <td>@if (Model.Tarihler[i].Id is { } tid) { <a class="dolu-bag" href="/panel/kalkis/@tid">@Model.Tarihler[i].Ayrilan kişi · Kayıtlar</a> } else { <span class="soluk">—</span> }</td>
+                    <td><input type="number" min="0" step="1" name="Tarihler[@i].Fiyat" value="@Model.Tarihler[i].Fiyat?.ToString("0")" placeholder="—"></td>
+                    <td><input name="Tarihler[@i].Not" maxlength="120" value="@Model.Tarihler[i].Not" placeholder="Örn. bayram"></td>
+                    <td><button type="button" class="btn ikincil kucuk sil-satir" title="Satırı kaldır">Sil</button></td>
+                </tr>
+            }
+            </tbody>
+        </table>
+        <button type="button" class="btn ikincil" id="tarih-ekle">+ Tarih ekle</button>
+        <template id="tarih-sablon">
+            <tr>
+                <td><input type="hidden" name="Tarihler[#].Id" value=""><input type="date" name="Tarihler[#].Tarih"></td>
+                <td><input type="number" min="0" max="999" name="Tarihler[#].Kontenjan" value="46"></td>
+                <td><span class="soluk">Yeni</span></td>
+                <td><input type="number" min="0" step="1" name="Tarihler[#].Fiyat" placeholder="—"></td>
+                <td><input name="Tarihler[#].Not" maxlength="120" placeholder="Örn. bayram"></td>
+                <td><button type="button" class="btn ikincil kucuk sil-satir" title="Satırı kaldır">Sil</button></td>
+            </tr>
+        </template>
+    </section>
+
+    <section class="kart">
+        <h2>Program ve ayrıntılar</h2>
+        <p class="aciklama">Her satır ayrı bir madde olarak gösterilir.</p>
+        <div class="izgara">
+            <label class="genis">Program (her satır bir gün ya da durak)
+                <textarea asp-for="Girdi.Program" rows="6" placeholder="1. Gün: Ankara'dan hareket, Ihlara Vadisi…&#10;2. Gün: Göreme, Uçhisar…"></textarea>
+            </label>
+            <label>Fiyata dahil
+                <textarea asp-for="Girdi.Dahil" rows="5" placeholder="Otobüsle ulaşım&#10;1 gece otel konaklaması"></textarea>
+            </label>
+            <label>Fiyata dahil değil
+                <textarea asp-for="Girdi.Haric" rows="5" placeholder="Müze girişleri&#10;Öğle yemekleri"></textarea>
+            </label>
+            <label class="genis">Bilmeniz gerekenler (buluşma yeri, iptal koşulları…)
+                <textarea asp-for="Girdi.Notlar" rows="3"></textarea>
+            </label>
+        </div>
+    </section>
+
+    <section class="kart">
+        <h2>Fotoğraf</h2>
+        <p class="aciklama">Yüklenmezse bölgenin hazır fotoğrafı kullanılır. Kendi çektiğiniz ya da kullanım hakkına sahip olduğunuz bir fotoğraf yükleyin (JPG, PNG, WEBP; en çok 6 MB; yatay).</p>
+        <div class="izgara">
+            @if (Model.MevcutFotograf is not null)
+            {
+                <div class="genis foto-onizleme"><img src="@Model.MevcutFotograf" alt=""><label class="onay"><input asp-for="FotografiKaldir" type="checkbox"> Bu fotoğrafı kaldır</label></div>
+            }
+            <label class="genis">@(Model.MevcutFotograf is null ? "Fotoğraf yükle" : "Yenisiyle değiştir")
+                <input asp-for="YeniFotograf" type="file" accept="image/jpeg,image/png,image/webp">
+            </label>
+        </div>
+    </section>
+
+    <div class="dugmeler">
+        <button class="btn" type="submit">Kaydet</button>
+        <a class="btn ikincil" href="/panel">Vazgeç</a>
+    </div>
+</form>
+
+@if (Model.Id is not null)
+{
+    <form method="post" asp-page="/Panel/Index" asp-page-handler="Sil" class="sil-form" onsubmit="return confirm('Bu tur ve bütün tarihleri silinsin mi? Bu işlem geri alınamaz. Turu yalnızca gizlemek için \'Sitede yayında\' işaretini kaldırabilirsiniz.')">
+        <input type="hidden" name="id" value="@Model.Id">
+        <button class="btn tehlike" type="submit">Turu sil</button>
+    </form>
+}
+
+<script>
+(() => {
+  const govde = document.querySelector('#tarihler tbody');
+  const sablon = document.getElementById('tarih-sablon').innerHTML;
+  // Satır sıraları her değişiklikte yeniden numaralanır; sunucu listeyi 0'dan ardışık bekler.
+  const numarala = () => govde.querySelectorAll('tr').forEach((tr, i) =>
+    tr.querySelectorAll('[name^="Tarihler["]').forEach(el => el.name = el.name.replace(/Tarihler\[[^\]]*\]/, `Tarihler[${i}]`)));
+  document.getElementById('tarih-ekle').addEventListener('click', () => {
+    govde.insertAdjacentHTML('beforeend', sablon); numarala();
+    govde.lastElementChild.querySelector('input[type=date]').focus();
+  });
+  govde.addEventListener('click', e => {
+    if (e.target.classList.contains('sil-satir')) { e.target.closest('tr').remove(); numarala(); }
+  });
+})();
+</script>

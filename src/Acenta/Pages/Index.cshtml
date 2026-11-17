@@ -1,0 +1,120 @@
+@page
+@model Acenta.Pages.IndexModel
+@{
+    ViewData["Title"] = $"{SiteAyarlari.SiteAdi} — Ankara Çıkışlı Kültür Turları";
+    ViewData["Description"] = "Ankara çıkışlı günübirlik ve konaklamalı yurt içi kültür turları. Kapadokya, GAP, Karadeniz, Ege ve daha fazlası. TÜRSAB belge no " + SiteAyarlari.TursabBelgeNo + ".";
+    ViewData["Yol"] = "/";
+    var v = Fotograflar.Vitrin;
+}
+
+<div class="vitrin"><div class="sarma">
+    <span class="etiket">Ankara çıkışlı yurt içi kültür turları</span>
+    <h1>Anadolu'yu rehberle, rahatça gezin</h1>
+    <p>Günübirlik gezilerden konaklamalı bölge turlarına kadar Ankara'dan hareketli turlar. Yerinizi WhatsApp'tan ayırtın, gerisini bize bırakın.</p>
+</div>
+<span class="vitrin-atif">Fotoğraf: @v.Konu · <a href="/fotograf-kaynaklari">@v.Yazar, @v.Lisans</a></span>
+</div>
+
+<div class="ara"><div class="sarma">
+    <form method="get" action="/turlar">
+        <label>Nereye?
+            <select name="bolge">
+                <option value="">Tüm bölgeler</option>
+                @foreach (var b in Bolgeler.Tumu)
+                {
+                    <option value="@b.Kod">@b.Ad</option>
+                }
+            </select>
+        </label>
+        <label>Ne zaman?
+            <select name="ay">
+                <option value="">Tüm tarihler</option>
+                @foreach (var ay in Model.Aylar)
+                {
+                    <option value="@ay.Kod">@ay.Ad</option>
+                }
+            </select>
+        </label>
+        <label>Tur türü
+            <select name="tur">
+                <option value="">Hepsi</option>
+                <option value="gunubirlik">Günübirlik</option>
+                <option value="konaklamali">Konaklamalı</option>
+            </select>
+        </label>
+        <button class="dugme" type="submit">Tur ara</button>
+        @if (Model.BolgeSayilari.Count > 0)
+        {
+            <div class="ipucu">Bölgeler:
+                @foreach (var b in Bolgeler.Tumu.Where(b => Model.BolgeSayilari.ContainsKey(b.Kod)))
+                {
+                    <a href="/turlar?bolge=@b.Kod">@b.Ad</a>
+                }
+                <a href="/turlar?tur=gunubirlik">Günübirlik turlar</a>
+            </div>
+        }
+    </form>
+</div></div>
+
+<section><div class="sarma">
+    <div class="bas"><div><span class="etiket">Bölgeler</span><h2>Nereyi görmek istersiniz?</h2></div><a href="/turlar">Tüm turlar →</a></div>
+    <div class="bolgeler">
+        @foreach (var b in Bolgeler.Tumu)
+        {
+            var sayi = Model.BolgeSayilari.GetValueOrDefault(b.Kod);
+            <a class="bolge" href="/turlar?bolge=@b.Kod">
+                <img src="@b.Fotograf" alt="@b.Ad" loading="lazy" width="300" height="400">
+                <span><b>@b.Ad</b><small>@(sayi > 0 ? $"{sayi} tur" : "Yakında")</small></span>
+            </a>
+        }
+    </div>
+</div></section>
+
+<section class="ilk"><div class="sarma">
+    <div class="bas"><div><span class="etiket">Yaklaşan turlar</span><h2>Yakında yola çıkıyoruz</h2></div><a href="/tur-takvimi">Tur takvimi →</a></div>
+    @if (Model.Yaklasanlar.Count > 0)
+    {
+        <div class="turlar">
+            @foreach (var t in Model.Yaklasanlar)
+            {
+                <partial name="_TurKarti" model="t" />
+            }
+        </div>
+    }
+    else
+    {
+        <div class="bos"><b>Yeni tur tarihleri yakında</b>Programlarımızı hazırlıyoruz. Bilgi almak için WhatsApp'tan ya da telefonla bize ulaşabilirsiniz.</div>
+    }
+</div></section>
+
+<section class="koyu"><div class="sarma">
+    <div class="bas"><div><span class="etiket">Neden biz</span><h2>Gönül rahatlığıyla yola çıkın</h2></div></div>
+    <div class="guven">
+        <div><div class="simge"><svg class="i"><use href="#i-belge"/></svg></div><h3>TÜRSAB belgeli acenta</h3><p>Belge no @SiteAyarlari.TursabBelgeNo. Turlarımız Seyahat Acentaları Kanunu'na uygun düzenlenir.</p></div>
+        <div><div class="simge"><svg class="i"><use href="#i-otobus"/></svg></div><h3>Kendi araçlarımızla</h3><p>D2 belgeli filomuzla Ankara'dan hareket ediyoruz; şoförlerimiz uzun yola alışkın.</p></div>
+        <div><div class="simge"><svg class="i"><use href="#i-pusula"/></svg></div><h3>Rehberli program</h3><p>Durakları, süreleri ve molaları önceden bilirsiniz; rehberiniz yol boyunca yanınızda.</p></div>
+        <div><div class="simge"><svg class="i"><use href="#i-mesaj"/></svg></div><h3>Kolay rezervasyon</h3><p>Online ödeme yok; WhatsApp'tan yazın, yerinizi ayıralım ve ödeme bilgisini size iletelim.</p></div>
+    </div>
+</div></section>
+
+<section><div class="sarma">
+    <div class="bas"><div><span class="etiket">Rezervasyon</span><h2>Üç adımda yerinizi ayırtın</h2></div></div>
+    <div class="adimlar">
+        <div><h3>Turu ve tarihi seçin</h3><p>Tur sayfasında programı, fiyata dahil olanları ve boş tarihleri görün.</p></div>
+        <div><h3>WhatsApp'tan yazın</h3><p>"WhatsApp ile rezervasyon" düğmesi tur adını ve tarihi hazır yazar; kişi sayısını ekleyip gönderin.</p></div>
+        <div><h3>Yeriniz ayrılsın</h3><p>Kontenjanı kontrol edip size dönelim; ödeme ve buluşma bilgilerini iletelim.</p></div>
+    </div>
+</div></section>
+
+@if (Model.Aylar.Count > 0)
+{
+    <section class="ilk"><div class="sarma">
+        <div class="bas"><div><span class="etiket">Tur takvimi</span><h2>Aylara göre turlar</h2></div><a href="/tur-takvimi">Takvimin tamamı →</a></div>
+        <div class="aylar">
+            @foreach (var ay in Model.Aylar.Take(6))
+            {
+                <a href="/tur-takvimi#@ay.Kod"><b>@ay.KisaAd</b><small>@ay.Sayi kalkış</small></a>
+            }
+        </div>
+    </div></section>
+}

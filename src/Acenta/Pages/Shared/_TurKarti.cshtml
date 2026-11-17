@@ -1,0 +1,58 @@
+@model Tur
+@inject TurServisi Turlar
+@{
+    var bugun = DateTime.Today;
+    // Tur listesinde ay seçildiyse yalnızca o ayın kalkışları gösterilir ve rezervasyona o tarih yazılır.
+    var tarihler = Model.GelecekTarihler(bugun).ToList();
+    if (ViewData["Ay"] is DateTime ay)
+        tarihler = tarihler.Where(t => t.Tarih.Year == ay.Year && t.Tarih.Month == ay.Month).ToList();
+    var ilk = tarihler.FirstOrDefault(t => !t.Dolu);
+    var fiyat = ilk?.Fiyat ?? Model.Fiyat;
+    var wa = Turlar.Rezervasyon(Model, ilk);
+}
+<article class="tur">
+    <a class="foto" href="@Model.Adres">
+        <img src="@TurServisi.Fotograf(Model)" alt="@Model.Ad" loading="lazy" width="600" height="375">
+        @if (ilk is not null)
+        {
+            <span class="rozet">En yakın: @TurServisi.GunluTarih(ilk.Tarih)</span>
+            @if (ilk.Az)
+            {
+                <span class="rozet az">Son @ilk.Bos yer</span>
+            }
+        }
+        else if (tarihler.Count > 0)
+        {
+            <span class="rozet dolu">Tüm tarihler dolu</span>
+        }
+    </a>
+    <div class="govde">
+        <h3><a href="@Model.Adres">@Model.Ad</a></h3>
+        <div class="bilgi"><span>@Model.Sure</span><span>@Model.Ulasim</span><span>@Bolgeler.Ad(Model.Bolge)</span></div>
+        <a class="incele" href="@Model.Adres">Programı ve tarihleri incele →</a>
+        @if (tarihler.Count > 0)
+        {
+            <div class="tarihler">
+                @foreach (var t in tarihler.Take(5))
+                {
+                    <span class="@(t.Dolu ? "dolu" : null)" title="@(t.Dolu ? "Dolu" : $"{t.Bos} boş yer")">@TurServisi.KisaTarih(t.Tarih)</span>
+                }
+                @if (tarihler.Count > 5)
+                {
+                    <span>+@(tarihler.Count - 5) tarih</span>
+                }
+            </div>
+        }
+        <div class="alt">
+            <div class="fiyat"><small>Kişi başı</small><b>@TurServisi.Para(fiyat)</b></div>
+            @if (wa is not null && ilk is not null)
+            {
+                <a class="dugme wa-d" href="@wa" target="_blank" rel="noopener" title="@TurServisi.UzunTarih(ilk.Tarih) kalkışı için WhatsApp ile yazın">@TurServisi.KisaTarih(ilk.Tarih) · Rezervasyon</a>
+            }
+            else
+            {
+                <a class="dugme" href="@Model.Adres">İncele</a>
+            }
+        </div>
+    </div>
+</article>
