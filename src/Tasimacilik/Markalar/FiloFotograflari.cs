@@ -13,6 +13,7 @@ public static class FiloFotograflari
 {
     private const string BySa4 = "https://creativecommons.org/licenses/by-sa/4.0/";
     private const string BySa3 = "https://creativecommons.org/licenses/by-sa/3.0/";
+    private const string By4 = "https://creativecommons.org/licenses/by/4.0/";
     private const string By3 = "https://creativecommons.org/licenses/by/3.0/";
     private const string Cc0 = "https://creativecommons.org/publicdomain/zero/1.0/";
     private const string Commons = "https://commons.wikimedia.org/wiki/File:";
@@ -23,7 +24,7 @@ public static class FiloFotograflari
         ["Mercedes-Benz Vito"] = new("/img/filo/vito.jpg", "Mercedes-Benz Vito", "Dinkun Chen", "CC BY-SA 4.0", BySa4, Commons + "MERCEDES-BENZ_VITO_(W447)_China_(4).jpg"),
         ["Mercedes-Benz Sprinter"] = new("/img/filo/sprinter.jpg", "Mercedes-Benz Sprinter", "Ethan Llamas", "CC BY-SA 4.0", BySa4, Commons + "2016_Mercedes-Benz_Sprinter_Super_High_Minibus,_front_right.jpg"),
         ["Otokar Sultan"] = new("/img/filo/sultan.jpg", "Otokar Sultan", "Mr.choppers", "CC BY-SA 3.0", BySa3, Commons + "Otokar_Sultan_125_S_front.jpg"),
-        ["Mercedes-Benz Travego"] = new("/img/filo/travego.jpg", "Mercedes-Benz Travego", "Anatoliy-024", "CC BY-SA 3.0", BySa3, Commons + "Mercedes-Benz_O580-16RHD_Travego_from_Poland,_Lviv_Liberty_Avenue.jpg"),
+        ["Mercedes-Benz Travego"] = new("/img/filo/travego-manavgat.jpg", "Mercedes-Benz Travego", "VynedJ", "CC BY 4.0", By4, Commons + "Mercedes-Benz_Travego_in_Manavgat_20241017.jpg"),
         ["MAN Lion's Coach"] = new("/img/filo/lions.jpg", "MAN Lion's Coach", "Anatoliy-024", "CC BY-SA 4.0", BySa4, Commons + "MAN_Lion%27s_Coach_Papenburger_Kanalreisen.jpg"),
         ["Mercedes-Benz Tourismo"] = new("/img/filo/tourismo.jpg", "Mercedes-Benz Tourismo", "Matti Blume", "CC BY-SA 4.0", BySa4, Commons + "Mercedes-Benz_Tourismo,_Berlin_(20180910_131307).jpg"),
     };
@@ -68,13 +69,10 @@ public static class FiloFotograflari
         ["kongre-tasimaciligi"] = "MAN Lion's Coach",
     };
 
-    private const string By4 = "https://creativecommons.org/licenses/by/4.0/";
-
-    /// <summary>Marka kodu → ilk ekran fotoğrafı (1920×1080).</summary>
+    /// <summary>Marka kodu → ilk ekran fotoğrafı (1920×1080). Otobüs Kirala ilk ekranında fotoğraf yerine kapasite seçici var.</summary>
     private static readonly Dictionary<string, Fotograf> Vitrinler = new()
     {
         ["selcuklu"] = new("/img/yerler/kapadokya-genis.jpg", "Kapadokya", "Wolfgang Moroder", "CC BY-SA 3.0", BySa3, Commons + "Hot_air_balloon_ride_at_sunrise_in_Cappadocia.JPG"),
-        ["otobuskirala"] = new("/img/filo/travego-manavgat-genis.jpg", "Mercedes-Benz Travego", "VynedJ", "CC BY 4.0", By4, Commons + "Mercedes-Benz_Travego_in_Manavgat_20241017.jpg"),
         ["transfer"] = new("/img/filo/vclass-genis.jpg", "Mercedes-Benz V-Class", "Mam16600 / Tripyana", "CC BY 4.0", By4, Commons + "Black_Mercedes-Benz_V-Class_outside_a_Mayfair_hotel,_Grosvenor_Square,_London_(Tripyana).jpg"),
     };
 

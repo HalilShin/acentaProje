@@ -33,7 +33,11 @@
             }
         </div>
     </div>
-    @if (vitrin is null)
+    @if (m.Kod == "otobuskirala")
+    {
+        <partial name="_KapasiteSecici" />
+    }
+    else if (vitrin is null)
     {
         <div class="sahne">
             <div class="yol"></div>

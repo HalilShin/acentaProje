@@ -260,7 +260,7 @@ footer .logo svg > :first-child{stroke:rgba(255,255,255,.9);stroke-width:2}
 .hizli-not{font-size:12.5px;color:var(--soluk);margin-top:10px;text-align:center}
 .hizli-not a{text-decoration:underline}
 .hizli + section{padding-top:64px}
-.m-otobuskirala .vitrin.foto h1{font-size:clamp(34px,4.4vw,54px)}
+.m-otobuskirala .vitrin h1{font-size:clamp(34px,3.9vw,50px)}
 
 /* Hizmet kartı fotoğrafı */
 .kart.fotolu{padding:0 0 22px;overflow:hidden}
@@ -291,4 +291,38 @@ footer .logo svg > :first-child{stroke:rgba(255,255,255,.9);stroke-width:2}
   .hizli-kutu{grid-template-columns:1fr 1fr;padding:18px}
   .vitrin.foto .sarma{padding-bottom:18px}
   .vitrin-atif{position:static;display:block;padding:0 16px 72px;font-size:10.5px}
+}
+
+/* Otobüs Kirala ilk ekranı: kapasite seçici */
+.m-otobuskirala .vitrin .sarma{padding-bottom:124px}
+.kapasite{position:relative;background:#fff;color:var(--murekkep);border-radius:18px;padding:20px 20px 16px;box-shadow:0 40px 80px -30px rgba(0,0,0,.65);display:grid;gap:14px;align-self:center}
+.kapasite-bas b{display:block;font-family:var(--baslik);font-size:26px;font-weight:700;text-transform:uppercase;line-height:1.1}
+.kapasite-bas span{font-size:13.5px;color:var(--soluk)}
+.kapasite-secim{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.kapasite-secim input{position:absolute;opacity:0;pointer-events:none}
+.kapasite-secim label{display:grid;justify-items:center;gap:0;padding:9px 4px 7px;border:1.5px solid var(--cizgi);border-radius:10px;cursor:pointer;transition:.15s;font-weight:400}
+.kapasite-secim label b{font-family:var(--baslik);font-size:26px;line-height:1}
+.kapasite-secim label small{font-size:11.5px;color:var(--soluk)}
+.kapasite-secim label:hover{border-color:var(--ana)}
+.kapasite-secim input:checked + label{background:var(--ana);border-color:var(--ana);color:#fff}
+.kapasite-secim input:checked + label small{color:rgba(255,255,255,.85)}
+.kapasite-secim input:focus-visible + label{outline:2px solid var(--vurgu);outline-offset:2px}
+.kapasite-arac{display:none;margin:0;grid-template-columns:1fr;gap:12px}
+.kapasite-arac img{width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:12px;background:var(--acik)}
+.kapasite-arac figcaption{display:grid;grid-template-columns:1fr auto;gap:2px 14px;align-items:center}
+.kapasite-tip{grid-column:1;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ana)}
+.kapasite-arac figcaption b{grid-column:1;font-family:var(--baslik);font-size:22px;line-height:1.1}
+.kapasite-arac figcaption p{grid-column:1;font-size:13.5px;color:var(--soluk)}
+.kapasite-arac .dugme{grid-column:2;grid-row:1/4;background:var(--ana);border-color:var(--ana);color:#fff;padding:11px 16px;font-size:14px;white-space:nowrap}
+.kapasite-atif{position:absolute;right:20px;top:24px;font-size:11px;color:var(--soluk);text-decoration:underline}
+@media (max-width:980px){
+  .m-otobuskirala .vitrin .sarma{padding-bottom:96px}
+}
+@media (max-width:560px){
+  .kapasite{padding:16px}
+  .kapasite-secim{gap:6px}
+  .kapasite-secim label b{font-size:21px}
+  .kapasite-arac figcaption{grid-template-columns:1fr}
+  .kapasite-arac .dugme{grid-column:1;grid-row:auto;margin-top:8px}
+  .kapasite-atif{position:static;justify-self:end}
 }
