@@ -68,12 +68,14 @@ public static class FiloFotograflari
         ["kongre-tasimaciligi"] = "MAN Lion's Coach",
     };
 
-    /// <summary>Marka kodu → ilk ekran fotoğrafı (geniş hali) ve atfı.</summary>
-    private static readonly Dictionary<string, (string Dosya, string Model)> Vitrinler = new()
+    private const string By4 = "https://creativecommons.org/licenses/by/4.0/";
+
+    /// <summary>Marka kodu → ilk ekran fotoğrafı (1920×1080).</summary>
+    private static readonly Dictionary<string, Fotograf> Vitrinler = new()
     {
-        ["selcuklu"] = ("/img/filo/travego-genis.jpg", "Mercedes-Benz Travego"),
-        ["otobuskirala"] = ("/img/filo/tourismo-genis.jpg", "Mercedes-Benz Tourismo"),
-        ["transfer"] = ("/img/filo/vito-genis.jpg", "Mercedes-Benz Vito"),
+        ["selcuklu"] = new("/img/yerler/kapadokya-genis.jpg", "Kapadokya", "Wolfgang Moroder", "CC BY-SA 3.0", BySa3, Commons + "Hot_air_balloon_ride_at_sunrise_in_Cappadocia.JPG"),
+        ["otobuskirala"] = new("/img/filo/travego-manavgat-genis.jpg", "Mercedes-Benz Travego", "VynedJ", "CC BY 4.0", By4, Commons + "Mercedes-Benz_Travego_in_Manavgat_20241017.jpg"),
+        ["transfer"] = new("/img/filo/vclass-genis.jpg", "Mercedes-Benz V-Class", "Mam16600 / Tripyana", "CC BY 4.0", By4, Commons + "Black_Mercedes-Benz_V-Class_outside_a_Mayfair_hotel,_Grosvenor_Square,_London_(Tripyana).jpg"),
     };
 
     public static Fotograf? Bul(string modelYaDaYer) =>
@@ -83,8 +85,8 @@ public static class FiloFotograflari
         Hizmetler.TryGetValue(hizmetKodu, out var anahtar) ? Bul(anahtar) : null;
 
     public static (string Dosya, Fotograf Atif)? Vitrin(string markaKodu) =>
-        Vitrinler.TryGetValue(markaKodu, out var v) && Bul(v.Model) is { } atif ? (v.Dosya, atif) : null;
+        Vitrinler.TryGetValue(markaKodu, out var v) ? (v.Dosya, v) : null;
 
-    /// <summary>Atıf sayfası için tüm fotoğraflar (önce araçlar, sonra yerler).</summary>
-    public static IEnumerable<Fotograf> Tumu => Araclar.Values.Concat(Yerler.Values);
+    /// <summary>Atıf sayfası için tüm fotoğraflar (ilk ekranlar, araçlar, yerler).</summary>
+    public static IEnumerable<Fotograf> Tumu => Vitrinler.Values.Concat(Araclar.Values).Concat(Yerler.Values);
 }

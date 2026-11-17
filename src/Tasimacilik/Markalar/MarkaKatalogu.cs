@@ -148,7 +148,7 @@ public static class MarkaKatalogu
             Aciklama = "Ankara'da şoförlü otobüs, midibüs, minibüs ve VIP minibüs kiralama. Tur, okul gezisi, film ve dizi çekimi ve şehirlerarası yolculuklar için D2 belgeli araç kiralayın.",
             Etiket = "Şoförlü araç kiralama · Ankara",
             HeroBaslik = "Grubunuz kaç kişi?",
-            HeroVurgu = "Ona göre otobüs kiralayın",
+            HeroVurgu = "Aracı ona göre seçelim",
             HeroMetin = "8 kişilik Vito'dan 54 kişilik otobüse kadar şoförlü araç kiralıyoruz. Tarihi ve güzergâhı söyleyin, fiyatı aynı gün bildirelim.",
             Rozetler = ["8 – 54 koltuk", "Şoför dahil", "D2 belgeli"],
             HizmetlerBaslik = "Hangi araca ihtiyacınız var?",
