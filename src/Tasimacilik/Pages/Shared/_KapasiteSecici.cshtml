@@ -1,0 +1,53 @@
+@{
+    var m = Baglam.Marka;
+    var a = AyarDeposu.Al();
+    // Her kapasiteden bir araç, küçükten büyüğe (54 kişilikte filodaki ilk araç).
+    static int Kisi(Arac x) => int.TryParse(new string(x.Kapasite.TakeWhile(char.IsDigit).ToArray()), out var n) ? n : 0;
+    var araclar = m.Araclar.GroupBy(Kisi).OrderBy(g => g.Key).Select(g => g.First()).ToList();
+    var secili = araclar.FindIndex(x => Kisi(x) == 46) is var i and >= 0 ? i : araclar.Count - 1;
+}
+@* Kapasite seçici: radyo düğmeleriyle çalışır, JavaScript gerekmez.
+   JavaScript varsa seçilen kişi sayısı hızlı teklif kutusuna da yazılır. *@
+<div class="kapasite">
+    <div class="kapasite-bas"><b>Kaç kişisiniz?</b><span>Seçin, grubunuza uygun aracı gösterelim.</span></div>
+    <div class="kapasite-secim">
+        @for (var k = 0; k < araclar.Count; k++)
+        {
+            <input type="radio" name="kapasite" id="kap-@k" value="@Kisi(araclar[k])" checked="@(k == secili)">
+            <label for="kap-@k"><b>@Kisi(araclar[k])</b><small>kişi</small></label>
+        }
+    </div>
+    @for (var k = 0; k < araclar.Count; k++)
+    {
+        var arac = araclar[k];
+        var foto = FiloFotograflari.Bul(arac.Ad);
+        var wa = a.WhatsAppGoster ? a.WhatsAppBaglantisi($"{m.WhatsAppMesaj}\nAraç: {arac.Ad} ({arac.Kapasite})") : null;
+        <figure class="kapasite-arac" id="kap-arac-@k">
+            @if (foto is not null)
+            {
+                <img src="@foto.Dosya" alt="@arac.Ad (temsili fotoğraf)" width="600" height="400" loading="@(k == secili ? "eager" : "lazy")">
+            }
+            <figcaption>
+                <span class="kapasite-tip">@arac.Tip · @arac.Kapasite</span>
+                <b>@arac.Ad</b>
+                <p>@arac.Aciklama</p>
+                <a class="dugme" href="@(wa ?? $"/iletisim?kisi={Kisi(arac)}#teklif")" @(wa is null ? null : Html.Raw("target=\"_blank\" rel=\"noopener\""))>Bu araç için fiyat al <svg class="i"><use href="#i-ok"/></svg></a>
+            </figcaption>
+        </figure>
+    }
+    <a class="kapasite-atif" href="/fotograf-kaynaklari">Temsili fotoğraflar · kaynaklar</a>
+</div>
+<style>
+    @for (var k = 0; k < araclar.Count; k++)
+    {
+        @:.kapasite:has(#kap-@k:checked) #kap-arac-@k{display:grid}
+    }
+</style>
+<script>
+(() => {
+  document.querySelectorAll('.kapasite-secim input').forEach(r => r.addEventListener('change', () => {
+    const kisi = document.querySelector('.hizli-kutu input[name=kisi]');
+    if (kisi) kisi.value = r.value;
+  }));
+})();
+</script>
