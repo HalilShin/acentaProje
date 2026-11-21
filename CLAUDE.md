@@ -49,7 +49,7 @@ El yazısı domain listesi: `docs/notlar/domain-listesi-el-yazisi.jpg`
 - Üç marka aynı firmanın yan markaları. Tek ASP.NET Core uygulaması, gelen Host'a göre marka (logo, ad, renk, metin) seçer.
 - Telefon/WhatsApp/adres ortak. Her markanın metinleri FARKLI yazılmalı (kopya içerik riski). Tek Google İşletme profili.
 - Firma ve iletişim acentayla aynı: Anadolu Selçuklu Organizasyon Turizm (KVKK'da veri sorumlusu) · +90 542 716 69 11 (telefon ve WhatsApp) · selcuklutravel@gmail.com (sitede görünen adres ve teklif formlarının alıcısı). Açık adres henüz verilmedi; boşken sitede gösterilmez, panelden eklenir.
-- Filo: Mercedes-Benz Vito (8), Sprinter (19), Otokar Sultan (31), Travego (46), MAN Lion's Coach (54), Tourismo (54). Fotoğraflar Wikimedia Commons'tan temsili (CC BY-SA, atıf araç filosu sayfasında); kendi araç fotoğrafları gelince değiştirilecek.
+- Filo: Mercedes-Benz Vito (8), Sprinter (19), Otokar Sultan (31), Travego (46), MAN Lion's Coach (54), Tourismo (54). Travego, Sprinter ve bazı hizmet fotoğrafları firmanın kendi fotoğrafları (plaka, yüz ve başka marka yazıları bulanık); diğerleri Wikimedia Commons'tan temsili (atıf /fotograf-kaynaklari). Yeni kendi fotoğraf gelince temsililer değiştirilir.
 - D2 belgeli. Hizmetler üç markaya dağıtıldı: Selçuklu = turlar ve gezi, Otobüs Kirala = kiralama, Transfer = transfer, etkinlik ve kongre.
 - Logolar ve tasarım Claude'da.
 

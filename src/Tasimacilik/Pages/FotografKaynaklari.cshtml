@@ -6,10 +6,10 @@
     ViewData["Yol"] = "/fotograf-kaynaklari";
 }
 
-<partial name="_SayfaBasi" model='new SayfaBasi("Fotoğraf kaynakları", "Sitedeki fotoğraflar temsilidir; araç modellerini ve tur bölgelerini tanıtmak için kullanılır.", ("Fotoğraf kaynakları", null))' />
+<partial name="_SayfaBasi" model='new SayfaBasi("Fotoğraf kaynakları", "Sitede kullanılan serbest lisanslı fotoğraflar ve kaynakları.", ("Fotoğraf kaynakları", null))' />
 
 <section><div class="sarma yazi">
-    <p>Aşağıdaki fotoğraflar Wikimedia Commons'tan, belirtilen serbest lisanslarla alınmıştır. Araç fotoğraflarında plakalar, yüzler ve başka firmalara ait yazılar bulanıklaştırılmış, bazı fotoğraflar kırpılmıştır. Fotoğraflardaki araçlar firmamıza ait değildir.</p>
+    <p>Aşağıdaki fotoğraflar Wikimedia Commons'tan, belirtilen serbest lisanslarla alınmıştır. Araç fotoğraflarında plakalar, yüzler ve başka firmalara ait yazılar bulanıklaştırılmış, bazı fotoğraflar kırpılmıştır. Bu fotoğraflar temsilidir; araç modellerini ve tur bölgelerini tanıtır, gösterdikleri araçlar firmamıza ait değildir. Kendi fotoğraflarımız bu listede yer almaz.</p>
     <ul class="kaynaklar">
         @foreach (var f in FiloFotograflari.Tumu)
         {

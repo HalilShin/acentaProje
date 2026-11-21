@@ -1,13 +1,18 @@
 namespace Tasimacilik.Markalar;
 
-/// <summary>Sitede kullanılan bir fotoğraf ve lisans atfı (Wikimedia Commons, serbest lisans).</summary>
-public record Fotograf(string Dosya, string Konu, string Yazar, string Lisans, string LisansAdresi, string KaynakAdresi);
+/// <summary>
+/// Sitede kullanılan bir fotoğraf. Kendi fotoğraflarımızda (Kendi = true) yazar ve lisans boştur, atıf gösterilmez;
+/// diğerleri Wikimedia Commons'tan serbest lisanslıdır ve /fotograf-kaynaklari sayfasında atıfları vardır.
+/// </summary>
+public record Fotograf(string Dosya, string Konu, string Yazar, string Lisans, string LisansAdresi, string KaynakAdresi, bool Kendi = false)
+{
+    public static Fotograf Bizim(string dosya, string konu) => new(dosya, konu, "", "", "", "", Kendi: true);
+}
 
 /// <summary>
-/// Sitedeki tüm fotoğraflar. Araç fotoğrafları araç modellerini tanıtır, Halil'in araçları değildir;
-/// plakalar, yüzler ve başka firmalara ait yazılar bulanıklaştırıldı, bazıları kırpıldı.
-/// Yer fotoğrafları tur ve transfer hizmetlerini görselleştirir. Atıflar /fotograf-kaynaklari sayfasında.
-/// Kendi fotoğraflar gelince bu liste değiştirilir.
+/// Sitedeki tüm fotoğraflar. Kendi fotoğraflarımız (Travego, Sprinter ve tur/kongre kareleri) firmanın gönderdiği
+/// fotoğraflardır; diğer araç fotoğrafları araç modellerini tanıtır. Tüm fotoğraflarda plakalar, yüzler ve
+/// başka firmalara ait yazılar bulanıklaştırıldı, bazıları kırpıldı.
 /// </summary>
 public static class FiloFotograflari
 {
@@ -22,9 +27,9 @@ public static class FiloFotograflari
     private static readonly Dictionary<string, Fotograf> Araclar = new()
     {
         ["Mercedes-Benz Vito"] = new("/img/filo/vito.jpg", "Mercedes-Benz Vito", "Dinkun Chen", "CC BY-SA 4.0", BySa4, Commons + "MERCEDES-BENZ_VITO_(W447)_China_(4).jpg"),
-        ["Mercedes-Benz Sprinter"] = new("/img/filo/sprinter.jpg", "Mercedes-Benz Sprinter", "Ethan Llamas", "CC BY-SA 4.0", BySa4, Commons + "2016_Mercedes-Benz_Sprinter_Super_High_Minibus,_front_right.jpg"),
+        ["Mercedes-Benz Sprinter"] = Fotograf.Bizim("/img/filo/sprinter-kendi.jpg", "Mercedes-Benz Sprinter"),
         ["Otokar Sultan"] = new("/img/filo/sultan.jpg", "Otokar Sultan", "Mr.choppers", "CC BY-SA 3.0", BySa3, Commons + "Otokar_Sultan_125_S_front.jpg"),
-        ["Mercedes-Benz Travego"] = new("/img/filo/travego-manavgat.jpg", "Mercedes-Benz Travego", "VynedJ", "CC BY 4.0", By4, Commons + "Mercedes-Benz_Travego_in_Manavgat_20241017.jpg"),
+        ["Mercedes-Benz Travego"] = Fotograf.Bizim("/img/filo/travego.jpg", "Mercedes-Benz Travego"),
         ["MAN Lion's Coach"] = new("/img/filo/lions.jpg", "MAN Lion's Coach", "Anatoliy-024", "CC BY-SA 4.0", BySa4, Commons + "MAN_Lion%27s_Coach_Papenburger_Kanalreisen.jpg"),
         ["Mercedes-Benz Tourismo"] = new("/img/filo/tourismo.jpg", "Mercedes-Benz Tourismo", "Matti Blume", "CC BY-SA 4.0", BySa4, Commons + "Mercedes-Benz_Tourismo,_Berlin_(20180910_131307).jpg"),
     };
@@ -36,7 +41,9 @@ public static class FiloFotograflari
         ["gobeklitepe"] = new("/img/yerler/gobeklitepe.jpg", "Göbeklitepe", "Teomancimit", "CC BY-SA 3.0", BySa3, Commons + "G%C3%B6bekli_Tepe,_Urfa.jpg"),
         ["uzungol"] = new("/img/yerler/uzungol.jpg", "Uzungöl", "İhsan Deniz Kılıçoğlu", "CC BY-SA 3.0", BySa3, Commons + "Uzung%C3%B6l_lake_and_town.jpg"),
         ["ishakpasa"] = new("/img/yerler/ishakpasa.jpg", "İshak Paşa Sarayı", "W. Bulach", "CC BY-SA 4.0", BySa4, Commons + "00_2404_Ishak_Pasha_Palace_-_Turkey.jpg"),
-        ["kapadokya"] = new("/img/yerler/kapadokya.jpg", "Kapadokya", "Bernard Gagnon", "CC BY-SA 3.0", BySa3, Commons + "Hot_air_balloon_in_Cappadocia_02.jpg"),
+        ["kapadokya-otobus"] = Fotograf.Bizim("/img/filo/kapadokya-otobus.jpg", "Göreme'de tur otobüsü"),
+        ["otobusler"] = Fotograf.Bizim("/img/filo/otobusler.jpg", "Kruvaziyer limanında tur otobüsleri"),
+        ["kulliye"] = Fotograf.Bizim("/img/filo/kulliye.jpg", "Cumhurbaşkanlığı Külliyesi'nde Travego"),
         ["safranbolu"] = new("/img/yerler/safranbolu.jpg", "Safranbolu", "Hamdigumus", "CC0", Cc0, Commons + "Safranbolu_Evleri_2014-8.jpg"),
         ["esenboga"] = new("/img/yerler/esenboga.jpg", "Esenboğa Havalimanı", "Dosseman", "CC BY-SA 4.0", BySa4, Commons + "Ankara_Esenbo%C4%9Fa_Airport_in_2011_03.jpg"),
     };
@@ -46,14 +53,14 @@ public static class FiloFotograflari
     {
         // Selçuklu Turizm
         ["turizm-ve-gezi-tasimaciligi"] = "safranbolu",
-        ["gunubirlik-turlar"] = "kapadokya",
+        ["gunubirlik-turlar"] = "kapadokya-otobus",
         ["ege-turu"] = "pamukkale",
         ["gap-turu"] = "gobeklitepe",
         ["karadeniz-turu"] = "uzungol",
         ["dogu-turu"] = "ishakpasa",
         ["sehir-ici-ve-disi-toplu-tasima"] = "Otokar Sultan",
         // Ankara Otobüs Kirala
-        ["kiralik-otobus"] = "Mercedes-Benz Tourismo",
+        ["kiralik-otobus"] = "otobusler",
         ["kiralik-minibus"] = "Mercedes-Benz Sprinter",
         ["soforlu-otobus-kiralama"] = "MAN Lion's Coach",
         ["tur-otobusu-kiralama"] = "Mercedes-Benz Travego",
@@ -64,9 +71,9 @@ public static class FiloFotograflari
         // Ankara Turizm Transfer
         ["havalimani-transferi"] = "esenboga",
         ["otel-transferi"] = "Mercedes-Benz Vito",
-        ["sehirlerarasi-yolcu-tasimaciligi"] = "Mercedes-Benz Tourismo",
+        ["sehirlerarasi-yolcu-tasimaciligi"] = "Mercedes-Benz Travego",
         ["kurumsal-etkinlik-tasimaciligi"] = "Mercedes-Benz Sprinter",
-        ["kongre-tasimaciligi"] = "MAN Lion's Coach",
+        ["kongre-tasimaciligi"] = "kulliye",
     };
 
     /// <summary>Marka kodu → ilk ekran fotoğrafı (1920×1080). Otobüs Kirala ilk ekranında fotoğraf yerine kapasite seçici var.</summary>
@@ -85,6 +92,6 @@ public static class FiloFotograflari
     public static (string Dosya, Fotograf Atif)? Vitrin(string markaKodu) =>
         Vitrinler.TryGetValue(markaKodu, out var v) ? (v.Dosya, v) : null;
 
-    /// <summary>Atıf sayfası için tüm fotoğraflar (ilk ekranlar, araçlar, yerler).</summary>
-    public static IEnumerable<Fotograf> Tumu => Vitrinler.Values.Concat(Araclar.Values).Concat(Yerler.Values);
+    /// <summary>Atıf sayfası için lisanslı fotoğraflar (ilk ekranlar, araçlar, yerler); kendi fotoğraflarımız hariç.</summary>
+    public static IEnumerable<Fotograf> Tumu => Vitrinler.Values.Concat(Araclar.Values).Concat(Yerler.Values).Where(f => !f.Kendi);
 }
