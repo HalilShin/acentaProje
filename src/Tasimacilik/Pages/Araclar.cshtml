@@ -29,14 +29,14 @@
             </div>
         }
     </div>
-    <p class="not">Fotoğraflar araç modellerini tanıtmak içindir, firmamıza ait araçları göstermez. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
+    <p class="not">@(string.Join(" ve ", m.Araclar.Where(x => FiloFotograflari.Bul(x.Ad)?.Kendi == true).Select(x => x.Ad.Replace("Mercedes-Benz ", "")))) fotoğrafları kendi araçlarımızdır; diğer fotoğraflar araç modellerini tanıtmak için temsilidir. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
     <div class="atif" id="fotograflar">
         <h3>Fotoğraf kaynakları</h3>
-        <p>Fotoğraflar Wikimedia Commons'tan, aşağıdaki lisanslarla alınmıştır. Plakalar ve başka firmalara ait yazılar bulanıklaştırılmış, fotoğraflar kırpılmış ve yeniden boyutlandırılmıştır.</p>
+        <p>Temsili fotoğraflar Wikimedia Commons'tan, aşağıdaki lisanslarla alınmıştır. Plakalar ve başka firmalara ait yazılar bulanıklaştırılmış, fotoğraflar kırpılmış ve yeniden boyutlandırılmıştır.</p>
         <ul>
             @foreach (var arac in m.Araclar)
             {
-                if (FiloFotograflari.Bul(arac.Ad) is { } foto)
+                if (FiloFotograflari.Bul(arac.Ad) is { Kendi: false } foto)
                 {
                     <li>@arac.Ad: <a href="@foto.KaynakAdresi" target="_blank" rel="noopener">@foto.Yazar</a>, <a href="@foto.LisansAdresi" target="_blank" rel="noopener license">@foto.Lisans</a></li>
                 }
