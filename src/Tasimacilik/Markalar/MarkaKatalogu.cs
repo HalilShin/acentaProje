@@ -106,7 +106,7 @@ public static class MarkaKatalogu
                 new("minibus", "Minibüs", "Mercedes-Benz Sprinter", "19 kişilik", "Küçük gezi grupları ve dar yollu rotalar için.", ["Klima", "Kolay iniş-biniş", "Şehir içine uygun boyut"]),
                 new("midibus", "Midibüs", "Otokar Sultan", "31 kişilik", "Orta büyüklükteki gruplar, günübirlik turlar ve yayla rotaları için.", ["Klima", "Bagaj bölmesi", "Şehir içi ve şehir dışı"]),
                 new("otobus", "Otobüs", "Mercedes-Benz Travego", "46 kişilik", "Konaklamalı kültür turları ve uzun yol programları için.", ["Klima", "Yatar koltuk", "Geniş bagaj hacmi"]),
-                new("otobus", "Otobüs", "MAN Lion's Coach", "54 kişilik", "Kalabalık tur grupları ve bölge turları için.", ["Klima", "Yatar koltuk", "Geniş bagaj hacmi"]),
+                new("otobus", "Otobüs", "Temsa Safir", "54 kişilik", "Kalabalık tur grupları ve bölge turları için.", ["Klima", "Yatar koltuk", "Geniş bagaj hacmi"]),
                 new("otobus", "Otobüs", "Mercedes-Benz Tourismo", "54 kişilik", "Büyük grupların şehirlerarası gezileri için.", ["Klima", "Yatar koltuk", "Geniş bagaj hacmi"]),
             ],
             Sss =
@@ -158,7 +158,7 @@ public static class MarkaKatalogu
                 new("kiralik-otobus", "Kiralık Otobüs", "otobus",
                     "46 ve 54 kişilik otobüsler; saatlik, günlük ya da sefer bazlı kiralama.",
                     [
-                        "Kalabalık bir grubu tek araçta taşımanın en ekonomik yolu otobüs kiralamaktır. Filomuzda 46 kişilik Mercedes-Benz Travego ile 54 kişilik Mercedes-Benz Tourismo ve MAN Lion's Coach var.",
+                        "Kalabalık bir grubu tek araçta taşımanın en ekonomik yolu otobüs kiralamaktır. Filomuzda 46 kişilik Mercedes-Benz Travego ile 54 kişilik Temsa Safir ve Mercedes-Benz Tourismo var.",
                         "Kiralama süresini ihtiyacınıza göre seçersiniz: birkaç saatlik bir transfer, tam gün bir gezi ya da günlerce süren bir program. Fiyatı süreye ve mesafeye göre çıkarıyoruz.",
                     ],
                     ["46 ve 54 kişilik seçenek", "Saatlik, günlük ya da sefer bazlı", "Şehir içi ve şehirlerarası", "Şoförüyle birlikte"]),
@@ -204,6 +204,13 @@ public static class MarkaKatalogu
                         "Çekim günlerinin uzun ve değişken olduğunu biliyoruz; aracı gün boyu sette tutabilir, programa göre saatleri birlikte ayarlayabiliriz.",
                     ],
                     ["Set ekibi ulaşımı", "Çekimde kullanılacak araç", "Gün boyu sette bekleyen araç", "Çekim programına göre esnek saat"]),
+                new("personel-ve-ogrenci-servisi", "Personel ve Öğrenci Servisi", "kisiler",
+                    "Fabrika, şirket ve okullar için sabah-akşam düzenli servis.",
+                    [
+                        "Çalışanlarınızı ya da öğrencilerinizi her gün aynı saatte, belirlenen duraklardan alıp işyerine veya okula, akşam da geri götürüyoruz. Güzergâhı ve durakları yolcu adreslerine göre sizinle birlikte çıkarıyoruz.",
+                        "Kişi sayısına göre minibüs, midibüs ya da otobüsle çalışıyoruz. Vardiya saatleri ya da yolcu sayısı değiştiğinde seferleri ve aracı buna göre güncelliyoruz; aylık ya da dönemlik sözleşmeyle çalışabiliriz.",
+                    ],
+                    ["Belirlenen duraklardan toplama", "Vardiya ve ders saatine göre sefer", "Aylık ya da dönemlik sözleşme", "Kişi sayısına göre araç"]),
                 new("okul-gezileri", "Okul Gezileri", "okul",
                     "Öğrenci ve öğretmen sayısına uygun, okuldan alıp okula bırakan araç.",
                     [
@@ -231,8 +238,8 @@ public static class MarkaKatalogu
             AraclarMetin = "Altı araç, 8'den 54'e kadar koltuk. Hepsi şoförüyle kiralanır.",
             Araclar =
             [
+                new("otobus", "Otobüs", "Temsa Safir", "54 kişilik", "Şehirlerarası grup yolculukları ve uzun yol için.", ["Yatar koltuk", "Büyük bagaj", "Klima"]),
                 new("otobus", "Otobüs", "Mercedes-Benz Tourismo", "54 kişilik", "Kalabalık gruplar ve okul gezileri tek araçta.", ["Yatar koltuk", "Büyük bagaj", "Klima"]),
-                new("otobus", "Otobüs", "MAN Lion's Coach", "54 kişilik", "Şehirlerarası grup yolculukları ve uzun yol için.", ["Yatar koltuk", "Büyük bagaj", "Klima"]),
                 new("otobus", "Otobüs", "Mercedes-Benz Travego", "46 kişilik", "40 kişiyi aşan gruplar için ekonomik otobüs seçeneği.", ["Yatar koltuk", "Büyük bagaj", "Klima"]),
                 new("midibus", "Midibüs", "Otokar Sultan", "31 kişilik", "Şirket gezileri, set ekipleri ve günübirlik turlar.", ["Klima", "Bagaj bölmesi", "Kolay park"]),
                 new("minibus", "Minibüs", "Mercedes-Benz Sprinter", "19 kişilik", "Aile ve arkadaş grupları, kısa mesafe yolculuklar.", ["Klima", "Adrese kadar ulaşım", "Ekonomik"]),
@@ -345,7 +352,7 @@ public static class MarkaKatalogu
                 new("minibus", "Minibüs", "Mercedes-Benz Sprinter", "19 yolcu", "Aynı uçuşla gelen ekipler ve küçük tur grupları için.", ["Klima", "Bagaj bölmesi", "Kolay iniş-biniş"]),
                 new("midibus", "Midibüs", "Otokar Sultan", "31 yolcu", "Kongre katılımcıları ve orta büyüklükteki gruplar için toplu transfer.", ["Klima", "Büyük bagaj", "Tek araçta ulaşım"]),
                 new("otobus", "Otobüs", "Mercedes-Benz Travego", "46 yolcu", "Kalabalık grupların havalimanı ve şehirlerarası transferi için.", ["Klima", "Yatar koltuk", "Büyük bagaj"]),
-                new("otobus", "Otobüs", "MAN Lion's Coach", "54 yolcu", "Tur grupları ve büyük heyetler için tek araçta transfer.", ["Klima", "Yatar koltuk", "Büyük bagaj"]),
+                new("otobus", "Otobüs", "Temsa Safir", "54 yolcu", "Tur grupları ve büyük heyetler için tek araçta transfer.", ["Klima", "Yatar koltuk", "Büyük bagaj"]),
                 new("otobus", "Otobüs", "Mercedes-Benz Tourismo", "54 yolcu", "Etkinlik ve fuar katılımcılarının toplu transferi için.", ["Klima", "Yatar koltuk", "Büyük bagaj"]),
             ],
             Sss =

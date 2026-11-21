@@ -16,7 +16,7 @@ public record SiteAyarlari
     // İletişim (üç markada ortak)
     public string Telefon { get; set; } = "+90 542 716 69 11";
     /// <summary>Açık adres; boşsa sitede adres gösterilmez.</summary>
-    public string Adres { get; set; } = "";
+    public string Adres { get; set; } = "İvedik OSB Mah. 1362 Cad. No:34, Yenimahalle / Ankara";
     /// <summary>Sitede gösterilen e-posta adresi; boşsa gösterilmez.</summary>
     public string Eposta { get; set; } = "selcuklutravel@gmail.com";
 
