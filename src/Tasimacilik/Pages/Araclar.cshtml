@@ -29,7 +29,11 @@
             </div>
         }
     </div>
-    <p class="not">@(string.Join(" ve ", m.Araclar.Where(x => FiloFotograflari.Bul(x.Ad)?.Kendi == true).Select(x => x.Ad.Replace("Mercedes-Benz ", "")))) fotoğrafları kendi araçlarımızdır; diğer fotoğraflar araç modellerini tanıtmak için temsilidir. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
+    @{
+        var kendi = m.Araclar.Where(x => FiloFotograflari.Bul(x.Ad)?.Kendi == true).Select(x => x.Ad.Replace("Mercedes-Benz ", "")).ToList();
+        var kendiMetin = kendi.Count > 1 ? string.Join(", ", kendi.SkipLast(1)) + " ve " + kendi[^1] : string.Join("", kendi);
+    }
+    <p class="not">@kendiMetin fotoğrafları kendi araçlarımızdır; diğer fotoğraflar araç modellerini tanıtmak için temsilidir. Araç tipi; tarih, güzergâh ve kişi sayısına göre teklif aşamasında netleştirilir.</p>
     <div class="atif" id="fotograflar">
         <h3>Fotoğraf kaynakları</h3>
         <p>Temsili fotoğraflar Wikimedia Commons'tan, aşağıdaki lisanslarla alınmıştır. Plakalar ve başka firmalara ait yazılar bulanıklaştırılmış, fotoğraflar kırpılmış ve yeniden boyutlandırılmıştır.</p>

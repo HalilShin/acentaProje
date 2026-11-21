@@ -27,10 +27,10 @@ public static class FiloFotograflari
     private static readonly Dictionary<string, Fotograf> Araclar = new()
     {
         ["Mercedes-Benz Vito"] = new("/img/filo/vito.jpg", "Mercedes-Benz Vito", "Dinkun Chen", "CC BY-SA 4.0", BySa4, Commons + "MERCEDES-BENZ_VITO_(W447)_China_(4).jpg"),
-        ["Mercedes-Benz Sprinter"] = Fotograf.Bizim("/img/filo/sprinter-kendi.jpg", "Mercedes-Benz Sprinter"),
-        ["Otokar Sultan"] = new("/img/filo/sultan.jpg", "Otokar Sultan", "Mr.choppers", "CC BY-SA 3.0", BySa3, Commons + "Otokar_Sultan_125_S_front.jpg"),
+        ["Mercedes-Benz Sprinter"] = Fotograf.Bizim("/img/filo/sprinter.jpg", "Mercedes-Benz Sprinter"),
+        ["Otokar Sultan"] = Fotograf.Bizim("/img/filo/sultan.jpg", "Otokar Sultan"),
         ["Mercedes-Benz Travego"] = Fotograf.Bizim("/img/filo/travego.jpg", "Mercedes-Benz Travego"),
-        ["MAN Lion's Coach"] = new("/img/filo/lions.jpg", "MAN Lion's Coach", "Anatoliy-024", "CC BY-SA 4.0", BySa4, Commons + "MAN_Lion%27s_Coach_Papenburger_Kanalreisen.jpg"),
+        ["Temsa Safir"] = Fotograf.Bizim("/img/filo/temsa-safir.jpg", "Temsa Safir"),
         ["Mercedes-Benz Tourismo"] = new("/img/filo/tourismo.jpg", "Mercedes-Benz Tourismo", "Matti Blume", "CC BY-SA 4.0", BySa4, Commons + "Mercedes-Benz_Tourismo,_Berlin_(20180910_131307).jpg"),
     };
 
@@ -43,6 +43,7 @@ public static class FiloFotograflari
         ["ishakpasa"] = new("/img/yerler/ishakpasa.jpg", "İshak Paşa Sarayı", "W. Bulach", "CC BY-SA 4.0", BySa4, Commons + "00_2404_Ishak_Pasha_Palace_-_Turkey.jpg"),
         ["kapadokya-otobus"] = Fotograf.Bizim("/img/filo/kapadokya-otobus.jpg", "Göreme'de tur otobüsü"),
         ["otobusler"] = Fotograf.Bizim("/img/filo/otobusler.jpg", "Kruvaziyer limanında tur otobüsleri"),
+        ["servis"] = Fotograf.Bizim("/img/filo/sprinter-kendi.jpg", "Servis minibüsü"),
         ["kulliye"] = Fotograf.Bizim("/img/filo/kulliye.jpg", "Cumhurbaşkanlığı Külliyesi'nde Travego"),
         ["safranbolu"] = new("/img/yerler/safranbolu.jpg", "Safranbolu", "Hamdigumus", "CC0", Cc0, Commons + "Safranbolu_Evleri_2014-8.jpg"),
         ["esenboga"] = new("/img/yerler/esenboga.jpg", "Esenboğa Havalimanı", "Dosseman", "CC BY-SA 4.0", BySa4, Commons + "Ankara_Esenbo%C4%9Fa_Airport_in_2011_03.jpg"),
@@ -62,11 +63,12 @@ public static class FiloFotograflari
         // Ankara Otobüs Kirala
         ["kiralik-otobus"] = "otobusler",
         ["kiralik-minibus"] = "Mercedes-Benz Sprinter",
-        ["soforlu-otobus-kiralama"] = "MAN Lion's Coach",
+        ["soforlu-otobus-kiralama"] = "Temsa Safir",
         ["tur-otobusu-kiralama"] = "Mercedes-Benz Travego",
         ["vip-minibus-kiralama"] = "Mercedes-Benz Vito",
         ["d2-belgeli-otobus-kiralama"] = "Mercedes-Benz Tourismo",
         ["film-dizi-ozel-kiralama"] = "Mercedes-Benz Sprinter",
+        ["personel-ve-ogrenci-servisi"] = "servis",
         ["okul-gezileri"] = "Otokar Sultan",
         // Ankara Turizm Transfer
         ["havalimani-transferi"] = "esenboga",
