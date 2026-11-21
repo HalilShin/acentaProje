@@ -6,7 +6,7 @@
 <a class="kart @(foto is null ? null : "fotolu")" href="@Model.Adres">
     @if (foto is not null)
     {
-        <div class="kart-foto"><img src="@foto.Dosya" alt="@foto.Konu" loading="lazy" width="600" height="340"></div>
+        <div class="kart-foto"><img src="@foto.Yol(Baglam.Marka.Kod)" alt="@foto.Konu" loading="lazy" width="600" height="340"></div>
     }
     <div class="simge"><svg class="i"><use href="#i-@Model.Ikon"/></svg></div>
     <h3>@Model.Ad</h3>
