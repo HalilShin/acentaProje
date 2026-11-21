@@ -25,7 +25,7 @@
         <figure class="kapasite-arac" id="kap-arac-@k">
             @if (foto is not null)
             {
-                <img src="@foto.Dosya" alt="@arac.Ad@(foto.Kendi ? "" : " (temsili fotoğraf)")" width="600" height="400" loading="@(k == secili ? "eager" : "lazy")">
+                <img src="@foto.Yol(Baglam.Marka.Kod)" alt="@arac.Ad@(foto.Kendi ? "" : " (temsili fotoğraf)")" width="600" height="400" loading="@(k == secili ? "eager" : "lazy")">
             }
             <figcaption>
                 <span class="kapasite-tip">@arac.Tip · @arac.Kapasite</span>

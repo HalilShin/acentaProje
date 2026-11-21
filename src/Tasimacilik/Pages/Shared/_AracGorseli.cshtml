@@ -2,7 +2,7 @@
 @* Aracın fotoğrafı varsa fotoğraf, yoksa çizim. *@
 @if (FiloFotograflari.Bul(Model.Ad) is { } foto)
 {
-    <img class="arac-foto" src="@foto.Dosya" alt="@Model.Ad@(foto.Kendi ? "" : " (temsili fotoğraf)")" loading="lazy">
+    <img class="arac-foto" src="@foto.Yol(Baglam.Marka.Kod)" alt="@Model.Ad@(foto.Kendi ? "" : " (temsili fotoğraf)")" loading="lazy">
 }
 else
 {

@@ -7,12 +7,19 @@ namespace Tasimacilik.Markalar;
 public record Fotograf(string Dosya, string Konu, string Yazar, string Lisans, string LisansAdresi, string KaynakAdresi, bool Kendi = false)
 {
     public static Fotograf Bizim(string dosya, string konu) => new(dosya, konu, "", "", "", "", Kendi: true);
+
+    /// <summary>
+    /// Sayfada kullanılacak adres. Kendi fotoğraflarımızın her marka için ayrı sürümü vardır
+    /// (araçta o markanın logosu ve plakada site adresi): /img/filo/{marka}/dosya.jpg.
+    /// </summary>
+    public string Yol(string markaKodu) =>
+        Kendi ? Dosya.Replace("/img/filo/", $"/img/filo/{markaKodu}/") : Dosya;
 }
 
 /// <summary>
-/// Sitedeki tüm fotoğraflar. Kendi fotoğraflarımız (Travego, Sprinter ve tur/kongre kareleri) firmanın gönderdiği
-/// fotoğraflardır; diğer araç fotoğrafları araç modellerini tanıtır. Tüm fotoğraflarda plakalar, yüzler ve
-/// başka firmalara ait yazılar bulanıklaştırıldı, bazıları kırpıldı.
+/// Sitedeki tüm fotoğraflar. Kendi fotoğraflarımız firmanın gönderdiği fotoğraflardır; arka planları düzenlendi,
+/// araçlara her markanın logosu ve plakalara site adresi işlendi (markaya göre ayrı dosya, bkz. Fotograf.Yol).
+/// Diğer araç fotoğrafları araç modellerini tanıtır; onlarda plakalar ve başka firmalara ait yazılar bulanıktır.
 /// </summary>
 public static class FiloFotograflari
 {
@@ -44,7 +51,6 @@ public static class FiloFotograflari
         ["kapadokya-otobus"] = Fotograf.Bizim("/img/filo/kapadokya-otobus.jpg", "Göreme'de tur otobüsü"),
         ["otobusler"] = Fotograf.Bizim("/img/filo/otobusler.jpg", "Kruvaziyer limanında tur otobüsleri"),
         ["servis"] = Fotograf.Bizim("/img/filo/sprinter-kendi.jpg", "Servis minibüsü"),
-        ["kulliye"] = Fotograf.Bizim("/img/filo/kulliye.jpg", "Cumhurbaşkanlığı Külliyesi'nde Travego"),
         ["safranbolu"] = new("/img/yerler/safranbolu.jpg", "Safranbolu", "Hamdigumus", "CC0", Cc0, Commons + "Safranbolu_Evleri_2014-8.jpg"),
         ["esenboga"] = new("/img/yerler/esenboga.jpg", "Esenboğa Havalimanı", "Dosseman", "CC BY-SA 4.0", BySa4, Commons + "Ankara_Esenbo%C4%9Fa_Airport_in_2011_03.jpg"),
     };
@@ -75,7 +81,7 @@ public static class FiloFotograflari
         ["otel-transferi"] = "Mercedes-Benz Vito",
         ["sehirlerarasi-yolcu-tasimaciligi"] = "Mercedes-Benz Travego",
         ["kurumsal-etkinlik-tasimaciligi"] = "Mercedes-Benz Sprinter",
-        ["kongre-tasimaciligi"] = "kulliye",
+        ["kongre-tasimaciligi"] = "Temsa Safir",
     };
 
     /// <summary>Marka kodu → ilk ekran fotoğrafı (1920×1080). Otobüs Kirala ilk ekranında fotoğraf yerine kapasite seçici var.</summary>
