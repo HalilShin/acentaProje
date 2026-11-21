@@ -216,6 +216,30 @@ function SqlKomut($sql, $veritabani = "master") {
     } finally { $baglanti.Close() }
 }
 
+# 2. yol: web kurucusuyla yalnızca kurulum dosyaları indirilir, SQL'in kendi setup.exe'si açık parametrelerle çalıştırılır.
+function SqlKurDogrudan($kurucu) {
+    $medya = Join-Path $Indirilenler "sql2022"
+    $acilmis = Join-Path $medya "kurulum"
+    New-Item -ItemType Directory -Force $medya | Out-Null
+    $paket = Get-ChildItem $medya -Filter "SQLEXPR*.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $paket) {
+        $kod = (Start-Process -FilePath $kurucu -Wait -PassThru -ArgumentList "/ACTION=Download /MEDIAPATH=`"$medya`" /MEDIATYPE=Core /QUIET").ExitCode
+        $paket = Get-ChildItem $medya -Filter "SQLEXPR*.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+        if (-not $paket) { Uyari "Kurulum dosyaları indirilemedi (çıkış kodu $kod)."; return $kod }
+    }
+    if (-not (Test-Path (Join-Path $acilmis "setup.exe"))) {
+        Start-Process -FilePath $paket.FullName -Wait -ArgumentList "/q /x:`"$acilmis`"" | Out-Null
+    }
+    $kurulum = Join-Path $acilmis "setup.exe"
+    if (-not (Test-Path $kurulum)) { Uyari "Kurulum dosyaları açılamadı: $acilmis"; return 1 }
+
+    # SQL yöneticisi: betiği çalıştıran hesap (Türkçe Windows'ta grup adları farklı olduğu için hesap adı kullanılır).
+    $yonetici = [Security.Principal.WindowsIdentity]::GetCurrent().Name
+    $parametre = "/Q /IACCEPTSQLSERVERLICENSETERMS /ACTION=Install /FEATURES=SQLEngine /INSTANCENAME=SQLEXPRESS " +
+                 "/SQLSYSADMINACCOUNTS=`"$yonetici`" /UPDATEENABLED=False /TCPENABLED=0 /NPENABLED=0 /SUPPRESSPRIVACYSTATEMENTNOTICE"
+    return (Start-Process -FilePath $kurulum -Wait -PassThru -ArgumentList $parametre).ExitCode
+}
+
 function SqlKur {
     Adim "SQL Server Express"
     if (Get-Service -Name 'MSSQL$SQLEXPRESS' -ErrorAction SilentlyContinue) {
@@ -229,14 +253,21 @@ function SqlKur {
 
     $kurucu = Indir $SqlKurucu "SQL2022-SSEI-Expr.exe"
     Write-Host "   Kuruluyor (indirme dahil 5-15 dakika sürebilir)..."
+
+    # 1. yol: web kurucusu, Microsoft'un winget paketindeki sessiz kurulum parametreleriyle.
     # Varsayılan örnek adı SQLEXPRESS; betiği çalıştıran yönetici SQL yöneticisi olur.
-    $islem = Start-Process -FilePath $kurucu -ArgumentList "/ACTION=Install", "/QUIET", "/IACCEPTSQLSERVERLICENSETERMS", "/ENU" -Wait -PassThru
-    if ($islem.ExitCode -eq 3010) {
+    $kod = (Start-Process -FilePath $kurucu -Wait -PassThru -ArgumentList `
+        '/IACCEPTSQLSERVERLICENSETERMS /ENU /ACTION=Install /QUIET /InstallPath="C:\Program Files\Microsoft SQL Server"').ExitCode
+    if ($kod -ne 0 -and $kod -ne 3010) {
+        Uyari "Web kurucusu $kod koduyla durdu; kurulum dosyaları indirilip doğrudan kurulacak."
+        $kod = SqlKurDogrudan $kurucu
+    }
+    if ($kod -eq 3010) {
         Uyari "SQL Server kuruldu ama Windows yeniden başlatma istiyor."
         throw "Sunucuyu yeniden başlatın, sonra aynı komutu yeniden çalıştırın (kurulan kısımlar atlanır)."
     }
-    if ($islem.ExitCode -ne 0) {
-        throw "SQL Server Express kurulamadı (çıkış kodu $($islem.ExitCode)). Kurulum günlüğü: C:\Program Files\Microsoft SQL Server\160\Setup Bootstrap\Log"
+    if ($kod -ne 0) {
+        throw "SQL Server Express kurulamadı (çıkış kodu $kod). Günlükler: C:\Program Files\Microsoft SQL Server\160\Setup Bootstrap\Log ve $env:TEMP\SSEI"
     }
     if (-not (Get-Service -Name 'MSSQL$SQLEXPRESS' -ErrorAction SilentlyContinue)) { throw "SQL Server Express hizmeti kurulumdan sonra bulunamadı." }
     Set-Service -Name 'MSSQL$SQLEXPRESS' -StartupType Automatic
